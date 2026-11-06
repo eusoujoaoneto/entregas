@@ -1,7 +1,7 @@
 // SPLOG service worker: deixa o app instalável e abre a tela mesmo sem sinal.
 // Sempre busca a versão mais nova na internet primeiro; o cache é só reserva.
 // Os dados (Firebase) não passam por aqui.
-const CACHE = "splog-v2";
+const CACHE = "splog-v3";
 const SHELL = ["./", "./index.html", "./config.js", "./manifest.webmanifest", "./favicon.svg", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", event => {
