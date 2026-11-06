@@ -48,8 +48,8 @@ header{display:flex;flex-direction:column;gap:2px}
 h1{font-family:var(--f-display);font-weight:800;font-size:28px;line-height:1.1;margin:0;text-wrap:balance}
 h2{font-family:var(--f-display);font-weight:600;font-size:17px;margin:0;text-wrap:balance}
 
-nav.views{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-nav.views a{text-align:center;text-decoration:none;color:var(--muted);font-weight:600;font-size:14px;padding:9px 4px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+nav.views{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+nav.views a{text-align:center;text-decoration:none;color:var(--muted);font-weight:600;font-size:13px;padding:9px 2px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
 nav.views a[aria-current="page"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -58,7 +58,7 @@ nav.views a[aria-current="page"]{background:var(--fg);color:var(--bg);border-col
 .muted{color:var(--muted)}
 .row{display:flex;gap:10px;flex-wrap:wrap}
 .field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px}
-input[type=text],input[type=time],input[type=number],textarea{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px}
+input[type=text],input[type=time],input[type=number],input[type=date],input[type=email],select,textarea{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:10px 12px}
 textarea{resize:vertical;min-height:44px}
 .primary{background:var(--accent);color:var(--accent-ink);border:none;border-radius:12px;padding:14px;font-weight:700;font-size:16px}
 .primary:disabled{opacity:.45;cursor:default}
@@ -209,6 +209,27 @@ tfoot td{font-weight:700;border-bottom:none;border-top:2px solid var(--fg)}
 .login{min-height:80vh;display:flex;align-items:center;justify-content:center}
 .login-card{width:100%;max-width:380px}
 .login-card h1{margin-bottom:4px}
+.seg-ctl.two{grid-template-columns:1fr 1fr}
+.tag.neutral{background:var(--sunk);color:var(--fg);border:1px solid var(--line)}
+.ledger{display:flex;flex-direction:column}
+.lrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:none}
+.lrow .t{display:flex;flex-direction:column;min-width:0}
+.lrow .t small{color:var(--muted);font-size:12px}
+.lrow.out .num{color:var(--muted)}
+.lrow.in .num{font-weight:700}
+.profit{display:flex;flex-direction:column;gap:2px;border-top:2px solid var(--fg);padding-top:10px}
+.profit b{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1.1}
+.profit small,.proj small{color:var(--muted);font-size:13px}
+.proj{display:flex;flex-direction:column;gap:2px;background:var(--sunk);border-radius:10px;padding:12px}
+.proj b{font-size:22px;font-weight:700}
+.fx{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center}
+.fx input[type=text]{grid-column:1 / -1}
+.fx + .fx{border-top:1px solid var(--line);padding-top:10px}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+.partner-only{display:none!important}
+body.partner .partner-only{display:inline-flex!important}
+body.partner .owner-only{display:none!important}
 input[type=email],input[type=password]{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:12px}
 .boot{text-align:center;color:var(--muted);padding-top:30vh}
 </style>
@@ -229,14 +250,16 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
 
 <div class="wrap" id="app" hidden>
   <header>
-    <div class="toprow"><span class="eyebrow">Central de Trabalho · Transporte</span><button class="linkbtn" type="button" id="logout">Sair</button></div>
-    <h1>Transporte de alimentação</h1>
+    <div class="toprow"><span class="eyebrow" id="eyebrow">Central de Trabalho · Transporte</span><button class="linkbtn" type="button" id="logout">Sair</button></div>
+    <h1 id="appTitle">Transporte de alimentação</h1>
+    <span class="pill rel partner-only" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
     <small class="muted" id="userEmail"></small>
   </header>
 
-  <nav class="views" aria-label="Seções">
+  <nav class="views owner-only" aria-label="Seções">
     <a href="#painel" data-view="painel">Painel</a>
     <a href="#registrar" data-view="registrar">Registrar</a>
+    <a href="#custos" data-view="custos">Custos</a>
     <a href="#relatorio" data-view="relatorio">Relatório</a>
     <a href="#ajustes" data-view="ajustes">Ajustes</a>
   </nav>
@@ -258,6 +281,28 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     </div>
 
     <div class="panel">
+      <div class="panel-head"><h2>Resultado · Posto da Mata</h2><span class="pill" id="pmState"></span></div>
+      <div class="ledger" id="pmLedger"></div>
+      <div class="profit"><span class="label" id="pmLucroLbl">Lucro líquido</span><b class="num" id="pmLucro">R$ 0,00</b><small id="pmMargem"></small></div>
+      <div class="proj" id="pmProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="pmPrev">R$ 0,00</b><small id="pmPrevSub"></small><small id="pmNote"></small></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Combustível · carro do PM</h2><a class="ghost owner-only" href="#custos" style="text-decoration:none;color:inherit">Abastecer</a></div>
+      <div class="stats">
+        <div class="stat"><b class="num" id="fGasto">R$ 0,00</b><small>Gasto no mês</small></div>
+        <div class="stat"><b class="num" id="fLitros">0 L</b><small>Litros abastecidos</small></div>
+        <div class="stat"><b class="num" id="fCons">–</b><small>Consumo médio</small></div>
+        <div class="stat"><b class="num" id="fCustoKm">–</b><small>Custo por km rodado</small></div>
+        <div class="stat"><b class="num" id="fPreco">–</b><small>Preço médio do litro</small></div>
+        <div class="stat"><b class="num" id="fKm">–</b><small>Km rodados (entre abastecimentos)</small></div>
+      </div>
+      <span class="label">Abastecimentos do mês</span>
+      <div class="list" id="fuelList"></div>
+      <small class="muted">O consumo é medido de um abastecimento ao outro. Para ficar certo, encha o tanque toda vez.</small>
+    </div>
+
+    <div class="panel owner-only">
       <div class="panel-head"><h2>Pedreira e outras entregas</h2></div>
       <div class="split2">
         <div><span class="label">Esta semana</span><b class="num" id="dOW">R$ 0,00</b><small id="dOWsub">—</small><span id="dOWseal" class="pill warn seal">A receber</span></div>
@@ -275,15 +320,20 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
       </div>
     </div>
 
-    <p class="muted" style="margin:0;text-align:center">Total geral do mês (PM + outras): <b class="num" id="dMonthTotal" style="color:var(--fg)">R$ 0,00</b></p>
+    <div class="panel owner-only">
+      <div class="panel-head"><h2>Resultado geral da operação</h2><span class="pill" id="geState"></span></div>
+      <div class="ledger" id="geLedger"></div>
+      <div class="profit"><span class="label" id="geLucroLbl">Lucro líquido</span><b class="num" id="geLucro">R$ 0,00</b><small id="geMargem"></small></div>
+      <div class="proj" id="geProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="gePrev">R$ 0,00</b><small id="gePrevSub"></small><small id="geNote"></small></div>
+    </div>
 
     <div class="panel" id="todayCard">
-      <div class="panel-head"><h2>Hoje · <span id="todayLabel"></span></h2><a class="ghost" href="#registrar" style="text-decoration:none;color:inherit">Registrar</a></div>
+      <div class="panel-head"><h2>Hoje · <span id="todayLabel"></span></h2><a class="ghost owner-only" href="#registrar" style="text-decoration:none;color:inherit">Registrar</a></div>
       <div class="today">
         <div class="tline"><div class="t"><b>Posto da Mata</b><small id="tPMsub">Nenhuma caixa ainda</small></div><span class="num" id="tPM">R$ 0,00</span></div>
-        <div class="tline"><div class="t"><b>Pedreira</b><small id="tPEDsub">Ainda não registrada</small></div><span id="tPED" class="pill warn">Pendente</span></div>
-        <div class="tline"><div class="t"><b>Outras entregas</b><small id="tOUTsub">Nenhuma</small></div><span class="num" id="tOUT">R$ 0,00</span></div>
-        <div class="tline"><div class="t"><b>Total do dia</b></div><b class="num" id="tTotal">R$ 0,00</b></div>
+        <div class="tline owner-only"><div class="t"><b>Pedreira</b><small id="tPEDsub">Ainda não registrada</small></div><span id="tPED" class="pill warn">Pendente</span></div>
+        <div class="tline owner-only"><div class="t"><b>Outras entregas</b><small id="tOUTsub">Nenhuma</small></div><span class="num" id="tOUT">R$ 0,00</span></div>
+        <div class="tline owner-only"><div class="t"><b>Total do dia</b></div><b class="num" id="tTotal">R$ 0,00</b></div>
       </div>
     </div>
 
@@ -300,7 +350,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
 
     <div class="panel">
       <div class="panel-head"><h2>Faturamento por dia</h2>
-        <div class="legend"><span><i class="dot" style="background:var(--c-pm)"></i>PM</span><span><i class="dot" style="background:var(--c-ped)"></i>Pedreira</span><span><i class="dot" style="background:var(--c-out)"></i>Outras</span></div>
+        <div class="legend"><span><i class="dot" style="background:var(--c-pm)"></i>PM</span><span class="owner-only"><i class="dot" style="background:var(--c-ped)"></i>Pedreira</span><span class="owner-only"><i class="dot" style="background:var(--c-out)"></i>Outras</span></div>
       </div>
       <div class="chart" id="chart">
         <div class="yax" id="yax"></div>
@@ -377,6 +427,60 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     </section>
   </section>
 
+  <!-- ===================== CUSTOS ===================== -->
+  <section id="v-custos" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês dos custos</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <form class="panel" id="costForm">
+      <div class="seg-ctl two" role="group" aria-label="Tipo de custo">
+        <button type="button" data-ctipo="combustivel">Combustível<small>Carro do PM</small></button>
+        <button type="button" data-ctipo="esporadico">Outros gastos<small>Ônibus, lavagem…</small></button>
+      </div>
+      <label class="field"><span class="label">Data</span><input type="date" id="cData"></label>
+
+      <div id="cf-comb" class="wrap" style="gap:12px">
+        <span class="label">Combustível</span>
+        <div class="chips" id="cFuelChips"></div>
+        <div class="row">
+          <label class="field"><span class="label">Valor colocado</span><span class="money"><input type="number" id="cValorF" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+          <label class="field"><span class="label">Preço do litro</span><span class="money"><input type="number" id="cPreco" inputmode="decimal" min="0" step="0.001" placeholder="0,00"></span></label>
+        </div>
+        <label class="field"><span class="label">Km do carro (painel)</span><input type="number" id="cKm" inputmode="numeric" min="0" step="1" placeholder="Ex.: 85320"></label>
+      </div>
+
+      <div id="cf-esp" class="wrap" style="gap:12px" hidden>
+        <span class="label">Tipo de gasto</span>
+        <div class="chips" id="cCatChips"></div>
+        <div class="row">
+          <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="cValorE" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+          <label class="field"><span class="label">Descrição</span><input type="text" id="cDesc" placeholder="Opcional" autocomplete="off"></label>
+        </div>
+        <span class="label">Este gasto é de</span>
+        <div class="chips" id="cAreaChips"></div>
+      </div>
+
+      <label class="field"><span class="label">Observação</span><input type="text" id="cObs" placeholder="Opcional" autocomplete="off"></label>
+      <div class="sumline"><span class="muted" id="cInfo">—</span><span class="num" id="cTotal">R$ 0,00</span></div>
+      <button class="primary" id="cSave" type="submit" disabled>Conectando…</button>
+      <div class="status" id="cStatus" role="status"></div>
+    </form>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Custos fixos do mês</h2><a class="ghost" href="#ajustes" style="text-decoration:none;color:inherit">Editar</a></div>
+      <div class="ledger" id="fxSummary"></div>
+    </div>
+
+    <section class="panel" aria-labelledby="costTitle">
+      <h2 id="costTitle">Custos registrados</h2>
+      <div class="list" id="costList"><div class="empty">Carregando…</div></div>
+      <div class="totals"><span>Total de custos do mês</span><span class="num" id="costTotal">R$ 0,00</span></div>
+    </section>
+  </section>
+
   <!-- ===================== RELATÓRIO ===================== -->
   <section id="v-relatorio" class="wrap" style="gap:16px" hidden>
     <div class="switch">
@@ -422,6 +526,31 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
       <p class="muted" style="margin:0;font-size:13px">Mudar um valor vale para os próximos registros. As entregas já salvas mantêm o valor da época.</p>
       <button class="primary" type="submit" id="cfSave">Salvar ajustes</button>
       <div class="status" id="cfStatus" role="status"></div>
+    </form>
+
+    <form class="panel" id="fixForm">
+      <h2>Custos fixos mensais</h2>
+      <p class="muted" style="margin:0;font-size:14px">Entram inteiros em todo mês no cálculo do lucro.</p>
+      <div id="fxList" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="fxAdd">+ Adicionar custo fixo</button>
+      <button class="primary" type="submit">Salvar custos fixos</button>
+      <div class="status" id="fxStatus" role="status"></div>
+    </form>
+
+    <form class="panel" id="accForm">
+      <h2>Acesso do sócio</h2>
+      <p class="muted" style="margin:0;font-size:14px">O sócio vê só o painel do Posto da Mata (faturamento, custos, lucro e combustível) e não consegue alterar nada.</p>
+      <ol class="steps">
+        <li>No Firebase, em Authentication → Usuários, crie o usuário do sócio com o e-mail e uma senha.</li>
+        <li>Coloque o e-mail dele aqui e toque em Liberar acesso.</li>
+        <li>Mande o link do app para ele. Ele entra com o próprio e-mail e senha.</li>
+      </ol>
+      <div class="row">
+        <label class="field"><span class="label">E-mail do sócio</span><input type="email" id="accEmail" autocomplete="off" placeholder="socio@email.com"></label>
+      </div>
+      <button class="primary" type="submit">Liberar acesso</button>
+      <div id="accList" class="today"></div>
+      <div class="status" id="accStatus" role="status"></div>
     </form>
 
     <div class="panel">
@@ -490,18 +619,21 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     monthEntries: [], dayEntries: [], todayEntries: [], weekEntries: [],
     loadedMonth: false, loadedDay: false,
     db: null, pendingDel: null, fresh: null,
+    custos: [], fixos: [], socios: [], allPM: [], loadedCustos: false, partner: false, uid: null, fs: null, email: "",
+    cTipo: lsGet("ct.ctipo", "combustivel"), cFuel: "Gasolina", cCat: "", cArea: "PM", cPendingDel: null,
   };
   const desc = e => e.tipo === "PM" ? [e.g ? `${e.g} G` : "", e.m ? `${e.m} M` : ""].filter(Boolean).join(" + ") || "0 caixas"
     : e.tipo === "PED" ? (e.veiculo === "moto" ? "Moto" : "Carro da empresa") : (e.destino || "Entrega");
 
   // ---------- routing ----------
-  const VIEWS = ["painel", "registrar", "relatorio", "ajustes"];
+  const VIEWS = ["painel", "registrar", "custos", "relatorio", "ajustes"];
   function route() {
     const h = location.hash.slice(1);
-    state.view = VIEWS.includes(h) ? h : "painel";
+    const allowed = state.partner ? ["painel"] : VIEWS;
+    state.view = allowed.includes(h) ? h : "painel";
     VIEWS.forEach(v => { $("v-" + v).hidden = v !== state.view; });
     $$("nav.views a").forEach(a => a.setAttribute("aria-current", a.dataset.view === state.view ? "page" : "false"));
-    if (state.view === "ajustes") fillCfgForm();
+    if (state.view === "ajustes") { fillCfgForm(); fillFixForm(); renderAcesso(); }
     renderAll();
   }
   window.addEventListener("hashchange", route);
@@ -563,7 +695,6 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
           "aria-label": paid ? `Semana de ${short(w.s)} paga. Tocar para marcar como a receber` : `Semana de ${short(w.s)} a receber. Tocar para marcar como paga`,
           onclick: () => toggleWeek(w.mon) }, paid ? "✓ Paga" : "A receber")));
     });
-    $("dMonthTotal").textContent = BRL(sum(E, e => e.valor));
 
     // hoje
     const T = state.todayEntries, t = todayIso();
@@ -582,6 +713,8 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     // caixas
     $("sG").textContent = G; $("sM").textContent = M; $("sDays").textContent = pDays;
     $("sAvg").textContent = pDays ? ((G+M)/pDays).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) : "0";
+    renderResultado();
+    renderFuel();
     renderChart();
   }
 
@@ -601,7 +734,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     const t = todayIso();
     data.forEach(x => {
       const c = el("button", { type: "button", class: "col" + (x.ds === t ? " today" : ""), "aria-label": `${fmtDate(x.ds)}: ${BRL(x.PM + x.PED + x.OUT)}` });
-      ["PM", "PED", "OUT"].forEach(k => { if (x[k] > 0) c.append(el("i", { class: "seg", style: `height:calc(${x[k]/max*100}% - 2px);background:${TAGC[k]}` })); });
+      chartKeys().forEach(k => { if (x[k] > 0) c.append(el("i", { class: "seg", style: `height:calc(${x[k]/max*100}% - 2px);background:${TAGC[k]}` })); });
       const show = () => showTip(c, x);
       c.onmouseenter = show; c.onfocus = show; c.onclick = show;
       c.onmouseleave = hideTip; c.onblur = hideTip;
@@ -616,7 +749,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     tip.textContent = "";
     const d = parse(x.ds);
     tip.append(el("b", {}, `${DOWS[d.getDay()]} ${fmtDate(x.ds).slice(0,5)} · ${BRL(x.PM + x.PED + x.OUT)}`));
-    ["PM", "PED", "OUT"].forEach(k => tip.append(el("div", {}, `${TIPO[k]}: ${BRL(x[k])}`)));
+    chartKeys().forEach(k => tip.append(el("div", {}, `${TIPO[k]}: ${BRL(x[k])}`)));
     tip.hidden = false;
     const w = tip.offsetWidth;
     let left = r.left - cr.left + r.width / 2;
@@ -940,6 +1073,262 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     saveFile(`${fileBase()}.pdf`, pdf.output("arraybuffer"));
   };
 
+  // ---------- CUSTOS: cálculos ----------
+  const chartKeys = () => state.partner ? ["PM"] : ["PM", "PED", "OUT"];
+  const FUELS = ["Gasolina", "Etanol", "Diesel", "GNV"];
+  const CATS = ["Passagem de ônibus", "Lavagem", "Alimentação", "Pedágio", "Estacionamento", "Outros"];
+  const AREAS = { PM: "Posto da Mata", OUT: "Pedreira e outras", GERAL: "Geral" };
+  const num2 = (v, d = 2) => (Number(v) || 0).toLocaleString("pt-BR", { maximumFractionDigits: d });
+  const pn = v => parseFloat(v) || 0;
+
+  function fuelRows() {
+    const fs = state.custos.filter(c => c.categoria === "combustivel")
+      .sort((a, b) => a.data.localeCompare(b.data) || (a.km || 0) - (b.km || 0));
+    return fs.map((f, i) => {
+      const p = fs[i - 1];
+      const dk = p && f.km > 0 && p.km > 0 && f.km > p.km ? f.km - p.km : null;
+      return { ...f, dk, cons: dk && f.litros ? dk / f.litros : null };
+    });
+  }
+  function fuelStats(m) {
+    const rows = fuelRows().filter(f => monthOf(f.data) === m);
+    const valid = rows.filter(f => f.dk);
+    const km = sum(valid, f => f.dk), lv = sum(valid, f => f.litros);
+    const gasto = sum(rows, f => f.valor), litros = sum(rows, f => f.litros);
+    return { rows, gasto, litros, km, consumo: lv ? km / lv : null, custoKm: km ? sum(valid, f => f.valor) / km : null, preco: litros ? gasto / litros : null };
+  }
+  function monthCosts(m) {
+    const esp = state.custos.filter(c => c.categoria === "esporadico" && monthOf(c.data) === m);
+    const fixos = m <= monthOf(todayIso()) ? state.fixos : [];
+    return { esp, fixos, fuel: fuelStats(m) };
+  }
+  function ledger(box, rows) {
+    box.textContent = "";
+    rows.forEach(r => box.append(el("div", { class: "lrow " + (r.k || "") },
+      el("div", { class: "t" }, el("span", {}, r.label), r.sub ? el("small", {}, r.sub) : null),
+      el("span", { class: "num" }, (r.k === "out" ? "− " : "") + BRL(r.v)))));
+  }
+  function setProfit(id, v) { const n = $(id); n.textContent = BRL(v); n.style.color = v < 0 ? "var(--danger)" : "var(--ok)"; }
+  function resultBlock(pre, rec, fuelGasto, otherCosts) {
+    const m = state.month, cur = monthOf(todayIso()), lucro = rec - fuelGasto - otherCosts, custo = fuelGasto + otherCosts;
+    setProfit(pre + "Lucro", lucro);
+    $(pre + "Margem").textContent = rec ? `Margem de ${num2(lucro / rec * 100, 1)}% · custos de ${BRL(custo)}` : `Custos de ${BRL(custo)}`;
+    const pill = $(pre + "State"), proj = $(pre + "Proj");
+    if (m > cur) { pill.className = "pill"; pill.textContent = "Mês futuro"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro líquido"; return; }
+    if (m < cur) { pill.className = "pill ok"; pill.textContent = "Mês fechado"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro líquido do mês"; return; }
+    const day = parse(todayIso()).getDate(), n = daysIn(m), f = n / day;
+    pill.className = "pill rel"; pill.textContent = "Mês em andamento";
+    $(pre + "LucroLbl").textContent = "Lucro líquido até hoje";
+    proj.hidden = false;
+    const recP = rec * f, fuelP = fuelGasto * f;
+    setProfit(pre + "Prev", recP - fuelP - otherCosts);
+    $(pre + "PrevSub").textContent = `Faturamento previsto ${BRL(recP)} · combustível previsto ${BRL(fuelP)}`;
+    $(pre + "Note").textContent = `Pelo ritmo dos ${day} primeiros dias, projetado até o dia ${n}. Custos fixos e outros gastos entram como estão.`;
+  }
+  function renderResultado() {
+    const E = state.monthEntries, { esp, fixos, fuel } = monthCosts(state.month);
+    const recPM = sum(E.filter(e => e.tipo === "PM"), e => e.valor);
+    const fixPM = fixos.filter(x => x.area === "PM"), espPM = esp.filter(x => x.area === "PM");
+    const espLabel = list => list.length ? [...new Set(list.map(x => x.tipoGasto))].join(", ") : "Nenhum no mês";
+    ledger($("pmLedger"), [
+      { label: "Faturamento", v: recPM, k: "in" },
+      { label: "Combustível", sub: fuel.rows.length ? plural(fuel.rows.length, "abastecimento", "abastecimentos") : "Nenhum abastecimento no mês", v: fuel.gasto, k: "out" },
+      ...fixPM.map(x => ({ label: x.nome, sub: "Custo fixo mensal", v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(espPM), v: sum(espPM, x => x.valor), k: "out" },
+    ]);
+    resultBlock("pm", recPM, fuel.gasto, sum(fixPM, x => x.valor) + sum(espPM, x => x.valor));
+    if (state.partner) return;
+    const recOut = sum(E.filter(e => e.tipo !== "PM"), e => e.valor);
+    ledger($("geLedger"), [
+      { label: "Faturamento Posto da Mata", v: recPM, k: "in" },
+      { label: "Faturamento Pedreira e outras", v: recOut, k: "in" },
+      { label: "Combustível", sub: "Carro do PM", v: fuel.gasto, k: "out" },
+      ...fixos.map(x => ({ label: x.nome, sub: `Custo fixo · ${AREAS[x.area] || "Geral"}`, v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(esp), v: sum(esp, x => x.valor), k: "out" },
+    ]);
+    resultBlock("ge", recPM + recOut, fuel.gasto, sum(fixos, x => x.valor) + sum(esp, x => x.valor));
+  }
+  function costItem(it, deletable) {
+    const fuel = it.categoria === "combustivel";
+    const title = fuel ? `${it.combustivel || "Combustível"} · ${num2(it.litros)} L` : `${it.tipoGasto}${it.descricao ? " · " + it.descricao : ""}`;
+    const sub = fuel
+      ? [short(it.data), it.km ? `${num2(it.km, 0)} km` : "", it.precoLitro ? `${BRL(it.precoLitro)}/L` : "", it.cons ? `${num2(it.cons, 1)} km/l` : ""].filter(Boolean).join(" · ")
+      : [short(it.data), AREAS[it.area] || "", it.obs].filter(Boolean).join(" · ");
+    let del = null;
+    if (deletable) {
+      const confirming = state.cPendingDel === it.id;
+      del = el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+        if (confirming) return removeCost(it.id);
+        state.cPendingDel = it.id; renderCostList();
+        setTimeout(() => { if (state.cPendingDel === it.id) { state.cPendingDel = null; renderCostList(); } }, 4000);
+      } }, confirming ? "Confirmar" : "Apagar");
+    }
+    return el("div", { class: "item" }, el("span", { class: "tag neutral" }, fuel ? "COMB" : "GASTO"),
+      el("div", { class: "what" }, el("strong", {}, title), el("small", {}, sub)),
+      el("div", { class: "val" }, el("b", { class: "num" }, BRL(it.valor)), del));
+  }
+  function renderFuel() {
+    const s = fuelStats(state.month);
+    $("fGasto").textContent = BRL(s.gasto);
+    $("fLitros").textContent = `${num2(s.litros, 1)} L`;
+    $("fCons").textContent = s.consumo ? `${num2(s.consumo, 1)} km/l` : "–";
+    $("fCustoKm").textContent = s.custoKm ? BRL(s.custoKm) : "–";
+    $("fPreco").textContent = s.preco ? BRL(s.preco) : "–";
+    $("fKm").textContent = s.km ? `${num2(s.km, 0)} km` : "–";
+    const list = $("fuelList"); list.textContent = "";
+    if (!state.loadedCustos) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!s.rows.length) list.append(el("div", { class: "empty" }, "Nenhum abastecimento neste mês."));
+    [...s.rows].reverse().forEach(r => list.append(costItem(r, false)));
+  }
+
+  // ---------- CUSTOS: registro ----------
+  function chips(box, values, cur, on, label = v => v) {
+    box.textContent = "";
+    values.forEach(v => box.append(el("button", { type: "button", class: "chip", "aria-pressed": String(cur === v), onclick: () => on(v) }, label(v))));
+  }
+  function renderCustos() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    $$("[data-ctipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ctipo === state.cTipo)));
+    $("cf-comb").hidden = state.cTipo !== "combustivel";
+    $("cf-esp").hidden = state.cTipo !== "esporadico";
+    chips($("cFuelChips"), FUELS, state.cFuel, v => { state.cFuel = v; renderCustos(); });
+    chips($("cCatChips"), CATS, state.cCat, v => { state.cCat = state.cCat === v ? "" : v; renderCustos(); });
+    chips($("cAreaChips"), Object.keys(AREAS), state.cArea, v => { state.cArea = v; renderCustos(); }, k => AREAS[k]);
+    updateCostSum();
+    renderCostList();
+  }
+  function costDraft() {
+    const data = $("cData").value || todayIso(), obs = $("cObs").value.trim();
+    if (state.cTipo === "combustivel") {
+      const valor = pn($("cValorF").value), preco = pn($("cPreco").value), km = Math.round(pn($("cKm").value));
+      const litros = preco > 0 ? Math.round(valor / preco * 100) / 100 : 0;
+      const prev = fuelRows().filter(f => f.data <= data && f.km > 0).pop();
+      let msg = "";
+      if (!(valor > 0)) msg = "Informe o valor colocado";
+      else if (!(preco > 0)) msg = "Informe o preço do litro";
+      else if (!(km > 0)) msg = "Informe a km do carro";
+      else if (prev && km <= prev.km) msg = `A km precisa ser maior que ${num2(prev.km, 0)}`;
+      let info = litros ? `${num2(litros)} L de ${state.cFuel.toLowerCase()}` : "Preencha valor, preço do litro e km";
+      if (litros && prev && km > prev.km) info += ` · ${num2(km - prev.km, 0)} km desde ${short(prev.data)} · ${num2((km - prev.km) / litros, 1)} km/l`;
+      else if (litros && !prev) info += " · o consumo aparece a partir do próximo abastecimento";
+      return { ok: !msg, msg, info, entry: { categoria: "combustivel", area: "PM", data, combustivel: state.cFuel, valor, precoLitro: preco, litros, km, obs } };
+    }
+    const valor = pn($("cValorE").value);
+    const msg = !state.cCat ? "Escolha o tipo de gasto" : !(valor > 0) ? "Informe o valor" : "";
+    return { ok: !msg, msg, info: state.cCat ? `${state.cCat} · ${AREAS[state.cArea]}` : "Escolha o tipo de gasto",
+      entry: { categoria: "esporadico", tipoGasto: state.cCat, descricao: $("cDesc").value.trim(), valor, area: state.cArea, data, obs } };
+  }
+  function updateCostSum() {
+    const d = costDraft();
+    $("cInfo").textContent = d.info;
+    $("cTotal").textContent = BRL(d.entry.valor);
+    if (!state.db) return;
+    $("cSave").disabled = !d.ok;
+    $("cSave").textContent = d.ok ? `${state.cTipo === "combustivel" ? "Registrar abastecimento" : "Registrar gasto"} · ${BRL(d.entry.valor)}` : d.msg;
+  }
+  function renderCostList() {
+    const list = $("costList"); list.textContent = "";
+    const m = state.month;
+    $("costTitle").textContent = `Custos de ${monthLabel(m)}`;
+    const rowsF = fuelRows().filter(f => monthOf(f.data) === m);
+    const esp = state.custos.filter(c => c.categoria === "esporadico" && monthOf(c.data) === m);
+    const items = [...rowsF, ...esp].sort((a, b) => b.data.localeCompare(a.data) || (b.criadoEm || "").localeCompare(a.criadoEm || ""));
+    if (!state.loadedCustos) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!items.length) list.append(el("div", { class: "empty" }, "Nenhum abastecimento ou gasto neste mês. Use o formulário acima."));
+    items.forEach(it => list.append(costItem(it, true)));
+    const fixos = m <= monthOf(todayIso()) ? state.fixos : [];
+    const fx = $("fxSummary");
+    if (!fixos.length) { fx.textContent = ""; fx.append(el("div", { class: "empty" }, m > monthOf(todayIso()) ? "Os custos fixos entram quando o mês começar." : "Nenhum custo fixo cadastrado.")); }
+    else ledger(fx, fixos.map(x => ({ label: x.nome, sub: AREAS[x.area] || "Geral", v: x.valor, k: "out" })));
+    $("costTotal").textContent = BRL(sum(items, x => x.valor) + sum(fixos, x => x.valor));
+  }
+  async function removeCost(id) {
+    state.cPendingDel = null;
+    try { await state.db.collection("custos").doc(id).delete(); setStatus("cStatus", "Custo apagado."); }
+    catch { setStatus("cStatus", "Não foi possível apagar. Tente de novo.", true); renderCostList(); }
+  }
+  $$("[data-ctipo]").forEach(b => b.onclick = () => { state.cTipo = b.dataset.ctipo; lsSet("ct.ctipo", state.cTipo); setStatus("cStatus", ""); renderCustos(); });
+  ["cValorF", "cPreco", "cKm", "cValorE", "cDesc", "cData"].forEach(id => $(id).addEventListener("input", updateCostSum));
+  $("costForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const d = costDraft();
+    if (!state.db || !d.ok) { setStatus("cStatus", d.msg, true); return; }
+    $("cSave").disabled = true;
+    try {
+      await state.db.collection("custos").add({ ...d.entry, criadoEm: new Date().toISOString() });
+      setStatus("cStatus", `Registrado: ${d.entry.categoria === "combustivel" ? `abastecimento de ${num2(d.entry.litros)} L` : d.entry.tipoGasto} · ${BRL(d.entry.valor)}.`);
+      ["cValorF", "cKm", "cValorE", "cDesc", "cObs"].forEach(id => $(id).value = "");
+      state.cCat = "";
+      if (monthOf(d.entry.data) !== state.month) setMonth(monthOf(d.entry.data));
+      renderCustos();
+    } catch {
+      setStatus("cStatus", "Não foi possível salvar. Verifique a conexão e tente de novo.", true);
+      updateCostSum();
+    }
+  });
+
+  // ---------- AJUSTES: custos fixos e sócio ----------
+  let fxDraft = [];
+  function fillFixForm() { fxDraft = state.fixos.map(x => ({ id: x.id, nome: x.nome, valor: x.valor, area: x.area || "PM" })); renderFx(); }
+  function renderFx() {
+    const box = $("fxList"); box.textContent = "";
+    if (!fxDraft.length) box.append(el("span", { class: "muted" }, "Nenhum custo fixo."));
+    fxDraft.forEach((x, i) => {
+      const n = el("input", { type: "text", value: x.nome, id: `fxn${i}`, "aria-label": "Nome do custo fixo", placeholder: "Ex.: Seguro" });
+      n.oninput = () => x.nome = n.value;
+      const v = el("input", { type: "number", step: "0.01", min: "0", value: x.valor, id: `fxv${i}`, "aria-label": "Valor mensal", inputmode: "decimal" });
+      v.oninput = () => x.valor = pn(v.value);
+      const a = el("select", { id: `fxa${i}`, "aria-label": "Área do custo" }, Object.entries(AREAS).map(([k, l]) => { const o = el("option", { value: k }, l); if (k === x.area) o.selected = true; return o; }));
+      a.onchange = () => x.area = a.value;
+      box.append(el("div", { class: "fx" }, n, el("span", { class: "money" }, v), a,
+        el("button", { type: "button", class: "x", "aria-label": `Remover ${x.nome || "custo"}`, onclick: () => { fxDraft.splice(i, 1); renderFx(); } }, "×")));
+    });
+  }
+  $("fxAdd").onclick = () => { fxDraft.push({ nome: "", valor: 0, area: "PM" }); renderFx(); $(`fxn${fxDraft.length - 1}`).focus(); };
+  $("fixForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const items = fxDraft.map((x, i) => ({ ...x, nome: x.nome.trim(), valor: Number(x.valor) || 0, ordem: i })).filter(x => x.nome);
+    const old = [...state.fixos];
+    try {
+      const keep = new Set();
+      for (const x of items) {
+        const ref = x.id ? state.db.collection("fixos").doc(x.id) : state.db.collection("fixos").doc();
+        keep.add(ref.id);
+        await ref.set({ nome: x.nome, valor: x.valor, area: x.area, ordem: x.ordem });
+      }
+      for (const x of old) if (!keep.has(x.id)) await state.db.collection("fixos").doc(x.id).delete();
+      setStatus("fxStatus", "Custos fixos salvos.");
+    } catch { setStatus("fxStatus", "Não foi possível salvar. Tente de novo.", true); }
+  });
+  function renderAcesso() {
+    const box = $("accList"); box.textContent = "";
+    if (!state.socios.length) { box.append(el("span", { class: "muted" }, "Nenhum sócio com acesso.")); return; }
+    state.socios.forEach(email => box.append(el("div", { class: "tline" },
+      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "Vê o painel do Posto da Mata, sem alterar")),
+      el("button", { type: "button", class: "ghost", onclick: () => removeSocio(email) }, "Remover"))));
+  }
+  $("accForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const email = $("accEmail").value.trim().toLowerCase();
+    if (!/^[^@\s/]+@[^@\s/]+\.[^@\s/]+$/.test(email)) { setStatus("accStatus", "Digite um e-mail válido.", true); return; }
+    if (email === state.email) { setStatus("accStatus", "Esse é o seu e-mail. Coloque o e-mail do sócio.", true); return; }
+    try {
+      await state.fs.collection("socios").doc(email).set({ owner: state.uid, criadoEm: new Date().toISOString() });
+      await state.db.doc("config/acesso").set({ socios: [...new Set([...state.socios, email])] });
+      $("accEmail").value = "";
+      setStatus("accStatus", `Acesso liberado para ${email}. Mande o link do app para o sócio.`);
+    } catch {
+      setStatus("accStatus", "Não foi possível liberar. Confira se as regras novas do Firestore foram publicadas.", true);
+    }
+  });
+  async function removeSocio(email) {
+    try {
+      await state.fs.collection("socios").doc(email).delete();
+      await state.db.doc("config/acesso").set({ socios: state.socios.filter(e => e !== email) });
+      setStatus("accStatus", `Acesso de ${email} removido.`);
+    } catch { setStatus("accStatus", "Não foi possível remover. Tente de novo.", true); }
+  }
+
   // ---------- AJUSTES ----------
   let cfgDraft = null;
   function fillCfgForm() {
@@ -973,7 +1362,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
   async function saveCfg(next) {
     if (!state.db) throw new Error("offline");
     state.cfg = next;
-    await state.db.doc("config/geral").set({ ...next, atualizadoEm: new Date().toISOString() });
+    await state.db.doc("config/geral").set({ ...next, fixosIniciados: true, atualizadoEm: new Date().toISOString() });
   }
 
   // ---------- data ----------
@@ -982,7 +1371,14 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
   function setDay(d) { if (d === state.day) return; state.day = d; state.loadedDay = false; state.dayEntries = []; state.pendingDel = null; subDay(); renderAll(); }
   const toList = snap => snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
+  function partnerDerive() {
+    const t = todayIso();
+    state.monthEntries = state.allPM.filter(e => monthOf(e.data) === state.month);
+    state.todayEntries = state.allPM.filter(e => e.data === t);
+    state.loadedMonth = true;
+  }
   function subMonth() {
+    if (state.partner) { partnerDerive(); return; }
     if (!state.db) return;
     unsubMonth?.();
     const m = state.month;
@@ -991,7 +1387,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
         () => { state.loadedMonth = true; setStatus("globalStatus", "Erro ao carregar o mês. Recarregue a página.", true); renderAll(); });
   }
   function subDay() {
-    if (!state.db) return;
+    if (state.partner || !state.db) return;
     unsubDay?.();
     const d = state.day;
     unsubDay = state.db.collection("entregas").where("data", "==", d).onSnapshot(s => {
@@ -1007,17 +1403,48 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     if (state.view === "painel") renderPainel();
     else if (state.view === "registrar") renderRegistrar();
     else if (state.view === "relatorio") renderRelatorio();
+    else if (state.view === "custos") renderCustos();
   }
 
   $("time").value = nowTime();
+  $("cData").value = todayIso();
   route();
 
   // ---------- login (Firebase) ----------
-  function startApp(db) {
-    state.db = db;
+  const byOrdem = (a, b) => (a.ordem ?? 0) - (b.ordem ?? 0);
+  let seeded = false;
+  async function seedFixos() {
+    try {
+      await state.db.collection("fixos").doc("protecao").set({ nome: "Proteção veicular", valor: 350, area: "PM", ordem: 0 });
+      await state.db.collection("fixos").doc("manutencao").set({ nome: "Manutenção preventiva", valor: 150, area: "PM", ordem: 1 });
+      await state.db.doc("config/geral").set({ fixosIniciados: true }, { merge: true });
+    } catch {}
+  }
+  function startPartner(db) {
+    state.db = db; state.partner = true;
+    document.body.classList.add("partner");
+    $("eyebrow").textContent = "Central de Trabalho · Sócio";
+    $("appTitle").textContent = "Posto da Mata";
     loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "Seu acesso de sócio não está liberado. Fale com o responsável pela operação.", true); };
+    db.collection("entregas").where("tipo", "==", "PM").limit(1000).onSnapshot(s => { state.allPM = toList(s); partnerDerive(); loaded(); renderAll(); }, denied);
+    db.collection("custos").where("area", "==", "PM").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, denied);
+    db.collection("fixos").where("area", "==", "PM").onSnapshot(s => { state.fixos = toList(s).sort(byOrdem); renderAll(); }, denied);
+    route();
+  }
+  function startApp(db, uid) {
+    state.db = db; state.uid = uid;
+    loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    db.collection("custos").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, () => {});
+    db.collection("fixos").onSnapshot(s => {
+      state.fixos = toList(s).sort(byOrdem);
+      if (state.view === "ajustes" && !document.activeElement?.closest("#fixForm")) fillFixForm();
+      renderAll();
+    }, () => {});
+    db.doc("config/acesso").onSnapshot(s => { state.socios = (s.exists && s.data().socios) || []; if (state.view === "ajustes") renderAcesso(); }, () => {});
     db.doc("config/geral").onSnapshot(s => {
       const d = s.exists ? s.data() : {};
+      if (!s.metadata.fromCache && !d.fixosIniciados && !seeded) { seeded = true; seedFixos(); }
       state.cfg = { ...DEFAULT_CFG, ...d, precos: { ...DEFAULT_CFG.precos, ...(d.precos || {}) }, destinos: Array.isArray(d.destinos) ? d.destinos : DEFAULT_CFG.destinos };
       if (state.view === "ajustes" && !document.activeElement?.closest("#cfgForm")) fillCfgForm();
       renderAll();
@@ -1028,13 +1455,14 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     db.collection("entregas").where("data", ">=", ws).where("data", "<=", we).onSnapshot(s => { state.weekEntries = toList(s); if (state.view === "painel") renderPainel(); }, () => {});
     db.collection("entregas").where("data", "==", todayIso()).onSnapshot(s => { state.todayEntries = toList(s); if (state.view === "painel") renderPainel(); }, () => {});
     updateSum();
+    updateCostSum();
   }
 
   // backup
   $("bkExport").onclick = async () => {
     try {
-      const out = { app: "central-trabalho", versao: 1, exportadoEm: new Date().toISOString(), entregas: {}, config: {}, semanas: {} };
-      for (const c of ["entregas", "config", "semanas"]) (await state.db.collection(c).get()).docs.forEach(d => out[c][d.id] = d.data());
+      const out = { app: "central-trabalho", versao: 2, exportadoEm: new Date().toISOString(), entregas: {}, config: {}, semanas: {}, custos: {}, fixos: {} };
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos"]) (await state.db.collection(c).get()).docs.forEach(d => out[c][d.id] = d.data());
       downloadFile(`backup-central-trabalho-${todayIso()}.json`, JSON.stringify(out, null, 2), "application/json");
       setStatus("bkStatus", `Backup baixado: ${Object.keys(out.entregas).length} entregas.`);
     } catch { setStatus("bkStatus", "Não foi possível gerar o backup. Verifique a conexão.", true); }
@@ -1046,7 +1474,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
       const data = JSON.parse(await file.text());
       if (data.app !== "central-trabalho") throw new Error("formato");
       const writes = [];
-      for (const c of ["entregas", "config", "semanas"]) for (const [id, doc] of Object.entries(data[c] || {})) writes.push([c, id, doc]);
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos"]) for (const [id, doc] of Object.entries(data[c] || {})) writes.push([c, id, doc]);
       for (let k = 0; k < writes.length; k += 400) {
         const batch = window.firebase.firestore().batch();
         writes.slice(k, k + 400).forEach(([c, id, doc]) => batch.set(state.db.collection(c).doc(id), doc));
@@ -1070,13 +1498,21 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     const auth = firebase.auth(), fs = firebase.firestore();
     fs.enablePersistence({ synchronizeTabs: true }).catch(() => {});
     let started = false;
-    auth.onAuthStateChanged(u => {
+    auth.onAuthStateChanged(async u => {
       if (!u) { showLogin(); return; }
-      $("boot").hidden = true; $("login").hidden = true; $("app").hidden = false;
-      $("userEmail").textContent = u.email || "";
       if (started) return; started = true;
-      const root = fs.collection("usuarios").doc(u.uid);
-      startApp({ collection: n => root.collection(n), doc: p => { const [c, id] = p.split("/"); return root.collection(c).doc(id); } });
+      const email = (u.email || "").toLowerCase();
+      state.fs = fs; state.email = email;
+      let owner = null;
+      try {
+        const s = await fs.collection("socios").doc(email).get();
+        if (s.exists && s.data().owner && s.data().owner !== u.uid) owner = s.data().owner;
+      } catch {}
+      $("boot").hidden = true; $("login").hidden = true; $("app").hidden = false;
+      $("userEmail").textContent = email;
+      const root = fs.collection("usuarios").doc(owner || u.uid);
+      const db = { collection: n => root.collection(n), doc: p => { const [c, id] = p.split("/"); return root.collection(c).doc(id); } };
+      if (owner) startPartner(db); else startApp(db, u.uid);
     });
     const MSG = {
       "auth/invalid-credential": "E-mail ou senha incorretos.", "auth/wrong-password": "E-mail ou senha incorretos.",

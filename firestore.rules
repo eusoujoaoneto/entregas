@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+
+    // O usuário logado foi liberado como sócio da conta {uid}?
+    function socioDe(uid) {
+      return signedIn() &&
+        get(/databases/$(database)/documents/socios/$(request.auth.token.email)).data.owner == uid;
+    }
+
+    // Dono: acesso total aos próprios dados
+    match /usuarios/{uid}/{documento=**} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
+    // Sócio: somente leitura, somente Posto da Mata
+    match /usuarios/{uid}/entregas/{id} {
+      allow read: if socioDe(uid) && resource.data.tipo == "PM";
+    }
+    match /usuarios/{uid}/custos/{id} {
+      allow read: if socioDe(uid) && resource.data.area == "PM";
+    }
+    match /usuarios/{uid}/fixos/{id} {
+      allow read: if socioDe(uid) && resource.data.area == "PM";
+    }
+
+    // Lista de sócios: só o dono cria e remove; quem já é sócio não cria outros
+    match /socios/{email} {
+      allow read: if signedIn() && (request.auth.token.email == email || resource.data.owner == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.owner == request.auth.uid
+        && !exists(/databases/$(database)/documents/socios/$(request.auth.token.email));
+      allow update: if signedIn() && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid;
+      allow delete: if signedIn() && resource.data.owner == request.auth.uid;
+    }
+  }
+}
