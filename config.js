@@ -1,12 +1,10 @@
-// Cole aqui os dados do seu projeto Firebase
-// (Firebase > Configurações do projeto > Seus apps > App da Web > "firebaseConfig").
-// Estes dados não são senha: podem ficar no site. Quem protege os seus registros
-// é o login e as regras de segurança (arquivo firestore.rules).
+// Dados do projeto Firebase (não são senha: podem ficar públicos).
+// Quem protege os registros é o login e as regras de segurança do Firestore.
 window.FIREBASE_CONFIG = {
-  apiKey: "COLE_AQUI",
-  authDomain: "SEU-PROJETO.firebaseapp.com",
-  projectId: "SEU-PROJETO",
-  storageBucket: "SEU-PROJETO.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000"
+  apiKey: "AIzaSyCCVAHnb7ftMSWN5NJydrvsHwR6-I3s1uY",
+  authDomain: "central-trabalho.firebaseapp.com",
+  projectId: "central-trabalho",
+  storageBucket: "central-trabalho.firebasestorage.app",
+  messagingSenderId: "776093172241",
+  appId: "1:776093172241:web:36996ebbaa394ec80ea7b0"
 };
