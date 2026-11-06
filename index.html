@@ -3,15 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f6b45">
+<meta name="theme-color" content="#1f6b45" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111613" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SPLOG">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="application-name" content="SPLOG">
 <meta name="robots" content="noindex">
-<title>Central de Trabalho</title>
+<title>SPLOG · Gestão de entregas</title>
+<meta name="description" content="Entregas, custos, combustível e lucro da operação em um só lugar.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SPLOG">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="SPLOG · Gestão de entregas">
+<meta property="og:description" content="Entregas, custos, combustível e lucro da operação em um só lugar.">
+<meta property="og:url" content="https://eusoujoaoneto.github.io/entregas/">
+<meta property="og:image" content="https://eusoujoaoneto.github.io/entregas/og-image.png">
+<meta property="og:image:secure_url" content="https://eusoujoaoneto.github.io/entregas/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo do SPLOG: um S em forma de rota de entrega">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SPLOG · Gestão de entregas">
+<meta name="twitter:description" content="Entregas, custos, combustível e lucro da operação em um só lugar.">
+<meta name="twitter:image" content="https://eusoujoaoneto.github.io/entregas/og-image.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-/* Layout: app de bolso em coluna única — cabeçalho do módulo, abas fixas (Painel · Registrar · Relatório · Ajustes), cartões por função */
+/* SPLOG · app de bolso em coluna única: marca no topo, abas fixas (Painel · Registrar · Custos · Relatório · Ajustes), cartões por função */
 :root{
   --bg:#f3f5f1; --surface:#ffffff; --sunk:#f7f9f6; --fg:#17201a; --muted:#5d6a60; --line:#dde3da;
   --accent:#1f6b45; --accent-ink:#ffffff; --accent-soft:#e2efe6;
@@ -105,7 +130,7 @@ textarea{resize:vertical;min-height:44px}
 .col:hover,.col:focus-visible{background:var(--sunk)}
 .seg{width:100%;flex:none}
 .col .seg:last-child{border-radius:4px 4px 0 0}
-.col.today::after{content:"";position:absolute;left:50%;bottom:-6px;width:4px;height:4px;border-radius:50%;background:var(--fg);transform:translateX(-50%)}
+.col.today::after{content:"";position:absolute;left:50%;bottom:-7px;width:6px;height:6px;border-radius:50%;background:#f2b63d;transform:translateX(-50%)}
 .xax{grid-column:2;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend span{display:flex;align-items:center;gap:6px}
@@ -231,14 +256,40 @@ ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;f
 body.partner .partner-only{display:inline-flex!important}
 body.partner .owner-only{display:none!important}
 input[type=email],input[type=password]{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:12px}
-.boot{text-align:center;color:var(--muted);padding-top:30vh}
+.boot{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--muted);padding-top:28vh}
+.boot .mark{width:64px;height:64px}
+@media (prefers-reduced-motion:no-preference){.boot .mark{animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{50%{transform:scale(.92);opacity:.75}}}
+.mark{display:block;flex:none}
+.brand{display:flex;align-items:center;gap:8px;min-width:0}
+.brand .mark{width:30px;height:30px}
+.brand b{font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1}
+.brand .eyebrow{padding-left:8px;border-left:1px solid var(--line)}
+.toprow .acts{display:flex;align-items:center;gap:14px}
+.login-brand{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding-block:6px 4px}
+.login-brand .mark{width:76px;height:76px;filter:drop-shadow(0 6px 14px rgb(31 107 69 / .25))}
+.login-brand b{font-family:var(--f-display);font-weight:800;font-size:36px;letter-spacing:-.03em;line-height:1}
+.login-brand small{color:var(--muted);font-size:14px}
+.install-bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 28px rgb(0 0 0 / .12);
+  padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.install-bar .mark{width:40px;height:40px}
+.install-bar .t{display:flex;flex-direction:column;min-width:0}
+.install-bar small{color:var(--muted);font-size:13px;line-height:1.35}
+.install-bar .x{border:none;background:none;color:var(--muted);font-size:22px;width:36px;height:36px}
+.primary.sm{padding:10px 14px;font-size:14px;border-radius:10px}
+body.has-bar{padding-bottom:120px}
 </style>
 </head>
 <body>
+<div class="install-bar" id="installBar" hidden role="region" aria-label="Instalar o SPLOG">
+  <svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg>
+  <div class="t"><b>Instale o SPLOG</b><small id="installHint">Abra como aplicativo, direto da tela inicial.</small></div>
+  <button class="primary sm" type="button" id="installGo">Instalar</button>
+  <button class="x" type="button" id="installClose" aria-label="Fechar aviso de instalação">×</button>
+</div>
 <div class="login" id="login" hidden>
   <form class="panel login-card" id="loginForm">
-    <span class="eyebrow">Central de Trabalho</span>
-    <h1>Entrar</h1>
+    <div class="login-brand"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><b>SPLOG</b><small>Gestão de entregas</small></div>
+    <h2>Entrar na sua conta</h2>
     <label class="field"><span class="label">E-mail</span><input type="email" id="lgEmail" autocomplete="username" required></label>
     <label class="field"><span class="label">Senha</span><input type="password" id="lgPass" autocomplete="current-password" required></label>
     <button class="primary" type="submit" id="lgBtn">Entrar</button>
@@ -246,11 +297,12 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
     <div class="status" id="lgStatus" role="status"></div>
   </form>
 </div>
-<div class="boot" id="boot">Carregando…</div>
+<div class="boot" id="boot"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><span>Carregando…</span></div>
 
 <div class="wrap" id="app" hidden>
   <header>
-    <div class="toprow"><span class="eyebrow" id="eyebrow">Central de Trabalho · Transporte</span><button class="linkbtn" type="button" id="logout">Sair</button></div>
+    <div class="toprow"><div class="brand"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><b>SPLOG</b><span class="eyebrow" id="eyebrow">Transporte</span></div>
+      <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
     <h1 id="appTitle">Transporte de alimentação</h1>
     <span class="pill rel partner-only" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
     <small class="muted" id="userEmail"></small>
@@ -1423,7 +1475,7 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
   function startPartner(db) {
     state.db = db; state.partner = true;
     document.body.classList.add("partner");
-    $("eyebrow").textContent = "Central de Trabalho · Sócio";
+    $("eyebrow").textContent = "Sócio";
     $("appTitle").textContent = "Posto da Mata";
     loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
     const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "Seu acesso de sócio não está liberado. Fale com o responsável pela operação.", true); };
@@ -1485,6 +1537,35 @@ input[type=email],input[type=password]{width:100%;border:1px solid var(--line);b
       setStatus("bkStatus", e.message === "formato" ? "Este arquivo não é um backup da Central de Trabalho." : "Não foi possível importar. Confira o arquivo e a conexão.", true);
     }
   };
+
+  // ---------- instalar como aplicativo ----------
+  (() => {
+    const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const bar = $("installBar"), btn = $("installBtn"), go = $("installGo");
+    let deferred = null;
+    const recentlyDismissed = () => Date.now() - lsGet("splog.installDismissed", 0) < 7 * 864e5;
+    const setBar = on => { bar.hidden = !on; document.body.classList.toggle("has-bar", on); };
+    const offer = () => { if (standalone) return; btn.hidden = false; if (!recentlyDismissed()) setBar(true); };
+    const done = () => { setBar(false); btn.hidden = true; };
+    async function install() {
+      if (deferred) {
+        deferred.prompt();
+        try { await deferred.userChoice; } catch {}
+        deferred = null; done(); return;
+      }
+      if (ios) {
+        $("installHint").textContent = "No Safari, toque em Compartilhar (quadrado com seta para cima) e depois em “Adicionar à Tela de Início”.";
+        go.hidden = true; setBar(true);
+      }
+    }
+    window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; go.hidden = false; go.textContent = "Instalar"; offer(); });
+    window.addEventListener("appinstalled", done);
+    go.onclick = install; btn.onclick = install;
+    $("installClose").onclick = () => { setBar(false); lsSet("splog.installDismissed", Date.now()); };
+    if (ios && !standalone) { go.textContent = "Como instalar"; offer(); }
+    if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("./sw.js").catch(() => {});
+  })();
 
   (() => {
     const cfg = window.FIREBASE_CONFIG;
