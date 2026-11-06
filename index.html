@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#e5e5ea" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -38,9 +38,9 @@
 <style>
 /* SPLOG · visual inspirado no iOS: fonte do sistema (SF no Apple, Inter nos demais), listas agrupadas em cartões brancos sobre cinza, controles segmentados e barra de abas inferior */
 :root{
-  --bg:#f2f2f7; --surface:#ffffff; --sunk:#f2f2f7; --fill:rgba(118,118,128,.12); --fg:#1d1d1f; --muted:#6e6e73; --line:#e5e5ea; --sep:rgba(60,60,67,.18);
-  --accent:#0071e3; --accent-ink:#ffffff; --accent-soft:#e8f1fc;
-  --danger:#d70015; --rel:#0066cc; --rel-soft:#e8f1fc; --warn:#c93400; --warn-soft:#fff1e6; --ok:#248a3d; --ok-soft:#e7f5ea;
+  --bg:#e5e5ea; --surface:#ffffff; --sunk:#f2f2f7; --fill:rgba(118,118,128,.12); --fg:#1d1d1f; --muted:#6e6e73; --line:#e5e5ea; --sep:rgba(60,60,67,.18);
+  --accent:#1f6b45; --accent-ink:#ffffff; --accent-soft:#e2efe6;
+  --danger:#b23a2a; --rel:#3d43a8; --rel-soft:#e8e9f8; --warn:#9a5b00; --warn-soft:#fbefd9; --ok:#1f6b45; --ok-soft:#e2efe6;
   --c-pm:#248a3d; --c-ped:#5856d6; --c-out:#c93400; --logo-ink:#1d1d1f; --logo-dot:#22324d;
   --bar:rgba(249,249,251,.88); --tab-off:#8e8e93; --seg-on:#ffffff; --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.04);
   --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -49,14 +49,14 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#000000; --surface:#1c1c1e; --sunk:#2c2c2e; --fill:rgba(118,118,128,.24); --fg:#f5f5f7; --muted:#98989d; --line:#38383a; --sep:rgba(84,84,88,.6);
-  --accent:#0a84ff; --accent-ink:#ffffff; --accent-soft:#0f2742;
-  --danger:#ff453a; --rel:#64a8ff; --rel-soft:#0f2742; --warn:#ff9f0a; --warn-soft:#33230a; --ok:#30d158; --ok-soft:#0f2e18;
+  --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
+  --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
   --c-pm:#28b14c; --c-ped:#6e6cf0; --c-out:#d27a00; --logo-ink:#f5f5f7; --logo-dot:#8da2c4;
   --bar:rgba(22,22,24,.88); --tab-off:#8d8d93; --seg-on:#636366; --shadow:none; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#000000; --surface:#1c1c1e; --sunk:#2c2c2e; --fill:rgba(118,118,128,.24); --fg:#f5f5f7; --muted:#98989d; --line:#38383a; --sep:rgba(84,84,88,.6);
-  --accent:#0a84ff; --accent-ink:#ffffff; --accent-soft:#0f2742;
-  --danger:#ff453a; --rel:#64a8ff; --rel-soft:#0f2742; --warn:#ff9f0a; --warn-soft:#33230a; --ok:#30d158; --ok-soft:#0f2e18;
+  --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
+  --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
   --c-pm:#28b14c; --c-ped:#6e6cf0; --c-out:#d27a00; --logo-ink:#f5f5f7; --logo-dot:#8da2c4;
   --bar:rgba(22,22,24,.88); --tab-off:#8d8d93; --seg-on:#636366; --shadow:none; color-scheme:dark}
 
@@ -194,6 +194,8 @@ button.pill{border:none;cursor:pointer}
 .profit small,.proj small{color:var(--muted);font-size:13px}
 .proj{display:flex;flex-direction:column;gap:2px;background:var(--sunk);border-radius:14px;padding:14px}
 .proj b{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.proj .lrow b{font-size:18px}
+.proj .ledger{margin-top:4px}
 
 /* registrar */
 .seg-ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--fill);padding:2px;border-radius:11px}
@@ -359,7 +361,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     <div class="panel">
       <div class="panel-head"><h2>Resultado · Posto da Mata</h2><span class="pill" id="pmState"></span></div>
       <div class="ledger" id="pmLedger"></div>
-      <div class="profit"><span class="label" id="pmLucroLbl">Lucro líquido</span><b class="num" id="pmLucro">R$ 0,00</b><small id="pmMargem"></small></div>
+      <div class="profit"><span class="label" id="pmLucroLbl">Lucro bruto</span><b class="num" id="pmLucro">R$ 0,00</b><small id="pmMargem"></small></div>
       <div class="proj" id="pmProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="pmPrev">R$ 0,00</b><small id="pmPrevSub"></small><small id="pmNote"></small></div>
     </div>
 
@@ -394,13 +396,23 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
         <div><span class="label">A receber</span><b class="num" id="dRec" style="color:var(--warn)">R$ 0,00</b><small>Semanas ainda não pagas</small></div>
         <div><span class="label">Já recebido</span><b class="num" id="dPago" style="color:var(--ok)">R$ 0,00</b><small>Semanas pagas no mês</small></div>
       </div>
+      <div class="panel-head" style="padding-top:6px"><h2>Resultado · Pedreira e outras</h2><span class="pill" id="otState"></span></div>
+      <div class="ledger" id="otLedger"></div>
+      <div class="profit"><span class="label" id="otLucroLbl">Lucro bruto</span><b class="num" id="otLucro">R$ 0,00</b><small id="otMargem"></small></div>
+      <div class="proj" id="otProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="otPrev">R$ 0,00</b><small id="otPrevSub"></small><small id="otNote"></small></div>
     </div>
 
     <div class="panel owner-only">
       <div class="panel-head"><h2>Resultado geral da operação</h2><span class="pill" id="geState"></span></div>
       <div class="ledger" id="geLedger"></div>
-      <div class="profit"><span class="label" id="geLucroLbl">Lucro líquido</span><b class="num" id="geLucro">R$ 0,00</b><small id="geMargem"></small></div>
-      <div class="proj" id="geProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="gePrev">R$ 0,00</b><small id="gePrevSub"></small><small id="geNote"></small></div>
+      <div class="profit"><span class="label" id="geLucroLbl">Lucro bruto</span><b class="num" id="geLucro">R$ 0,00</b><small id="geMargem"></small></div>
+      <div class="proj" id="geProj" hidden><span class="label">Previsão para o mês, separada por operação</span>
+        <div class="ledger">
+          <div class="lrow"><div class="t"><span>Posto da Mata</span><small id="gePrevPMsub"></small></div><b class="num" id="gePrevPM">R$ 0,00</b></div>
+          <div class="lrow"><div class="t"><span>Pedreira e outras</span><small id="gePrevOTsub"></small></div><b class="num" id="gePrevOT">R$ 0,00</b></div>
+          <div class="lrow"><div class="t"><span>Total previsto</span><small id="gePrevSub"></small></div><b class="num" id="gePrev">R$ 0,00</b></div>
+        </div>
+        <small id="geNote"></small></div>
     </div>
 
     <div class="panel" id="todayCard">
@@ -1192,16 +1204,18 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     setProfit(pre + "Lucro", lucro);
     $(pre + "Margem").textContent = rec ? `Margem de ${num2(lucro / rec * 100, 1)}% · custos de ${BRL(custo)}` : `Custos de ${BRL(custo)}`;
     const pill = $(pre + "State"), proj = $(pre + "Proj");
-    if (m > cur) { pill.className = "pill"; pill.textContent = "Mês futuro"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro líquido"; return; }
-    if (m < cur) { pill.className = "pill ok"; pill.textContent = "Mês fechado"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro líquido do mês"; return; }
+    if (m > cur) { pill.className = "pill"; pill.textContent = "Mês futuro"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto"; return null; }
+    if (m < cur) { pill.className = "pill ok"; pill.textContent = "Mês fechado"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto do mês"; return null; }
     const day = parse(todayIso()).getDate(), n = daysIn(m), f = n / day;
     pill.className = "pill rel"; pill.textContent = "Mês em andamento";
-    $(pre + "LucroLbl").textContent = "Lucro líquido até hoje";
+    $(pre + "LucroLbl").textContent = "Lucro bruto até hoje";
     proj.hidden = false;
     const recP = rec * f, fuelP = fuelGasto * f;
-    setProfit(pre + "Prev", recP - fuelP - otherCosts);
-    $(pre + "PrevSub").textContent = `Faturamento previsto ${BRL(recP)} · combustível previsto ${BRL(fuelP)}`;
+    const lucroP = recP - fuelP - otherCosts;
+    setProfit(pre + "Prev", lucroP);
+    $(pre + "PrevSub").textContent = fuelGasto ? `Faturamento previsto ${BRL(recP)} · combustível previsto ${BRL(fuelP)}` : `Faturamento previsto ${BRL(recP)}`;
     $(pre + "Note").textContent = `Pelo ritmo dos ${day} primeiros dias, projetado até o dia ${n}. Custos fixos e outros gastos entram como estão.`;
+    return { recP, lucroP };
   }
   function renderResultado() {
     const E = state.monthEntries, { esp, fixos, fuel } = monthCosts(state.month);
@@ -1214,9 +1228,16 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       ...fixPM.map(x => ({ label: x.nome, sub: "Custo fixo mensal", v: x.valor, k: "out" })),
       { label: "Outros gastos", sub: espLabel(espPM), v: sum(espPM, x => x.valor), k: "out" },
     ]);
-    resultBlock("pm", recPM, fuel.gasto, sum(fixPM, x => x.valor) + sum(espPM, x => x.valor));
+    const pmP = resultBlock("pm", recPM, fuel.gasto, sum(fixPM, x => x.valor) + sum(espPM, x => x.valor));
     if (state.partner) return;
     const recOut = sum(E.filter(e => e.tipo !== "PM"), e => e.valor);
+    const fixOT = fixos.filter(x => x.area === "OUT"), espOT = esp.filter(x => x.area === "OUT");
+    ledger($("otLedger"), [
+      { label: "Faturamento", v: recOut, k: "in" },
+      ...fixOT.map(x => ({ label: x.nome, sub: "Custo fixo mensal", v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(espOT), v: sum(espOT, x => x.valor), k: "out" },
+    ]);
+    const otP = resultBlock("ot", recOut, 0, sum(fixOT, x => x.valor) + sum(espOT, x => x.valor));
     ledger($("geLedger"), [
       { label: "Faturamento Posto da Mata", v: recPM, k: "in" },
       { label: "Faturamento Pedreira e outras", v: recOut, k: "in" },
@@ -1224,7 +1245,13 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       ...fixos.map(x => ({ label: x.nome, sub: `Custo fixo · ${AREAS[x.area] || "Geral"}`, v: x.valor, k: "out" })),
       { label: "Outros gastos", sub: espLabel(esp), v: sum(esp, x => x.valor), k: "out" },
     ]);
-    resultBlock("ge", recPM + recOut, fuel.gasto, sum(fixos, x => x.valor) + sum(esp, x => x.valor));
+    const geP = resultBlock("ge", recPM + recOut, fuel.gasto, sum(fixos, x => x.valor) + sum(esp, x => x.valor));
+    if (geP && pmP && otP) {
+      setProfit("gePrevPM", pmP.lucroP); setProfit("gePrevOT", otP.lucroP);
+      $("gePrevPMsub").textContent = `Faturamento previsto ${BRL(pmP.recP)}`;
+      $("gePrevOTsub").textContent = `Faturamento previsto ${BRL(otP.recP)}`;
+      $("gePrevSub").textContent = `Inclui custos gerais · faturamento previsto ${BRL(geP.recP)}`;
+    }
   }
   function costItem(it, deletable) {
     const fuel = it.categoria === "combustivel";
