@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f6b45" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#f3f5f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111613" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -24,7 +24,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Logo do SPLOG: um S em forma de rota de entrega">
+<meta property="og:image:alt" content="SPLOG · Gestão de entregas">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SPLOG · Gestão de entregas">
 <meta name="twitter:description" content="Entregas, custos, combustível e lucro da operação em um só lugar.">
@@ -41,7 +41,7 @@
   --bg:#f3f5f1; --surface:#ffffff; --sunk:#f7f9f6; --fg:#17201a; --muted:#5d6a60; --line:#dde3da;
   --accent:#1f6b45; --accent-ink:#ffffff; --accent-soft:#e2efe6;
   --danger:#b23a2a; --rel:#3d43a8; --rel-soft:#e8e9f8; --warn:#9a5b00; --warn-soft:#fbefd9; --ok:#1f6b45; --ok-soft:#e2efe6;
-  --c-pm:#2f8a5c; --c-ped:#6a6fd8; --c-out:#c9761f;
+  --c-pm:#2f8a5c; --c-ped:#6a6fd8; --c-out:#c9761f; --logo-ink:#1c1f23; --logo-dot:#22324d;
   --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
@@ -50,12 +50,12 @@
   --bg:#111613; --surface:#19201b; --sunk:#151b17; --fg:#e6ece6; --muted:#97a59a; --line:#2a342d;
   --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
   --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
-  --c-pm:#3f9f6f; --c-ped:#7d81e4; --c-out:#c27a26; color-scheme:dark}}
+  --c-pm:#3f9f6f; --c-ped:#7d81e4; --c-out:#c27a26; --logo-ink:#e8eaed; --logo-dot:#8da2c4; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111613; --surface:#19201b; --sunk:#151b17; --fg:#e6ece6; --muted:#97a59a; --line:#2a342d;
   --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
   --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
-  --c-pm:#3f9f6f; --c-ped:#7d81e4; --c-out:#c27a26; color-scheme:dark}
+  --c-pm:#3f9f6f; --c-ped:#7d81e4; --c-out:#c27a26; --logo-ink:#e8eaed; --logo-dot:#8da2c4; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45;
@@ -130,7 +130,7 @@ textarea{resize:vertical;min-height:44px}
 .col:hover,.col:focus-visible{background:var(--sunk)}
 .seg{width:100%;flex:none}
 .col .seg:last-child{border-radius:4px 4px 0 0}
-.col.today::after{content:"";position:absolute;left:50%;bottom:-7px;width:6px;height:6px;border-radius:50%;background:#f2b63d;transform:translateX(-50%)}
+.col.today::after{content:"";position:absolute;left:50%;bottom:-7px;width:6px;height:6px;border-radius:50%;background:var(--logo-dot);transform:translateX(-50%)}
 .xax{grid-column:2;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:4px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend span{display:flex;align-items:center;gap:6px}
@@ -257,21 +257,20 @@ body.partner .partner-only{display:inline-flex!important}
 body.partner .owner-only{display:none!important}
 input[type=email],input[type=password]{width:100%;border:1px solid var(--line);background:var(--sunk);border-radius:10px;padding:12px}
 .boot{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--muted);padding-top:28vh}
-.boot .mark{width:64px;height:64px}
-@media (prefers-reduced-motion:no-preference){.boot .mark{animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{50%{transform:scale(.92);opacity:.75}}}
-.mark{display:block;flex:none}
-.brand{display:flex;align-items:center;gap:8px;min-width:0}
-.brand .mark{width:30px;height:30px}
-.brand b{font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1}
-.brand .eyebrow{padding-left:8px;border-left:1px solid var(--line)}
+.boot .logo{font-size:40px}
+@media (prefers-reduced-motion:no-preference){.boot .logo i{animation:blink 1.2s ease-in-out infinite}@keyframes blink{50%{opacity:.25}}}
+.logo{font-family:var(--f-display);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--logo-ink);white-space:nowrap;display:inline-block}
+.logo i{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:var(--logo-dot);margin-left:.05em}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand .logo{font-size:22px}
+.brand .eyebrow{padding-left:10px;border-left:1px solid var(--line)}
 .toprow .acts{display:flex;align-items:center;gap:14px}
 .login-brand{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding-block:6px 4px}
-.login-brand .mark{width:76px;height:76px;filter:drop-shadow(0 6px 14px rgb(31 107 69 / .25))}
-.login-brand b{font-family:var(--f-display);font-weight:800;font-size:36px;letter-spacing:-.03em;line-height:1}
+.login-brand .logo{font-size:48px}
 .login-brand small{color:var(--muted);font-size:14px}
 .install-bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 28px rgb(0 0 0 / .12);
   padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.install-bar .mark{width:40px;height:40px}
+.install-bar .app-icon{width:40px;height:40px;border-radius:10px;display:block}
 .install-bar .t{display:flex;flex-direction:column;min-width:0}
 .install-bar small{color:var(--muted);font-size:13px;line-height:1.35}
 .install-bar .x{border:none;background:none;color:var(--muted);font-size:22px;width:36px;height:36px}
@@ -281,14 +280,14 @@ body.has-bar{padding-bottom:120px}
 </head>
 <body>
 <div class="install-bar" id="installBar" hidden role="region" aria-label="Instalar o SPLOG">
-  <svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg>
+  <img class="app-icon" src="icon-192.png" alt="" width="40" height="40">
   <div class="t"><b>Instale o SPLOG</b><small id="installHint">Abra como aplicativo, direto da tela inicial.</small></div>
   <button class="primary sm" type="button" id="installGo">Instalar</button>
   <button class="x" type="button" id="installClose" aria-label="Fechar aviso de instalação">×</button>
 </div>
 <div class="login" id="login" hidden>
   <form class="panel login-card" id="loginForm">
-    <div class="login-brand"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><b>SPLOG</b><small>Gestão de entregas</small></div>
+    <div class="login-brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><small>Gestão de entregas</small></div>
     <h2>Entrar na sua conta</h2>
     <label class="field"><span class="label">E-mail</span><input type="email" id="lgEmail" autocomplete="username" required></label>
     <label class="field"><span class="label">Senha</span><input type="password" id="lgPass" autocomplete="current-password" required></label>
@@ -297,11 +296,11 @@ body.has-bar{padding-bottom:120px}
     <div class="status" id="lgStatus" role="status"></div>
   </form>
 </div>
-<div class="boot" id="boot"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><span>Carregando…</span></div>
+<div class="boot" id="boot"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span>Carregando…</span></div>
 
 <div class="wrap" id="app" hidden>
   <header>
-    <div class="toprow"><div class="brand"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><rect width="512" height="512" rx="116" fill="#1f6b45"/><g transform="translate(19 0)"><path d="M356 150 H206 A53 53 0 0 0 206 256 H306 A53 53 0 0 1 306 362 H186" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/><circle cx="128" cy="362" r="28" fill="#f2b63d"/></g></svg><b>SPLOG</b><span class="eyebrow" id="eyebrow">Transporte</span></div>
+    <div class="toprow"><div class="brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span class="eyebrow" id="eyebrow">Transporte</span></div>
       <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
     <h1 id="appTitle">Transporte de alimentação</h1>
     <span class="pill rel partner-only" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
