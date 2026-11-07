@@ -578,7 +578,12 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     </div>
 
     <div class="panel">
-      <span class="muted" style="font-size:14px">Fechamento mensal com Posto da Mata, Pedreira e outras entregas.</span>
+      <span class="label">Tipo de relatório</span>
+      <div class="seg-ctl" role="group" aria-label="Tipo de relatório">
+        <button type="button" data-rscope="ALL">Completo<small>Tudo junto</small></button>
+        <button type="button" data-rscope="PM">PM<small>Posto da Mata</small></button>
+        <button type="button" data-rscope="OT">Pedreira<small>e outras</small></button>
+      </div>
       <div class="actions">
         <button class="primary" type="button" id="pdfBtn">Baixar PDF</button>
         <button class="ghost" type="button" id="csvBtn">Baixar planilha</button>
@@ -997,11 +1002,15 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   const dayLbl = ds => `${DOWS[parse(ds).getDay()]} ${fmtDate(ds).slice(0,5)}`;
   const otLabel = e => e.tipo === "PED" ? `Pedreira (${e.veiculo === "moto" ? "moto" : "carro da empresa"})` : (e.destino || "Entrega");
   const periodo = () => `01/${state.month.slice(5)}/${state.month.slice(0,4)} a ${pad(daysIn(state.month))}/${state.month.slice(5)}/${state.month.slice(0,4)}`;
+  const SCOPES = { ALL: "", PM: "Posto da Mata", OT: "Pedreira e outras entregas" };
+  state.repScope = SCOPES[lsGet("ct.repScope", "ALL")] !== undefined ? lsGet("ct.repScope", "ALL") : "ALL";
+  const scopeTitle = () => `Relatório de entregas${SCOPES[state.repScope] ? " · " + SCOPES[state.repScope] : ""}`;
   function reportData() {
+    const showPM = state.repScope !== "OT", showOT = state.repScope !== "PM";
     const all = [...state.monthEntries].sort(byTime);
-    const pm = all.filter(e => e.tipo === "PM");
-    const ot = all.filter(e => e.tipo !== "PM");
-    const paid = all.filter(isPaid);
+    const pm = showPM ? all.filter(e => e.tipo === "PM") : [];
+    const ot = showOT ? all.filter(e => e.tipo !== "PM") : [];
+    const paid = ot.filter(isPaid);
     const group = (list, fn) => { const m = new Map(); list.forEach(e => fn(e).forEach(([key, label, qtd, unit]) => {
       const k = key + "|" + unit; const it = m.get(k) || { label, qtd: 0, unit }; it.qtd += qtd; m.set(k, it); })); return [...m.values()]; };
     const pmItems = group(pm, e => [e.g ? ["g", "Caixa G", e.g, e.precoG] : null, e.m ? ["m", "Caixa M", e.m, e.precoM] : null].filter(Boolean));
@@ -1010,7 +1019,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     const paidTotal = sum(paid, e => e.valor);
     const weeks = monthWeeks(state.month).map(w => { const es = ot.filter(e => e.data >= w.s && e.data <= w.e);
       return { ...w, n: es.length, valor: sum(es, e => e.valor), pago: !!state.weeks[w.mon]?.pago }; }).filter(w => w.n);
-    return { pm, ot, paid, pmItems, otItems, pmTotal, otTotal, gross: pmTotal + otTotal, total: pmTotal + otTotal - paidTotal, paidTotal, weeks,
+    return { showPM, showOT, pm, ot, paid, pmItems, otItems, pmTotal, otTotal, gross: pmTotal + otTotal, total: pmTotal + otTotal - paidTotal, paidTotal, weeks,
       G: sum(pm, e => e.g), M: sum(pm, e => e.m) };
   }
 
@@ -1024,18 +1033,20 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
 
   function renderRelatorio() {
     $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    $$("[data-rscope]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.rscope === state.repScope)));
     const R = reportData(), doc = $("repDoc"); doc.textContent = "";
-    doc.append(el("h3", {}, `Relatório de entregas · ${monthLabel(state.month)}`));
+    doc.append(el("h3", {}, `${scopeTitle()} · ${monthLabel(state.month)}`));
     doc.append(el("div", { class: "meta" },
       el("span", {}, `Cliente: ${state.cfg.cliente || "(defina em Ajustes)"}`),
       el("span", {}, `Prestador: ${state.cfg.prestador || "(defina em Ajustes)"}`),
       el("span", {}, `Período: ${periodo()}`)));
     if (!state.loadedMonth) { doc.append(el("div", { class: "empty" }, "Carregando…")); return; }
-    if (!R.pm.length && !R.ot.length) { doc.append(el("div", { class: "empty" }, "Nenhuma entrega para o relatório neste mês.")); return; }
+    if (!R.pm.length && !R.ot.length) { doc.append(el("div", { class: "empty" }, `Nenhuma entrega${SCOPES[state.repScope] ? " de " + SCOPES[state.repScope] : ""} neste mês.`)); return; }
 
     const sec = (title, color) => el("h4", { class: "sec" }, el("i", { class: "dot", style: `background:${color}` }), title);
     const L4 = ["l", "r", "r", "r"];
 
+    if (R.showPM) {
     doc.append(sec("Posto da Mata", "var(--c-pm)"));
     if (R.pm.length) {
       doc.append(mkTable(["Item", "Qtd", "Unitário", "Subtotal"], R.pmItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal PM", "", "", BRL(R.pmTotal)], L4));
@@ -1043,7 +1054,9 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       doc.append(mkTable(["Data", "Hora", "G", "M", "Valor"], R.pm.map(e => [dayLbl(e.data), e.hora || "–", e.g || "–", e.m || "–", BRL(e.valor)]),
         ["Total", "", R.G, R.M, BRL(R.pmTotal)], ["l", "l", "r", "r", "r"]));
     } else doc.append(el("div", { class: "empty" }, "Nenhuma caixa neste mês."));
+    }
 
+    if (R.showOT) {
     doc.append(sec("Pedreira e outras entregas", "var(--c-ped)"));
     if (R.ot.length) {
       doc.append(mkTable(["Item", "Qtd", "Unitário", "Subtotal"], R.otItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal", "", "", BRL(R.otTotal)], L4));
@@ -1056,17 +1069,19 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       doc.append(mkTable(["Semana", "Entregas", "Valor", "Situação"], R.weeks.map(w => [wkLabel(w), w.n, BRL(w.valor), w.pago ? "Paga" : "A receber"]),
         null, ["l", "r", "r", "r"]));
     }
+    }
 
     doc.append(el("div", { class: "grand" },
-      el("div", {}, el("span", {}, "Posto da Mata"), el("span", { class: "num" }, BRL(R.pmTotal))),
-      el("div", {}, el("span", {}, "Pedreira e outras"), el("span", { class: "num" }, BRL(R.otTotal))),
+      R.showPM ? el("div", {}, el("span", {}, "Posto da Mata"), el("span", { class: "num" }, BRL(R.pmTotal))) : null,
+      R.showOT ? el("div", {}, el("span", {}, "Pedreira e outras"), el("span", { class: "num" }, BRL(R.otTotal))) : null,
       R.paidTotal ? el("div", { class: "minus" }, el("span", {}, "Já recebido (semanas pagas)"), el("span", { class: "num" }, "− " + BRL(R.paidTotal))) : null,
       el("div", { class: "tot" }, el("span", {}, "Total a receber"), el("span", { class: "num" }, BRL(R.total)))));
   }
 
   $$("[data-month]").forEach(b => b.onclick = () => setMonth(addMonth(state.month, Number(b.dataset.month))));
+  $$("[data-rscope]").forEach(b => b.onclick = () => { state.repScope = b.dataset.rscope; lsSet("ct.repScope", state.repScope); setStatus("repStatus", ""); renderRelatorio(); });
 
-  const fileBase = () => `relatorio-entregas-${state.month}`;
+  const fileBase = () => `relatorio-${{ ALL: "entregas", PM: "posto-da-mata", OT: "pedreira-e-outras" }[state.repScope]}-${state.month}`;
   function downloadFile(filename, data, type) {
     const blob = data instanceof Blob ? data : new Blob([data], { type: type || "application/octet-stream" });
     const url = URL.createObjectURL(blob), a = document.createElement("a");
@@ -1080,19 +1095,26 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
 
   $("txtBtn").onclick = () => {
     const R = reportData();
-    const lines = [`*Relatório de entregas · ${monthLabel(state.month)}*`];
+    const lines = [`*${scopeTitle()} · ${monthLabel(state.month)}*`];
     if (state.cfg.cliente) lines.push(`Cliente: ${state.cfg.cliente}`);
     if (state.cfg.prestador) lines.push(`Prestador: ${state.cfg.prestador}`);
-    lines.push(`Período: ${periodo()}`, "", "*POSTO DA MATA*");
-    R.pmItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
-    lines.push(`Subtotal PM: ${BRL(R.pmTotal)}`, "");
-    R.pm.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${desc(e)} · ${BRL(e.valor)}`));
-    lines.push("", "*PEDREIRA E OUTRAS ENTREGAS*");
-    R.otItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
-    lines.push(`Subtotal: ${BRL(R.otTotal)}`, "");
-    R.ot.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${otLabel(e)} · ${BRL(e.valor)}`));
-    if (R.weeks.length) { lines.push("", "_Semanas_"); R.weeks.forEach(w => lines.push(`${short(w.s)} a ${short(w.e)} · ${BRL(w.valor)} · ${w.pago ? "PAGA" : "a receber"}`)); }
-    lines.push("", `Posto da Mata: ${BRL(R.pmTotal)}`, `Pedreira e outras: ${BRL(R.otTotal)}`);
+    lines.push(`Período: ${periodo()}`);
+    if (R.showPM) {
+      lines.push("", "*POSTO DA MATA*");
+      R.pmItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
+      lines.push(`Subtotal PM: ${BRL(R.pmTotal)}`, "");
+      R.pm.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${desc(e)} · ${BRL(e.valor)}`));
+    }
+    if (R.showOT) {
+      lines.push("", "*PEDREIRA E OUTRAS ENTREGAS*");
+      R.otItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
+      lines.push(`Subtotal: ${BRL(R.otTotal)}`, "");
+      R.ot.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${otLabel(e)} · ${BRL(e.valor)}`));
+      if (R.weeks.length) { lines.push("", "_Semanas_"); R.weeks.forEach(w => lines.push(`${wkLabel(w)} · ${BRL(w.valor)} · ${w.pago ? "PAGA" : "a receber"}`)); }
+    }
+    lines.push("");
+    if (R.showPM) lines.push(`Posto da Mata: ${BRL(R.pmTotal)}`);
+    if (R.showOT) lines.push(`Pedreira e outras: ${BRL(R.otTotal)}`);
     if (R.paidTotal) lines.push(`Já recebido (semanas pagas): − ${BRL(R.paidTotal)}`);
     lines.push(`*TOTAL A RECEBER: ${BRL(R.total)}*`);
     copyText(lines.join("\n"), "repStatus");
@@ -1103,10 +1125,14 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
     const num = v => (Number(v) || 0).toFixed(2).replace(".", ",");
     const rows = [["Seção", "Data", "Hora", "Entrega", "Caixas G", "Caixas M", "Valor (R$)", "Semana", "Observação"]];
-    R.pm.forEach(e => rows.push(["Posto da Mata", fmtDate(e.data), e.hora || "", desc(e), e.g || "", e.m || "", num(e.valor), "", e.obs || ""]));
-    rows.push(["", "", "", "Subtotal Posto da Mata", R.G, R.M, num(R.pmTotal), ""], []);
-    R.ot.forEach(e => rows.push(["Pedreira e outras", fmtDate(e.data), e.hora || "", otLabel(e), "", "", num(e.valor), isPaid(e) ? "Paga" : "A receber", e.obs || ""]));
-    rows.push(["", "", "", "Subtotal Pedreira e outras", "", "", num(R.otTotal), ""], []);
+    if (R.showPM) {
+      R.pm.forEach(e => rows.push(["Posto da Mata", fmtDate(e.data), e.hora || "", desc(e), e.g || "", e.m || "", num(e.valor), "", e.obs || ""]));
+      rows.push(["", "", "", "Subtotal Posto da Mata", R.G, R.M, num(R.pmTotal), ""], []);
+    }
+    if (R.showOT) {
+      R.ot.forEach(e => rows.push(["Pedreira e outras", fmtDate(e.data), e.hora || "", otLabel(e), "", "", num(e.valor), isPaid(e) ? "Paga" : "A receber", e.obs || ""]));
+      rows.push(["", "", "", "Subtotal Pedreira e outras", "", "", num(R.otTotal), ""], []);
+    }
     if (R.paidTotal) rows.push(["", "", "", "Já recebido (semanas pagas)", "", "", "-" + num(R.paidTotal), ""]);
     rows.push(["", "", "", "TOTAL A RECEBER", "", "", num(R.total), ""]);
     saveFile(`${fileBase()}.csv`, "﻿" + rows.map(r => r.map(q).join(";")).join("\r\n"));
@@ -1115,11 +1141,11 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   $("pdfBtn").onclick = () => {
     if (!window.jspdf) { setStatus("repStatus", "O gerador de PDF não carregou. Verifique a conexão e recarregue.", true); return; }
     const R = reportData();
-    if (!R.pm.length && !R.ot.length) { setStatus("repStatus", "Não há entregas neste mês para gerar o PDF.", true); return; }
+    if (!R.pm.length && !R.ot.length) { setStatus("repStatus", `Não há entregas${SCOPES[state.repScope] ? " de " + SCOPES[state.repScope] : ""} neste mês para gerar o PDF.`, true); return; }
     const { jsPDF } = window.jspdf, pdf = new jsPDF({ unit: "mm", format: "a4" });
     const L = 18, W = 210 - 36; let y = 22;
     const ensure = h => { if (y + h > 280) { pdf.addPage(); y = 20; } };
-    pdf.setFont("helvetica", "bold"); pdf.setFontSize(16); pdf.text(`Relatório de entregas - ${monthLabel(state.month)}`, L, y); y += 8;
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(16); pdf.text(`${scopeTitle().replace(" · ", " - ")} - ${monthLabel(state.month)}`, L, y); y += 8;
     pdf.setFont("helvetica", "normal"); pdf.setFontSize(10); pdf.setTextColor(90);
     if (state.cfg.cliente) { pdf.text(`Cliente: ${state.cfg.cliente}`, L, y); y += 5; }
     if (state.cfg.prestador) { pdf.text(`Prestador: ${state.cfg.prestador}`, L, y); y += 5; }
@@ -1138,6 +1164,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     const sub = t => { ensure(12); pdf.setFont("helvetica", "bold"); pdf.setFontSize(9); pdf.setTextColor(90); pdf.text(t.toUpperCase(), L, y); pdf.setTextColor(0); y += 5; };
     const SUMW = [84, 22, 34, 34], SUMA = ["l", "r", "r", "r"];
 
+    if (R.showPM) {
     heading("Posto da Mata");
     if (R.pm.length) {
       table(["Item", "Qtd", "Unitário", "Subtotal"], R.pmItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal PM", "", "", BRL(R.pmTotal)], SUMW, SUMA);
@@ -1145,7 +1172,9 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       table(["Data", "Hora", "G", "M", "Valor"], R.pm.map(e => [dayLbl(e.data), e.hora || "-", e.g || "-", e.m || "-", BRL(e.valor)]),
         ["Total", "", R.G, R.M, BRL(R.pmTotal)], [44, 30, 30, 30, 40], ["l", "l", "r", "r", "r"]);
     } else { pdf.setFontSize(10); pdf.text("Nenhuma caixa neste mês.", L, y); y += 9; }
+    }
 
+    if (R.showOT) {
     heading("Pedreira e outras entregas");
     if (R.ot.length) {
       table(["Item", "Qtd", "Unitário", "Subtotal"], R.otItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal", "", "", BRL(R.otTotal)], SUMW, SUMA);
@@ -1156,8 +1185,11 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
 
     if (R.weeks.length) { sub("Pagamento por semana");
       table(["Semana", "Entregas", "Valor", "Situação"], R.weeks.map(w => [wkLabel(w), w.n, BRL(w.valor), w.pago ? "Paga" : "A receber"]), null, [64, 30, 40, 40], ["l", "r", "r", "r"]); y += 3; }
+    }
     heading("Total a receber");
-    const tRows = [["Posto da Mata", BRL(R.pmTotal)], ["Pedreira e outras entregas", BRL(R.otTotal)]];
+    const tRows = [];
+    if (R.showPM) tRows.push(["Posto da Mata", BRL(R.pmTotal)]);
+    if (R.showOT) tRows.push(["Pedreira e outras entregas", BRL(R.otTotal)]);
     if (R.paidTotal) tRows.push(["Já recebido (semanas pagas)", "- " + BRL(R.paidTotal)]);
     table(["Seção", "Valor"], tRows, ["Total a receber", BRL(R.total)], [134, 40], ["l", "r"]);
     saveFile(`${fileBase()}.pdf`, pdf.output("arraybuffer"));
