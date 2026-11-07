@@ -1231,6 +1231,14 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       el("span", { class: "num" }, (r.k === "out" ? "− " : "") + BRL(r.v)))));
   }
   function setProfit(id, v) { const n = $(id); n.textContent = BRL(v); n.style.color = v < 0 ? "var(--danger)" : "var(--ok)"; }
+  // Dias úteis (segunda a sexta) do mês, até um dia (inclusive).
+  const isWorkday = ds => { const w = parse(ds).getDay(); return w >= 1 && w <= 5; };
+  function workdays(m, upto = daysIn(m)) { let c = 0; for (let d = 1; d <= upto; d++) if (isWorkday(`${m}-${pad(d)}`)) c++; return c; }
+  // Dias úteis já trabalhados: até ontem, mais hoje se hoje for dia útil e já tiver entrega registrada.
+  function workdaysDone(m) {
+    const t = todayIso(), day = parse(t).getDate();
+    return workdays(m, day - 1) + (isWorkday(t) && state.todayEntries.length ? 1 : 0);
+  }
   function resultBlock(pre, rec, fuelGasto, otherCosts) {
     const m = state.month, cur = monthOf(todayIso()), lucro = rec - fuelGasto - otherCosts, custo = fuelGasto + otherCosts;
     setProfit(pre + "Lucro", lucro);
@@ -1238,15 +1246,22 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     const pill = $(pre + "State"), proj = $(pre + "Proj");
     if (m > cur) { pill.className = "pill"; pill.textContent = "Mês futuro"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto"; return null; }
     if (m < cur) { pill.className = "pill ok"; pill.textContent = "Mês fechado"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto do mês"; return null; }
-    const day = parse(todayIso()).getDate(), n = daysIn(m), f = n / day;
+    const done = workdaysDone(m), total = workdays(m);
     pill.className = "pill rel"; pill.textContent = "Mês em andamento";
     $(pre + "LucroLbl").textContent = "Lucro bruto até hoje";
     proj.hidden = false;
+    if (!done) {
+      $(pre + "Prev").textContent = "–"; $(pre + "Prev").style.color = "";
+      $(pre + "PrevSub").textContent = "A previsão aparece depois do primeiro dia útil com entrega.";
+      $(pre + "Note").textContent = `O mês tem ${total} dias úteis (segunda a sexta).`;
+      return null;
+    }
+    const f = total / done;
     const recP = rec * f, fuelP = fuelGasto * f;
     const lucroP = recP - fuelP - otherCosts;
     setProfit(pre + "Prev", lucroP);
     $(pre + "PrevSub").textContent = fuelGasto ? `Faturamento previsto ${BRL(recP)} · combustível previsto ${BRL(fuelP)}` : `Faturamento previsto ${BRL(recP)}`;
-    $(pre + "Note").textContent = `Pelo ritmo dos ${day} primeiros dias, projetado até o dia ${n}. Custos fixos e outros gastos entram como estão.`;
+    $(pre + "Note").textContent = `Média de ${done} ${done === 1 ? "dia útil trabalhado" : "dias úteis trabalhados"}, projetada para os ${total} dias úteis do mês (segunda a sexta). Custos fixos e outros gastos entram como estão.`;
     return { recP, lucroP };
   }
   function renderResultado() {
