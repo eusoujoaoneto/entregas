@@ -312,6 +312,7 @@ nav.views.fin-nav{grid-template-columns:repeat(4,minmax(0,112px))}
 body:not(.mod-fin) nav.fin-nav{display:none!important}
 body.mod-fin nav.tr-nav{display:none!important}
 body.mod-fin .ro-badge{display:none!important}
+body.partner .modsw,body.app-fin .modsw{display:none!important}
 
 /* finanças */
 .cap{font-size:14px;color:var(--muted);min-height:1.3em}
@@ -393,6 +394,10 @@ body.mod-fin .ro-badge{display:none!important}
   <header>
     <div class="toprow"><div class="brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span class="eyebrow" id="eyebrow">Transporte</span></div>
       <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
+    <div class="seg-ctl two modsw" role="group" aria-label="Módulo">
+      <button type="button" data-mod="tr">Transporte</button>
+      <button type="button" data-mod="fin">Finanças</button>
+    </div>
     <h1 id="appTitle">Transporte de alimentação</h1>
     <span class="pill rel partner-only ro-badge" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
     <small class="muted" id="userEmail"></small>
@@ -955,7 +960,7 @@ body.mod-fin .ro-badge{display:none!important}
   }
   function route() {
     const h = location.hash.slice(1);
-    const allowed = APP === "fin" ? FIN_VIEWS : state.partner ? ["painel"] : VIEWS.filter(v => !FIN_VIEWS.includes(v));
+    const allowed = APP === "fin" ? FIN_VIEWS : state.partner ? ["painel"] : VIEWS;
     const prev = state.view;
     state.view = allowed.includes(h) ? h : allowed[0];
     if (prev !== state.view) window.scrollTo(0, 0);
@@ -968,6 +973,7 @@ body.mod-fin .ro-badge{display:none!important}
     renderAll();
   }
   window.addEventListener("hashchange", route);
+  $$("[data-mod]").forEach(b => b.onclick = () => { location.hash = b.dataset.mod === "fin" ? (state.lastFin || "fin") : (state.lastTr || "painel"); });
 
   // ---------- PAINEL ----------
   function weekRange() { const t = todayIso(), dow = (parse(t).getDay() + 6) % 7, mon = addDays(t, -dow); return [mon, addDays(mon, 6)]; }
@@ -2105,7 +2111,7 @@ body.mod-fin .ro-badge{display:none!important}
 
   function startFinance(db) {
     db.collection("fin_import").onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finImport = m; state.finImportLoaded = true; renderAll(); }, () => { state.finImportLoaded = true; });
-    if (APP !== "fin") return;
+    if (APP !== "fin" && state.partner) return;
     const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "As Finanças ainda não estão liberadas para esta conta. Fale com o responsável ou publique as regras novas do Firestore.", true); };
     db.collection("fin_lanc").limit(5000).onSnapshot(s => { state.finLanc = toList(s); state.finLoaded = true; loaded(); renderAll(); }, denied);
     db.collection("fin_orc").onSnapshot(s => {
