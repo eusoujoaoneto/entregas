@@ -392,10 +392,6 @@ body.mod-fin .ro-badge{display:none!important}
   <header>
     <div class="toprow"><div class="brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span class="eyebrow" id="eyebrow">Transporte</span></div>
       <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
-    <div class="seg-ctl two modsw" role="group" aria-label="Módulo">
-      <button type="button" data-mod="tr" id="modTr">Transporte</button>
-      <button type="button" data-mod="fin">Finanças</button>
-    </div>
     <h1 id="appTitle">Transporte de alimentação</h1>
     <span class="pill rel partner-only ro-badge" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
     <small class="muted" id="userEmail"></small>
@@ -850,7 +846,7 @@ body.mod-fin .ro-badge{display:none!important}
 
     <form class="panel" id="accForm">
       <h2>Acesso compartilhado</h2>
-      <p class="muted" style="margin:0;font-size:14px">A pessoa liberada vê o painel do Posto da Mata sem poder alterar, e usa as Finanças junto com você: lança, monta o orçamento e acompanha as metas.</p>
+      <p class="muted" style="margin:0;font-size:14px">A pessoa liberada vê o painel do Posto da Mata neste app, sem poder alterar, e usa o app de Finanças junto com você (eusoujoaoneto.github.io/entregas/financas/).</p>
       <ol class="steps">
         <li>No Firebase, em Authentication → Usuários, crie o usuário do sócio com o e-mail e uma senha.</li>
         <li>Coloque o e-mail dele aqui e toque em Liberar acesso.</li>
@@ -883,6 +879,15 @@ body.mod-fin .ro-badge{display:none!important}
 <script src="config.js"></script>
 <script>
 (() => {
+  // ---------- qual app: Transporte ou Finanças ----------
+  const APP = /\/financas(\/|\/index\.html)?$/.test(location.pathname) ? "fin" : "tr";
+  document.body.classList.add("app-" + APP);
+  if (APP === "fin") {
+    document.title = "SPLOG · Finanças da família";
+    document.querySelector(".login-brand small").textContent = "Finanças da família";
+    document.querySelector("#installBar .t b").textContent = "Instale o SPLOG Finanças";
+  }
+
   // ---------- helpers ----------
   const $ = id => document.getElementById(id);
   const $$ = s => Array.from(document.querySelectorAll(s));
@@ -944,15 +949,14 @@ body.mod-fin .ro-badge{display:none!important}
     document.body.classList.toggle("mod-fin", fin);
     document.body.classList.toggle("has-tabs", !!state.db && (fin || !state.partner));
     $$("[data-mod]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.mod === "fin") === fin)));
-    $("modTr").textContent = state.partner ? "Posto da Mata" : "Transporte";
     $("eyebrow").textContent = fin ? "Finanças" : state.partner ? "Sócio" : "Transporte";
     $("appTitle").textContent = fin ? "Finanças da família" : state.partner ? "Posto da Mata" : "Transporte de alimentação";
   }
   function route() {
     const h = location.hash.slice(1);
-    const allowed = state.partner ? ["painel", ...FIN_VIEWS] : VIEWS;
+    const allowed = APP === "fin" ? FIN_VIEWS : state.partner ? ["painel"] : VIEWS.filter(v => !FIN_VIEWS.includes(v));
     const prev = state.view;
-    state.view = allowed.includes(h) ? h : "painel";
+    state.view = allowed.includes(h) ? h : allowed[0];
     if (prev !== state.view) window.scrollTo(0, 0);
     if (state.view.startsWith("fin")) state.lastFin = state.view; else state.lastTr = state.view;
     if (state.view === "fin-orcamento" && prev !== state.view) state.foMonth = null;
@@ -963,7 +967,6 @@ body.mod-fin .ro-badge{display:none!important}
     renderAll();
   }
   window.addEventListener("hashchange", route);
-  $$("[data-mod]").forEach(b => b.onclick = () => { location.hash = b.dataset.mod === "fin" ? (state.lastFin || "fin") : (state.lastTr || "painel"); });
 
   // ---------- PAINEL ----------
   function weekRange() { const t = todayIso(), dow = (parse(t).getDay() + 6) % 7, mon = addDays(t, -dow); return [mon, addDays(mon, 6)]; }
@@ -2100,15 +2103,16 @@ body.mod-fin .ro-badge{display:none!important}
   }
 
   function startFinance(db) {
-    const denied = () => setStatus("globalStatus", "As Finanças ainda não estão liberadas para esta conta. Publique as regras novas do Firestore.", true);
-    db.collection("fin_lanc").limit(5000).onSnapshot(s => { state.finLanc = toList(s); state.finLoaded = true; renderAll(); }, denied);
+    db.collection("fin_import").onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finImport = m; state.finImportLoaded = true; renderAll(); }, () => { state.finImportLoaded = true; });
+    if (APP !== "fin") return;
+    const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "As Finanças ainda não estão liberadas para esta conta. Fale com o responsável ou publique as regras novas do Firestore.", true); };
+    db.collection("fin_lanc").limit(5000).onSnapshot(s => { state.finLanc = toList(s); state.finLoaded = true; loaded(); renderAll(); }, denied);
     db.collection("fin_orc").onSnapshot(s => {
       const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finOrc = m;
       if (state.view === "fin-orcamento" && !document.activeElement?.closest("#foForm")) state.foMonth = null;
       renderAll();
     }, denied);
     db.collection("fin_metas").onSnapshot(s => { state.finMetas = toList(s); renderAll(); }, denied);
-    db.collection("fin_import").onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finImport = m; state.finImportLoaded = true; renderAll(); }, () => { state.finImportLoaded = true; });
     $("flData").value = todayIso();
   }
 
@@ -2149,7 +2153,7 @@ body.mod-fin .ro-badge{display:none!important}
     const box = $("accList"); box.textContent = "";
     if (!state.socios.length) { box.append(el("span", { class: "muted" }, "Nenhum sócio com acesso.")); return; }
     state.socios.forEach(email => box.append(el("div", { class: "tline" },
-      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "Vê o PM (só leitura) e usa as Finanças")),
+      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "PM só leitura aqui · Finanças no app de Finanças")),
       el("button", { type: "button", class: "ghost", onclick: () => removeSocio(email) }, "Remover"))));
   }
   $("accForm").addEventListener("submit", async ev => {
@@ -2250,7 +2254,7 @@ body.mod-fin .ro-badge{display:none!important}
     else if (state.view === "relatorio") renderRelatorio();
     else if (state.view === "custos") renderCustos();
     else if (state.view.startsWith("fin")) renderFin();
-    if (!state.partner) finSync();
+    if (APP === "tr" && !state.partner) finSync();
   }
 
   $("time").value = nowTime();
@@ -2271,18 +2275,19 @@ body.mod-fin .ro-badge{display:none!important}
     state.db = db; state.partner = true;
     document.body.classList.add("partner");
     loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    if (APP === "fin") { startFinance(db); route(); return; }
     const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "Seu acesso de sócio não está liberado. Fale com o responsável pela operação.", true); };
     db.collection("entregas").where("tipo", "==", "PM").limit(1000).onSnapshot(s => { state.allPM = toList(s); partnerDerive(); loaded(); renderAll(); }, denied);
     db.collection("custos").where("area", "==", "PM").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, denied);
     db.collection("fixos").where("area", "==", "PM").onSnapshot(s => { state.fixos = toList(s).sort(byOrdem); renderAll(); }, denied);
-    startFinance(db);
     route();
   }
   function startApp(db, uid) {
     state.db = db; state.uid = uid;
+    loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
     startFinance(db);
     updateChrome();
-    loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    if (APP === "fin") { route(); return; }
     db.collection("custos").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, () => {});
     db.collection("fixos").onSnapshot(s => {
       state.fixos = toList(s).sort(byOrdem);

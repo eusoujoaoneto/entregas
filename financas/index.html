@@ -1,0 +1,2424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!-- Gerado a partir de ../index.html por tools/gerar-financas.py. Não edite aqui. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e5e5ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Finanças">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="application-name" content="SPLOG Finanças">
+<meta name="robots" content="noindex">
+<title>SPLOG · Finanças da família</title>
+<meta name="description" content="Orçamento, lançamentos, metas e previsão do saldo da família.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SPLOG">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="SPLOG · Finanças da família">
+<meta property="og:description" content="Orçamento, lançamentos, metas e previsão do saldo da família.">
+<meta property="og:url" content="https://eusoujoaoneto.github.io/entregas/financas/">
+<meta property="og:image" content="https://eusoujoaoneto.github.io/entregas/financas/og-image.png">
+<meta property="og:image:secure_url" content="https://eusoujoaoneto.github.io/entregas/financas/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SPLOG · Finanças da família">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SPLOG · Finanças da família">
+<meta name="twitter:description" content="Orçamento, lançamentos, metas e previsão do saldo da família.">
+<meta name="twitter:image" content="https://eusoujoaoneto.github.io/entregas/financas/og-image.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* SPLOG · visual inspirado no iOS: fonte do sistema (SF no Apple, Inter nos demais), listas agrupadas em cartões brancos sobre cinza, controles segmentados e barra de abas inferior */
+:root{
+  --bg:#e5e5ea; --surface:#ffffff; --sunk:#f2f2f7; --fill:rgba(118,118,128,.12); --fg:#1d1d1f; --muted:#6e6e73; --line:#e5e5ea; --sep:rgba(60,60,67,.18);
+  --accent:#1f6b45; --accent-ink:#ffffff; --accent-soft:#e2efe6;
+  --danger:#b23a2a; --rel:#3d43a8; --rel-soft:#e8e9f8; --warn:#9a5b00; --warn-soft:#fbefd9; --ok:#1f6b45; --ok-soft:#e2efe6;
+  --c-pm:#248a3d; --c-ped:#5856d6; --c-out:#c93400; --logo-ink:#1d1d1f; --logo-dot:#22324d;
+  --bar:rgba(249,249,251,.88); --tab-off:#8e8e93; --seg-on:#ffffff; --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.04);
+  --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:var(--f-body);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --surface:#1c1c1e; --sunk:#2c2c2e; --fill:rgba(118,118,128,.24); --fg:#f5f5f7; --muted:#98989d; --line:#38383a; --sep:rgba(84,84,88,.6);
+  --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
+  --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
+  --c-pm:#28b14c; --c-ped:#6e6cf0; --c-out:#d27a00; --logo-ink:#f5f5f7; --logo-dot:#8da2c4;
+  --bar:rgba(22,22,24,.88); --tab-off:#8d8d93; --seg-on:#636366; --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --surface:#1c1c1e; --sunk:#2c2c2e; --fill:rgba(118,118,128,.24); --fg:#f5f5f7; --muted:#98989d; --line:#38383a; --sep:rgba(84,84,88,.6);
+  --accent:#5fc28d; --accent-ink:#0d1a12; --accent-soft:#1d3326;
+  --danger:#ec7a68; --rel:#a9acf2; --rel-soft:#25274a; --warn:#e8b25c; --warn-soft:#352812; --ok:#5fc28d; --ok-soft:#1d3326;
+  --c-pm:#28b14c; --c-ped:#6e6cf0; --c-out:#d27a00; --logo-ink:#f5f5f7; --logo-dot:#8da2c4;
+  --bar:rgba(22,22,24,.88); --tab-off:#8d8d93; --seg-on:#636366; --shadow:none; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.4;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:14px 48px}
+body.has-tabs{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.wrap > *{min-width:0}
+.wrap .wrap{margin:0;max-width:none;width:100%}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer;-webkit-appearance:none;appearance:none}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+[hidden]{display:none!important}
+
+/* header: marca + título grande */
+header{display:flex;flex-direction:column;gap:4px;padding-top:2px}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:32px}
+.toprow .acts{display:flex;align-items:center;gap:16px}
+.eyebrow{font-size:13px;color:var(--muted);font-weight:500;letter-spacing:-.005em}
+h1{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1.12;letter-spacing:-.022em;margin:6px 0 0;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:600;font-size:20px;line-height:1.25;letter-spacing:-.017em;margin:0;text-wrap:balance}
+.logo{font-family:var(--f-display);font-weight:700;letter-spacing:-.045em;line-height:1;color:var(--logo-ink);white-space:nowrap;display:inline-block}
+.logo i{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:var(--logo-dot);margin-left:.06em}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand .logo{font-size:21px}
+.brand .eyebrow{padding-left:10px;border-left:1px solid var(--line)}
+.linkbtn{background:none;border:none;color:var(--accent);font-weight:400;font-size:17px;padding:4px 0}
+
+/* barra de abas inferior (estilo iOS) */
+nav.views{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(5,minmax(0,112px));justify-content:center;
+  background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);
+  padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.views a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 5px;text-decoration:none;color:var(--tab-off);font-size:10.5px;font-weight:500;letter-spacing:.01em}
+nav.views a svg{width:26px;height:26px;display:block}
+nav.views a[aria-current="page"]{color:var(--accent)}
+
+/* cartões agrupados */
+.panel{background:var(--surface);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:var(--shadow)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.label{font-size:13px;color:var(--muted);font-weight:500;letter-spacing:-.005em}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:120px}
+input[type=text],input[type=time],input[type=number],input[type=date],input[type=email],input[type=password],select,textarea{
+  width:100%;border:none;background:var(--sunk);border-radius:12px;padding:12px 14px;min-height:46px;font-size:17px;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
+textarea{resize:vertical;min-height:46px}
+.primary{background:var(--accent);color:var(--accent-ink);border:none;border-radius:980px;padding:14px 20px;min-height:50px;font-weight:600;font-size:17px;letter-spacing:-.02em;transition:transform .12s ease,opacity .12s ease}
+.primary:active{transform:scale(.98)}
+.primary:disabled{opacity:.38;cursor:default;transform:none}
+.primary.sm{padding:8px 16px;min-height:36px;font-size:15px}
+.ghost{background:var(--fill);border:none;color:var(--accent);border-radius:980px;padding:8px 16px;font-size:15px;font-weight:500;min-height:36px;display:inline-flex;align-items:center;justify-content:center}
+.status{font-size:14px;color:var(--muted);min-height:1.2em}
+.status.err{color:var(--danger)}
+#globalStatus:empty{display:none}
+
+/* seletor de mês/dia */
+.switch{display:flex;align-items:center;gap:10px}
+.switch .arrow{width:40px;height:40px;border-radius:50%;border:none;background:var(--surface);color:var(--accent);font-size:22px;line-height:1;flex:none;box-shadow:var(--shadow)}
+.switch .mid{flex:1;display:flex;flex-direction:column;align-items:center;background:var(--surface);border-radius:14px;padding:6px 8px;position:relative;min-width:0;box-shadow:var(--shadow)}
+.switch .mid b{font-weight:600;font-size:17px}
+.switch .mid small{font-size:12px;color:var(--muted)}
+.switch input[type=date]{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}
+.back-today{display:block;margin:6px auto 0;font-size:15px;border:none;background:none;color:var(--accent);padding:4px}
+
+/* painel */
+.hero{display:flex;flex-direction:column;gap:6px}
+.hero .big{font-family:var(--f-display);font-weight:700;font-size:44px;line-height:1.05;letter-spacing:-.03em}
+.split{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.split div{background:var(--sunk);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.split small{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.split b{font-size:15px}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.today{display:flex;flex-direction:column;gap:0}
+.tline{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 0;border-top:.5px solid var(--sep)}
+.tline:first-child{border-top:none;padding-top:2px}
+.tline .t{display:flex;flex-direction:column;min-width:0}
+.tline .t b{font-weight:600}
+.tline .t small{color:var(--muted);font-size:14px}
+.pill{font-size:13px;font-weight:600;padding:4px 10px;border-radius:980px;white-space:nowrap;background:var(--fill);color:var(--muted)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.rel{background:var(--rel-soft);color:var(--rel)}
+button.pill{border:none;cursor:pointer}
+.seal{align-self:flex-start;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 12px}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.stat small{color:var(--muted);font-size:13px}
+.split2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.split2 > div{background:var(--sunk);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.split2 b{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.split2 small{color:var(--muted);font-size:12px}
+
+.chart{position:relative;display:grid;grid-template-columns:auto 1fr;gap:6px}
+.yax{display:flex;flex-direction:column;justify-content:space-between;height:150px;font-size:11px;color:var(--muted);text-align:right}
+.plot{position:relative;height:150px;border-bottom:.5px solid var(--sep)}
+.grid{position:absolute;left:0;right:0;border-top:.5px solid var(--line)}
+.cols{position:absolute;inset:0;display:flex;gap:2px;align-items:flex-end}
+.col{flex:1;height:100%;display:flex;flex-direction:column-reverse;gap:2px;justify-content:flex-start;background:none;border:none;padding:0;min-width:0;position:relative;border-radius:4px}
+.col:hover,.col:focus-visible{background:var(--fill)}
+.seg{width:100%;flex:none}
+.col .seg:last-child{border-radius:4px 4px 0 0}
+.col.today::after{content:"";position:absolute;left:50%;bottom:-7px;width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateX(-50%)}
+.xax{grid-column:2;display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.tip{position:absolute;z-index:3;pointer-events:none;background:rgba(29,29,31,.92);color:#f5f5f7;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.5;min-width:150px;transform:translate(-50%,-100%);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.tip b{display:block;font-size:14px;font-weight:600}
+
+.weeks{display:flex;flex-direction:column}
+.wk{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:11px 0;border-top:.5px solid var(--sep)}
+.wk:first-child{border-top:none}
+.wk .t{display:flex;flex-direction:column;min-width:0}
+.wk .t b{font-weight:600}
+.wk .t small{color:var(--muted);font-size:13px}
+.wk.now .t b::after{content:" · atual";font-weight:400;color:var(--muted);font-size:13px}
+.wk button.pill{min-width:98px;padding:7px 12px;font-size:13px}
+
+.ledger{display:flex;flex-direction:column}
+.lrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 0;border-top:.5px solid var(--sep)}
+.lrow:first-child{border-top:none;padding-top:0}
+.lrow .t{display:flex;flex-direction:column;min-width:0}
+.lrow .t small{color:var(--muted);font-size:13px}
+.lrow.out .num{color:var(--muted)}
+.lrow.in .num{font-weight:600}
+.profit{display:flex;flex-direction:column;gap:2px;border-top:.5px solid var(--sep);padding-top:14px}
+.profit b{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1.1;letter-spacing:-.03em}
+.profit small,.proj small{color:var(--muted);font-size:13px}
+.proj{display:flex;flex-direction:column;gap:2px;background:var(--sunk);border-radius:14px;padding:14px}
+.proj b{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.proj .lrow b{font-size:18px}
+.proj .ledger{margin-top:4px}
+
+/* registrar */
+.seg-ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--fill);padding:2px;border-radius:11px}
+.seg-ctl.two{grid-template-columns:1fr 1fr}
+.seg-ctl button{border:none;background:none;border-radius:9px;padding:8px 4px;font-weight:600;font-size:15px;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.2;transition:background .15s ease}
+.seg-ctl button small{font-weight:400;font-size:11px;color:var(--muted)}
+.seg-ctl button[aria-pressed="true"]{background:var(--seg-on);box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+.boxes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--sunk)}
+.box .top{display:flex;justify-content:space-between;align-items:baseline}
+.box .top b{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:-.02em}
+.stepper{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;background:var(--surface)}
+.stepper button{width:44px;border:none;background:transparent;font-size:24px;font-weight:300;color:var(--accent);flex:none}
+.stepper button:active{background:var(--fill)}
+.stepper input{border:none!important;border-radius:0!important;text-align:center;font-size:24px!important;font-weight:600;background:transparent!important;padding:8px 0!important;min-width:0;min-height:44px;font-variant-numeric:tabular-nums;-moz-appearance:textfield;box-shadow:none!important}
+.stepper input::-webkit-inner-spin-button{-webkit-appearance:none}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:none;background:var(--sunk);border-radius:16px;padding:16px 14px;text-align:left;display:flex;flex-direction:column;gap:2px;box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .15s ease,background .15s ease}
+.opt b{font-size:17px;font-weight:600}
+.opt[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent)}
+.opt:disabled{opacity:.45;cursor:default}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:none;background:var(--fill);border-radius:980px;padding:8px 14px;font-size:15px;transition:background .15s ease}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:500}
+.sumline{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sumline .num{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.notice{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:12px 14px;font-size:15px;font-weight:500}
+.check{display:flex;gap:8px;align-items:center;font-size:15px}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.list{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 0;border-top:.5px solid var(--sep)}
+.item:first-child{border-top:none;padding-top:2px}
+.tag{font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 7px;border-radius:7px;color:#fff;min-width:40px;text-align:center}
+.tag.neutral{background:var(--fill);color:var(--fg)}
+.item .what{min-width:0}
+.item .what strong{display:block;font-weight:600}
+.item .what small{color:var(--muted);display:block;overflow-wrap:anywhere;font-size:14px}
+.item .val{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.item .val b{font-size:16px;font-weight:600}
+.del{border:none;background:none;color:var(--danger);font-size:13px;padding:2px 0;opacity:.85}
+.del.confirm{font-weight:600;opacity:1}
+.empty{color:var(--muted);text-align:center;padding:14px 0;font-size:15px}
+.totals{display:flex;justify-content:space-between;align-items:baseline;border-top:.5px solid var(--sep);padding-top:12px;font-weight:500}
+.totals .num{font-size:24px;font-weight:600;letter-spacing:-.02em}
+
+/* relatório */
+.doc{border-radius:14px;padding:16px;background:var(--sunk);display:flex;flex-direction:column;gap:12px}
+.doc h3{font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0}
+.doc .meta{font-size:14px;color:var(--muted);display:flex;flex-direction:column}
+h4.sec{font-family:var(--f-display);font-weight:600;font-size:18px;letter-spacing:-.015em;margin:8px 0 0;display:flex;align-items:center;gap:8px;padding-top:14px;border-top:.5px solid var(--sep)}
+.tbl-wrap{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px;border-bottom:.5px solid var(--sep);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td.txt,th:first-child,td:first-child{white-space:normal}
+th{font-size:12px;color:var(--muted);font-weight:500}
+td{font-variant-numeric:tabular-nums}
+tfoot td{font-weight:600;border-bottom:none;border-top:.5px solid var(--fg)}
+@media (max-width:480px){th,td{padding:7px 4px;font-size:13px}th{font-size:11px}.doc{padding:12px}}
+.grand{display:flex;flex-direction:column;gap:6px;border-top:.5px solid var(--fg);padding-top:12px;margin-top:6px}
+.grand div{display:flex;justify-content:space-between;gap:10px}
+.grand .tot{font-weight:700;font-size:20px;letter-spacing:-.02em;padding-top:4px}
+.grand .minus{color:var(--ok)}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.actions button{padding:12px 8px;min-height:46px}
+
+/* ajustes */
+.dest{display:grid;grid-template-columns:1fr 120px auto;gap:8px;align-items:center}
+.dest .x,.fx .x{border:none;background:var(--fill);color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%}
+.money{position:relative;display:block}
+.money::before{content:"R$";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted);pointer-events:none}
+.money input{padding-left:42px}
+.fx{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
+.fx input[type=text]{grid-column:1 / -1}
+.fx + .fx{border-top:.5px solid var(--sep);padding-top:12px}
+ol.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;font-size:15px;color:var(--muted)}
+@media (max-width:420px){.split{grid-template-columns:1fr}.actions{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.item.fresh{animation:in .6s ease-out}@keyframes in{from{background:var(--accent-soft)}to{background:transparent}}}
+
+/* login, carregamento, sócio */
+.login{min-height:84vh;display:flex;align-items:center;justify-content:center}
+.login-card{width:100%;max-width:400px;padding:28px 22px}
+.login-card h2{text-align:center;font-size:22px;margin-top:4px}
+.login-brand{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding-block:4px 0}
+.login-brand .logo{font-size:52px}
+.login-brand small{color:var(--muted);font-size:15px}
+.login-card .linkbtn{font-size:15px;align-self:center}
+.boot{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--muted);padding-top:30vh}
+.boot .logo{font-size:44px}
+@media (prefers-reduced-motion:no-preference){.boot .logo i{animation:blink 1.2s ease-in-out infinite}@keyframes blink{50%{opacity:.25}}}
+.partner-only{display:none!important}
+body.partner .partner-only{display:inline-flex!important}
+body.partner .owner-only{display:none!important}
+
+/* aviso de instalação: cartão flutuante */
+.install-bar{position:fixed;z-index:20;left:max(10px,env(safe-area-inset-left,0px));right:max(10px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));
+  max-width:560px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;padding:12px 12px 12px 14px;
+  background:var(--surface);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.18),0 0 0 .5px var(--sep)}
+body.has-tabs .install-bar{bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+body.has-bar{padding-bottom:130px}
+body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px))}
+.install-bar .app-icon{width:44px;height:44px;border-radius:11px;display:block}
+.install-bar .t{display:flex;flex-direction:column;min-width:0}
+.install-bar .t b{font-weight:600}
+.install-bar small{color:var(--muted);font-size:13px;line-height:1.35}
+.install-bar .x{border:none;background:var(--fill);color:var(--muted);font-size:16px;width:28px;height:28px;border-radius:50%;line-height:1}
+
+/* módulos: Transporte | Finanças */
+.modsw{margin-top:12px}
+.modsw button{padding:7px 4px;font-size:15px}
+nav.views.fin-nav{grid-template-columns:repeat(4,minmax(0,112px))}
+body:not(.mod-fin) nav.fin-nav{display:none!important}
+body.mod-fin nav.tr-nav{display:none!important}
+body.mod-fin .ro-badge{display:none!important}
+
+/* finanças */
+.cap{font-size:14px;color:var(--muted);min-height:1.3em}
+.track{height:8px;border-radius:99px;background:var(--fill);overflow:hidden}
+.track i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
+.cats{display:flex;flex-direction:column;gap:14px}
+.cat{display:flex;flex-direction:column;gap:6px}
+.cat .top{display:flex;justify-content:space-between;gap:8px;font-size:15px}
+.cat .top small{color:var(--muted);font-size:13px}
+.cat .over{color:var(--danger);font-size:13px}
+.pace{position:relative;margin-block:8px 6px}
+.pace-mark{position:absolute;top:-4px;width:2px;height:16px;background:var(--fg);border-radius:2px;transform:translateX(-1px)}
+#fPace{display:flex;flex-direction:column;gap:2px}
+#fPace:empty{display:none}
+.fchart{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:6px;height:170px;border-bottom:.5px solid var(--sep)}
+.fcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;background:none;border:none;padding:0 0 4px;min-width:0;border-radius:8px}
+.fcol .bars{display:flex;gap:3px;align-items:flex-end;height:calc(100% - 22px);width:100%;justify-content:center}
+.fcol .bars i{width:38%;max-width:18px;border-radius:4px 4px 0 0;min-height:2px}
+.fcol em,.bcol em{font-style:normal;font-size:11px;color:var(--muted)}
+.bcol em{font-size:10px;letter-spacing:-.01em}
+.fcol[aria-pressed="true"],.bcol[aria-pressed="true"]{background:var(--fill)}
+.fcol[aria-pressed="true"] em,.bcol[aria-pressed="true"] em{color:var(--fg);font-weight:600}
+.bal{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;height:166px}
+.bcol{position:relative;height:100%;background:none;border:none;padding:0;min-width:0;border-radius:6px}
+.bcol .zero{position:absolute;left:-2px;right:-2px;height:0;border-top:.5px solid var(--sep)}
+.bcol i{position:absolute;left:22%;right:22%;background:var(--c);border-radius:3px}
+.bcol.fut i{background:transparent;border:1.5px dashed var(--c);opacity:.85}
+.bcol.now i{left:16%;right:16%}
+.bcol em{position:absolute;bottom:2px;left:0;right:0;text-align:center}
+.dot.dashed{background:transparent;border:1.5px dashed var(--accent)}
+.level,.level-mini{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.level .t,.level-mini .t{display:flex;flex-direction:column;gap:6px;min-width:0}
+.level-mini .t small{color:var(--muted);font-size:13px}
+.lvl-badge{width:60px;height:60px;border-radius:18px;background:linear-gradient(150deg,var(--accent),#14482f);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(31,107,69,.28)}
+.lvl-badge b{font-size:26px;line-height:1;font-weight:700}
+.lvl-badge small{font-size:10px;opacity:.85;text-transform:uppercase;letter-spacing:.06em}
+.lvl-badge.big{width:76px;height:76px;border-radius:22px}
+.lvl-badge.big b{font-size:34px}
+.chips-mini{display:flex;gap:6px;flex-wrap:wrap}
+.goals{display:flex;flex-direction:column}
+.goal{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:14px 0;border-top:.5px solid var(--sep)}
+.goal:first-child{border-top:none;padding-top:2px}
+.goal .t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.goal .t small{color:var(--muted);font-size:13px}
+.goal .ring{width:62px;height:62px;color:var(--fg)}
+.goal.done .t b{color:var(--ok)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
+.badge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:12px 6px;border-radius:14px;background:var(--sunk);color:var(--muted)}
+.badge svg{width:40px;height:40px}
+.badge b{font-size:13px;color:var(--fg);line-height:1.2}
+.badge small{font-size:11px;line-height:1.25}
+.badge.off b{color:var(--muted)}
+.brow{display:grid;grid-template-columns:1fr 132px auto;gap:8px;align-items:center}
+.brow .x{border:none;background:var(--fill);color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%}
+@media (max-width:400px){.brow{grid-template-columns:1fr 112px auto}}
+</style>
+</head>
+<body>
+<div class="install-bar" id="installBar" hidden role="region" aria-label="Instalar o SPLOG">
+  <img class="app-icon" src="icon-192.png" alt="" width="40" height="40">
+  <div class="t"><b>Instale o SPLOG</b><small id="installHint">Abra como aplicativo, direto da tela inicial.</small></div>
+  <button class="primary sm" type="button" id="installGo">Instalar</button>
+  <button class="x" type="button" id="installClose" aria-label="Fechar aviso de instalação">×</button>
+</div>
+<div class="login" id="login" hidden>
+  <form class="panel login-card" id="loginForm">
+    <div class="login-brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><small>Gestão de entregas</small></div>
+    <h2>Entrar na sua conta</h2>
+    <label class="field"><span class="label">E-mail</span><input type="email" id="lgEmail" autocomplete="username" required></label>
+    <label class="field"><span class="label">Senha</span><input type="password" id="lgPass" autocomplete="current-password" required></label>
+    <button class="primary" type="submit" id="lgBtn">Entrar</button>
+    <button class="linkbtn" type="button" id="lgForgot">Esqueci minha senha</button>
+    <div class="status" id="lgStatus" role="status"></div>
+  </form>
+</div>
+<div class="boot" id="boot"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span>Carregando…</span></div>
+
+<div class="wrap" id="app" hidden>
+  <header>
+    <div class="toprow"><div class="brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span class="eyebrow" id="eyebrow">Transporte</span></div>
+      <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
+    <h1 id="appTitle">Transporte de alimentação</h1>
+    <span class="pill rel partner-only ro-badge" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
+    <small class="muted" id="userEmail"></small>
+  </header>
+
+  <nav class="views tr-nav owner-only" aria-label="Seções do transporte">
+    <a href="#painel" data-view="painel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Painel</a>
+    <a href="#registrar" data-view="registrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><path d="M12 8v8M8 12h8"/></svg>Registrar</a>
+    <a href="#custos" data-view="custos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M3 10h18M7 14.5h4"/></svg>Custos</a>
+    <a href="#relatorio" data-view="relatorio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4 4v11.5a1.5 1.5 0 0 1-1.5 1.5h-9.5a1.5 1.5 0 0 1-1.5-1.5v-14a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13.5 3.5v4.5h4.5M9 13h6M9 16.5h4"/></svg>Relatório</a>
+    <a href="#ajustes" data-view="ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M18 7h2M4 17h2M11 17h9"/><circle cx="15.5" cy="7" r="2.25"/><circle cx="8.5" cy="17" r="2.25"/></svg>Ajustes</a>
+  </nav>
+  <nav class="views fin-nav" aria-label="Seções das finanças">
+    <a href="#fin" data-view="fin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5h16"/><rect x="5.5" y="11" width="3" height="6.5" rx="1"/><rect x="10.5" y="7" width="3" height="10.5" rx="1"/><rect x="15.5" y="4" width="3" height="13.5" rx="1"/></svg>Resumo</a>
+    <a href="#fin-lancar" data-view="fin-lancar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><path d="M12 8v8M8 12h8"/></svg>Lançar</a>
+    <a href="#fin-orcamento" data-view="fin-orcamento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5H12z"/><path d="M15 3.8A8.5 8.5 0 0 1 20.2 9H15z"/></svg>Orçamento</a>
+    <a href="#fin-metas" data-view="fin-metas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>Metas</a>
+  </nav>
+
+  <div class="status" id="globalStatus" role="status"></div>
+
+  <!-- ===================== PAINEL ===================== -->
+  <section id="v-painel" class="wrap" style="gap:16px">
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês de referência</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <div class="panel hero">
+      <span class="label" style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-pm)"></i>Posto da Mata · faturamento do mês</span>
+      <span class="big num" id="dPM">R$ 0,00</span>
+      <span class="muted" id="dPMsub">Carregando…</span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Resultado · Posto da Mata</h2><span class="pill" id="pmState"></span></div>
+      <div class="ledger" id="pmLedger"></div>
+      <div class="profit"><span class="label" id="pmLucroLbl">Lucro bruto</span><b class="num" id="pmLucro">R$ 0,00</b><small id="pmMargem"></small></div>
+      <div class="proj" id="pmProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="pmPrev">R$ 0,00</b><small id="pmPrevSub"></small><small id="pmNote"></small></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Combustível · carro do PM</h2><a class="ghost owner-only" href="#custos" style="text-decoration:none">Abastecer</a></div>
+      <div class="stats">
+        <div class="stat"><b class="num" id="fGasto">R$ 0,00</b><small>Gasto no mês</small></div>
+        <div class="stat"><b class="num" id="fLitros">0 L</b><small>Litros abastecidos</small></div>
+        <div class="stat"><b class="num" id="fCons">–</b><small>Consumo médio</small></div>
+        <div class="stat"><b class="num" id="fCustoKm">–</b><small>Custo por km rodado</small></div>
+        <div class="stat"><b class="num" id="fPreco">–</b><small>Preço médio do litro</small></div>
+        <div class="stat"><b class="num" id="fKm">–</b><small>Km rodados (entre abastecimentos)</small></div>
+      </div>
+      <span class="label">Abastecimentos do mês</span>
+      <div class="list" id="fuelList"></div>
+      <small class="muted">O consumo é medido de um abastecimento ao outro. Para ficar certo, encha o tanque toda vez.</small>
+    </div>
+
+    <div class="panel owner-only">
+      <div class="panel-head"><h2>Pedreira e outras entregas</h2></div>
+      <div class="split2">
+        <div><span class="label">Esta semana</span><b class="num" id="dOW">R$ 0,00</b><small id="dOWsub">—</small><span id="dOWseal" class="pill warn seal">A receber</span></div>
+        <div><span class="label">No mês</span><b class="num" id="dOM">R$ 0,00</b><small id="dOMsub">—</small></div>
+      </div>
+      <div class="today">
+        <div class="tline"><div class="t"><b style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-ped)"></i>Pedreira</b><small id="dPEDsub">—</small></div><span class="num" id="dPED">R$ 0,00</span></div>
+        <div class="tline"><div class="t"><b style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-out)"></i>Outras entregas</b><small id="dOUTsub">—</small></div><span class="num" id="dOUT">R$ 0,00</span></div>
+      </div>
+      <span class="label">Pagamento por semana</span>
+      <div class="weeks" id="weekList"></div>
+      <div class="split2">
+        <div><span class="label">A receber</span><b class="num" id="dRec" style="color:var(--warn)">R$ 0,00</b><small>Semanas ainda não pagas</small></div>
+        <div><span class="label">Já recebido</span><b class="num" id="dPago" style="color:var(--ok)">R$ 0,00</b><small>Semanas pagas no mês</small></div>
+      </div>
+      <div class="panel-head" style="padding-top:6px"><h2>Resultado · Pedreira e outras</h2><span class="pill" id="otState"></span></div>
+      <div class="ledger" id="otLedger"></div>
+      <div class="profit"><span class="label" id="otLucroLbl">Lucro bruto</span><b class="num" id="otLucro">R$ 0,00</b><small id="otMargem"></small></div>
+      <div class="proj" id="otProj" hidden><span class="label">Previsão para o mês</span><b class="num" id="otPrev">R$ 0,00</b><small id="otPrevSub"></small><small id="otNote"></small></div>
+    </div>
+
+    <div class="panel owner-only">
+      <div class="panel-head"><h2>Resultado geral da operação</h2><span class="pill" id="geState"></span></div>
+      <div class="ledger" id="geLedger"></div>
+      <div class="profit"><span class="label" id="geLucroLbl">Lucro bruto</span><b class="num" id="geLucro">R$ 0,00</b><small id="geMargem"></small></div>
+      <div class="proj" id="geProj" hidden><span class="label">Previsão para o mês, separada por operação</span>
+        <div class="ledger">
+          <div class="lrow"><div class="t"><span>Posto da Mata</span><small id="gePrevPMsub"></small></div><b class="num" id="gePrevPM">R$ 0,00</b></div>
+          <div class="lrow"><div class="t"><span>Pedreira e outras</span><small id="gePrevOTsub"></small></div><b class="num" id="gePrevOT">R$ 0,00</b></div>
+          <div class="lrow"><div class="t"><span>Total previsto</span><small id="gePrevSub"></small></div><b class="num" id="gePrev">R$ 0,00</b></div>
+        </div>
+        <small id="geNote"></small></div>
+    </div>
+
+    <div class="panel" id="todayCard">
+      <div class="panel-head"><h2>Hoje · <span id="todayLabel"></span></h2><a class="ghost owner-only" href="#registrar" style="text-decoration:none">Registrar</a></div>
+      <div class="today">
+        <div class="tline"><div class="t"><b>Posto da Mata</b><small id="tPMsub">Nenhuma caixa ainda</small></div><span class="num" id="tPM">R$ 0,00</span></div>
+        <div class="tline owner-only"><div class="t"><b>Pedreira</b><small id="tPEDsub">Ainda não registrada</small></div><span id="tPED" class="pill warn">Pendente</span></div>
+        <div class="tline owner-only"><div class="t"><b>Outras entregas</b><small id="tOUTsub">Nenhuma</small></div><span class="num" id="tOUT">R$ 0,00</span></div>
+        <div class="tline owner-only"><div class="t"><b>Total do dia</b></div><b class="num" id="tTotal">R$ 0,00</b></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Caixas no mês · Posto da Mata</h2>
+      <div class="stats">
+        <div class="stat"><b class="num" id="sG">0</b><small>Caixas G</small></div>
+        <div class="stat"><b class="num" id="sM">0</b><small>Caixas M</small></div>
+        <div class="stat"><b class="num" id="sDays">0</b><small>Dias com entrega</small></div>
+        <div class="stat"><b class="num" id="sAvg">0</b><small>Média de caixas por dia</small></div>
+      </div>
+    </div>
+
+
+    <div class="panel">
+      <div class="panel-head"><h2>Faturamento por dia</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--c-pm)"></i>PM</span><span class="owner-only"><i class="dot" style="background:var(--c-ped)"></i>Pedreira</span><span class="owner-only"><i class="dot" style="background:var(--c-out)"></i>Outras</span></div>
+      </div>
+      <div class="chart" id="chart">
+        <div class="yax" id="yax"></div>
+        <div class="plot" id="plot"><div class="cols" id="cols"></div></div>
+        <div class="xax" id="xax"></div>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REGISTRAR ===================== -->
+  <section id="v-registrar" class="wrap" style="gap:16px" hidden>
+    <div>
+      <div class="switch">
+        <button class="arrow" type="button" id="prevDay" aria-label="Dia anterior">‹</button>
+        <label class="mid" for="dateInput"><b id="dayName">Hoje</b><small class="num" id="daySub"></small>
+          <input type="date" id="dateInput" aria-label="Escolher data"></label>
+        <button class="arrow" type="button" id="nextDay" aria-label="Próximo dia">›</button>
+      </div>
+      <button class="back-today" id="todayBtn" type="button" hidden>Voltar para hoje</button>
+    </div>
+
+    <form class="panel" id="regForm">
+      <div class="seg-ctl" role="group" aria-label="Tipo de entrega">
+        <button type="button" data-tipo="PM">PM<small>Posto da Mata</small></button>
+        <button type="button" data-tipo="PED">Pedreira<small>Diária</small></button>
+        <button type="button" data-tipo="OUT">Outras<small>Esporádicas</small></button>
+      </div>
+
+      <!-- PM -->
+      <div id="f-PM" class="wrap" style="gap:12px">
+        <div class="boxes">
+          <div class="box"><div class="top"><b>G</b><span class="muted num" id="lblG">R$ 65,00</span></div>
+            <div class="stepper"><button type="button" data-step="g" data-d="-1" aria-label="Menos caixa G">−</button><input type="number" id="qG" inputmode="numeric" min="0" value="0" aria-label="Caixas G"><button type="button" data-step="g" data-d="1" aria-label="Mais caixa G">+</button></div></div>
+          <div class="box"><div class="top"><b>M</b><span class="muted num" id="lblM">R$ 35,00</span></div>
+            <div class="stepper"><button type="button" data-step="m" data-d="-1" aria-label="Menos caixa M">−</button><input type="number" id="qM" inputmode="numeric" min="0" value="0" aria-label="Caixas M"><button type="button" data-step="m" data-d="1" aria-label="Mais caixa M">+</button></div></div>
+        </div>
+      </div>
+
+      <!-- Pedreira -->
+      <div id="f-PED" class="wrap" style="gap:12px" hidden>
+        <div class="notice" id="pedNotice" hidden></div>
+        <span class="label">Como vai hoje?</span>
+        <div class="choice">
+          <button type="button" class="opt" data-veic="moto"><b>Moto</b><span class="num muted" id="lblMoto">R$ 50,00</span></button>
+          <button type="button" class="opt" data-veic="carro"><b>Carro da empresa</b><span class="num muted" id="lblCarro">R$ 40,00</span></button>
+        </div>
+      </div>
+
+      <!-- Outras -->
+      <div id="f-OUT" class="wrap" style="gap:12px" hidden>
+        <span class="label">Destino</span>
+        <div class="chips" id="destChips"></div>
+        <div class="row" id="otherDest" hidden>
+          <label class="field"><span class="label">Nome do destino</span><input type="text" id="odName" placeholder="Ex.: Fazenda Boa Vista" autocomplete="off"></label>
+          <label class="field" style="flex:0 0 130px;min-width:130px"><span class="label">Valor</span><span class="money"><input type="number" id="odVal" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+          <label class="check" style="flex-basis:100%"><input type="checkbox" id="odSave"> Salvar como destino frequente</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="field" style="flex:0 0 150px;min-width:150px"><span class="label">Hora</span><input type="time" id="time"></label>
+        <label class="field"><span class="label">Observação</span><input type="text" id="obs" placeholder="Opcional" autocomplete="off"></label>
+      </div>
+      <div class="sumline"><span class="muted" id="sumText">Escolha as caixas</span><span class="num" id="sumVal">R$ 0,00</span></div>
+      <button class="primary" id="save" type="submit" disabled>Conectando…</button>
+      <div class="status" id="status" role="status"></div>
+    </form>
+
+    <section class="panel" aria-labelledby="dayTitle">
+      <div class="panel-head"><h2 id="dayTitle">Entregas do dia</h2><button class="ghost" type="button" id="copyDay">Copiar resumo</button></div>
+      <div class="list" id="dayList"><div class="empty">Carregando…</div></div>
+      <div class="totals"><span>Total do dia</span><span class="num" id="dayTotal">R$ 0,00</span></div>
+    </section>
+  </section>
+
+  <!-- ===================== CUSTOS ===================== -->
+  <section id="v-custos" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês dos custos</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <form class="panel" id="costForm">
+      <div class="seg-ctl two" role="group" aria-label="Tipo de custo">
+        <button type="button" data-ctipo="combustivel">Combustível<small>Carro do PM</small></button>
+        <button type="button" data-ctipo="esporadico">Outros gastos<small>Ônibus, lavagem…</small></button>
+      </div>
+      <label class="field"><span class="label">Data</span><input type="date" id="cData"></label>
+
+      <div id="cf-comb" class="wrap" style="gap:12px">
+        <span class="label">Combustível</span>
+        <div class="chips" id="cFuelChips"></div>
+        <div class="row">
+          <label class="field"><span class="label">Valor colocado</span><span class="money"><input type="number" id="cValorF" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+          <label class="field"><span class="label">Preço do litro</span><span class="money"><input type="number" id="cPreco" inputmode="decimal" min="0" step="0.001" placeholder="0,00"></span></label>
+        </div>
+        <label class="field"><span class="label">Km do carro (painel)</span><input type="number" id="cKm" inputmode="numeric" min="0" step="1" placeholder="Ex.: 85320"></label>
+      </div>
+
+      <div id="cf-esp" class="wrap" style="gap:12px" hidden>
+        <span class="label">Tipo de gasto</span>
+        <div class="chips" id="cCatChips"></div>
+        <div class="row">
+          <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="cValorE" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+          <label class="field"><span class="label">Descrição</span><input type="text" id="cDesc" placeholder="Opcional" autocomplete="off"></label>
+        </div>
+        <span class="label">Este gasto é de</span>
+        <div class="chips" id="cAreaChips"></div>
+      </div>
+
+      <label class="field"><span class="label">Observação</span><input type="text" id="cObs" placeholder="Opcional" autocomplete="off"></label>
+      <div class="sumline"><span class="muted" id="cInfo">—</span><span class="num" id="cTotal">R$ 0,00</span></div>
+      <button class="primary" id="cSave" type="submit" disabled>Conectando…</button>
+      <div class="status" id="cStatus" role="status"></div>
+    </form>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Custos fixos do mês</h2><a class="ghost" href="#ajustes" style="text-decoration:none">Editar</a></div>
+      <div class="ledger" id="fxSummary"></div>
+    </div>
+
+    <section class="panel" aria-labelledby="costTitle">
+      <h2 id="costTitle">Custos registrados</h2>
+      <div class="list" id="costList"><div class="empty">Carregando…</div></div>
+      <div class="totals"><span>Total de custos do mês</span><span class="num" id="costTotal">R$ 0,00</span></div>
+    </section>
+  </section>
+
+  <!-- ===================== FINANÇAS · RESUMO ===================== -->
+  <section id="v-fin" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês das finanças</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <div class="panel hero">
+      <span class="label">Saldo do mês</span>
+      <span class="big num" id="fSaldo">R$ 0,00</span>
+      <span class="muted" id="fSaldoSub">Carregando…</span>
+      <div class="split2">
+        <div><span class="label" style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-pm)"></i>Receitas</span><b class="num" id="fRec">R$ 0,00</b><small id="fRecSub"></small></div>
+        <div><span class="label" style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-ped)"></i>Despesas</span><b class="num" id="fDesp">R$ 0,00</b><small id="fDespSub"></small></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Previsão do balanço</h2><span class="pill" id="fPrevState"></span></div>
+      <div class="ledger" id="fPrevLedger"></div>
+      <div class="profit"><span class="label" id="fSaldoPrevLbl">Saldo previsto no fim do mês</span><b class="num" id="fSaldoPrev">R$ 0,00</b><small id="fPrevNote"></small></div>
+      <div id="fPace"></div>
+    </div>
+
+    <a class="panel level-mini" href="#fin-metas" id="fLevelMini" style="text-decoration:none;color:inherit"></a>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Gastos por categoria</h2><small class="muted">gasto / orçado</small></div>
+      <div class="cats" id="fCats"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Receitas e despesas</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--c-pm)"></i>Receitas</span><span><i class="dot" style="background:var(--c-ped)"></i>Despesas</span></div>
+      </div>
+      <div class="fchart" id="fBars"></div>
+      <div class="cap" id="fBarsCap">Toque num mês para ver os valores.</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Balanço mês a mês</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--accent)"></i>Realizado</span><span><i class="dot dashed"></i>Previsto</span></div>
+      </div>
+      <div class="bal" id="fBal"></div>
+      <div class="cap" id="fBalCap"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Últimos lançamentos</h2><a class="ghost" href="#fin-lancar" style="text-decoration:none">Lançar</a></div>
+      <div class="list" id="fRecent"></div>
+    </div>
+  </section>
+
+  <!-- ===================== FINANÇAS · LANÇAR ===================== -->
+  <section id="v-fin-lancar" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês dos lançamentos</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+    <form class="panel" id="flForm">
+      <div class="seg-ctl two" role="group" aria-label="Tipo de lançamento">
+        <button type="button" data-ftipo="despesa">Despesa<small>Saiu dinheiro</small></button>
+        <button type="button" data-ftipo="receita">Receita<small>Entrou dinheiro</small></button>
+      </div>
+      <div class="row">
+        <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="flValor" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+        <label class="field" style="flex:0 0 160px;min-width:160px"><span class="label">Data</span><input type="date" id="flData"></label>
+      </div>
+      <span class="label">Categoria</span>
+      <div class="chips" id="flCats"></div>
+      <label class="field"><span class="label">Descrição</span><input type="text" id="flDesc" placeholder="Opcional · ex.: conta de luz" autocomplete="off"></label>
+      <button class="primary" id="flSave" type="submit" disabled>Conectando…</button>
+      <div class="status" id="flStatus" role="status"></div>
+    </form>
+    <section class="panel">
+      <h2 id="flTitle">Lançamentos</h2>
+      <div class="list" id="flList"></div>
+      <div class="totals"><span>Saldo dos lançamentos</span><span class="num" id="flTotal">R$ 0,00</span></div>
+    </section>
+  </section>
+
+  <!-- ===================== FINANÇAS · ORÇAMENTO ===================== -->
+  <section id="v-fin-orcamento" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês do orçamento</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+    <form class="panel" id="foForm">
+      <div class="panel-head"><h2>Orçamento do mês</h2><span class="pill" id="foFrom" hidden></span></div>
+      <p class="muted" id="foNote" style="margin:0;font-size:14px"></p>
+      <span class="label">Receitas previstas</span>
+      <div class="lrow" id="foAuto"></div>
+      <div id="foRec" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="foAddRec">+ Adicionar receita</button>
+      <span class="label" style="margin-top:6px">Despesas previstas</span>
+      <div id="foDesp" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="foAddDesp">+ Adicionar despesa</button>
+      <div class="ledger" id="foTotals" style="margin-top:6px"></div>
+      <button class="primary" type="submit">Salvar orçamento</button>
+      <div class="status" id="foStatus" role="status"></div>
+    </form>
+  </section>
+
+  <!-- ===================== FINANÇAS · METAS ===================== -->
+  <section id="v-fin-metas" class="wrap" style="gap:16px" hidden>
+    <div class="panel level" id="gLevel"></div>
+    <div class="panel">
+      <div class="panel-head"><h2>Desafio do mês</h2><span class="pill" id="gChState"></span></div>
+      <div id="gChallenge"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Metas</h2><span class="muted" id="gGoalsSub" style="font-size:14px"></span></div>
+      <div class="goals" id="gGoals"></div>
+    </div>
+    <form class="panel" id="aporteForm" hidden>
+      <h2 id="apTitle">Guardar dinheiro</h2>
+      <small class="muted" id="apSub"></small>
+      <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="apValor" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+      <div class="row">
+        <button class="primary" type="submit" id="apAdd" style="flex:1">Guardar</button>
+        <button class="ghost" type="button" id="apSubBtn">Retirar</button>
+        <button class="ghost" type="button" id="apCancel">Cancelar</button>
+      </div>
+      <div class="status" id="apStatus" role="status"></div>
+    </form>
+    <form class="panel" id="goalForm">
+      <h2>Nova meta</h2>
+      <label class="field"><span class="label">Nome da meta</span><input type="text" id="gNome" placeholder="Ex.: Reserva de emergência" autocomplete="off"></label>
+      <div class="row">
+        <label class="field"><span class="label">Quanto quer juntar</span><span class="money"><input type="number" id="gAlvo" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+        <label class="field"><span class="label">Até quando (opcional)</span><input type="date" id="gPrazo"></label>
+      </div>
+      <button class="primary" type="submit">Criar meta</button>
+      <div class="status" id="gStatus" role="status"></div>
+    </form>
+    <div class="panel">
+      <div class="panel-head"><h2>Conquistas</h2><span class="muted" id="gBadgesSub" style="font-size:14px"></span></div>
+      <div class="badges" id="gBadges"></div>
+      <small class="muted">Você ganha XP registrando lançamentos, guardando dinheiro nas metas, fechando meses no azul e dentro do orçamento.</small>
+    </div>
+  </section>
+
+  <!-- ===================== RELATÓRIO ===================== -->
+  <section id="v-relatorio" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês do relatório</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <div class="panel">
+      <span class="label">Tipo de relatório</span>
+      <div class="seg-ctl" role="group" aria-label="Tipo de relatório">
+        <button type="button" data-rscope="ALL">Completo<small>Tudo junto</small></button>
+        <button type="button" data-rscope="PM">PM<small>Posto da Mata</small></button>
+        <button type="button" data-rscope="OT">Pedreira<small>e outras</small></button>
+      </div>
+      <div class="actions">
+        <button class="primary" type="button" id="pdfBtn">Baixar PDF</button>
+        <button class="ghost" type="button" id="csvBtn">Baixar planilha</button>
+        <button class="ghost" type="button" id="txtBtn">Copiar texto</button>
+      </div>
+      <div class="status" id="repStatus" role="status"></div>
+    </div>
+
+    <article class="doc" id="repDoc"></article>
+  </section>
+
+  <!-- ===================== AJUSTES ===================== -->
+  <section id="v-ajustes" class="wrap" style="gap:16px" hidden>
+    <form class="panel" id="cfgForm">
+      <h2>Dados do relatório</h2>
+      <label class="field"><span class="label">Restaurante (cliente)</span><input type="text" id="cfCliente" placeholder="Nome do restaurante" autocomplete="off"></label>
+      <label class="field"><span class="label">Seu nome (prestador)</span><input type="text" id="cfPrestador" placeholder="Seu nome" autocomplete="off"></label>
+
+      <h2>Valores</h2>
+      <div class="row">
+        <label class="field"><span class="label">Caixa G</span><span class="money"><input type="number" id="cfG" step="0.01" min="0" inputmode="decimal"></span></label>
+        <label class="field"><span class="label">Caixa M</span><span class="money"><input type="number" id="cfM" step="0.01" min="0" inputmode="decimal"></span></label>
+      </div>
+      <div class="row">
+        <label class="field"><span class="label">Pedreira · moto</span><span class="money"><input type="number" id="cfMoto" step="0.01" min="0" inputmode="decimal"></span></label>
+        <label class="field"><span class="label">Pedreira · carro</span><span class="money"><input type="number" id="cfCarro" step="0.01" min="0" inputmode="decimal"></span></label>
+      </div>
+
+      <h2>Destinos frequentes (outras entregas)</h2>
+      <div id="cfDests" class="wrap" style="gap:8px"></div>
+      <button class="ghost" type="button" id="cfAddDest">+ Adicionar destino</button>
+
+      <p class="muted" style="margin:0;font-size:13px">Mudar um valor vale para os próximos registros. As entregas já salvas mantêm o valor da época.</p>
+      <button class="primary" type="submit" id="cfSave">Salvar ajustes</button>
+      <div class="status" id="cfStatus" role="status"></div>
+    </form>
+
+    <form class="panel" id="fixForm">
+      <h2>Custos fixos mensais</h2>
+      <p class="muted" style="margin:0;font-size:14px">Entram inteiros em todo mês no cálculo do lucro.</p>
+      <div id="fxList" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="fxAdd">+ Adicionar custo fixo</button>
+      <button class="primary" type="submit">Salvar custos fixos</button>
+      <div class="status" id="fxStatus" role="status"></div>
+    </form>
+
+    <form class="panel" id="accForm">
+      <h2>Acesso compartilhado</h2>
+      <p class="muted" style="margin:0;font-size:14px">A pessoa liberada vê o painel do Posto da Mata neste app, sem poder alterar, e usa o app de Finanças junto com você (eusoujoaoneto.github.io/entregas/financas/).</p>
+      <ol class="steps">
+        <li>No Firebase, em Authentication → Usuários, crie o usuário do sócio com o e-mail e uma senha.</li>
+        <li>Coloque o e-mail dele aqui e toque em Liberar acesso.</li>
+        <li>Mande o link do app para ele. Ele entra com o próprio e-mail e senha.</li>
+      </ol>
+      <div class="row">
+        <label class="field"><span class="label">E-mail do sócio</span><input type="email" id="accEmail" autocomplete="off" placeholder="socio@email.com"></label>
+      </div>
+      <button class="primary" type="submit">Liberar acesso</button>
+      <div id="accList" class="today"></div>
+      <div class="status" id="accStatus" role="status"></div>
+    </form>
+
+    <div class="panel">
+      <h2>Backup</h2>
+      <p class="muted" style="margin:0;font-size:14px">Baixe uma cópia de todos os seus registros, ou importe um backup para este app.</p>
+      <div class="row">
+        <button class="ghost" type="button" id="bkExport" style="flex:1">Baixar backup</button>
+        <label class="ghost" style="flex:1;text-align:center;cursor:pointer">Importar backup<input type="file" id="bkImport" accept=".json,application/json" hidden></label>
+      </div>
+      <div class="status" id="bkStatus" role="status"></div>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="../config.js"></script>
+<script>
+(() => {
+  // ---------- qual app: Transporte ou Finanças ----------
+  const APP = /\/financas(\/|\/index\.html)?$/.test(location.pathname) ? "fin" : "tr";
+  document.body.classList.add("app-" + APP);
+  if (APP === "fin") {
+    document.title = "SPLOG · Finanças da família";
+    document.querySelector(".login-brand small").textContent = "Finanças da família";
+    document.querySelector("#installBar .t b").textContent = "Instale o SPLOG Finanças";
+  }
+
+  // ---------- helpers ----------
+  const $ = id => document.getElementById(id);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const pad = n => String(n).padStart(2, "0");
+  const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+  const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate()+n); return iso(d); };
+  const todayIso = () => iso(new Date());
+  const nowTime = () => { const d = new Date(); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const fmtDate = s => { const d = parse(s); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`; };
+  const BRL = v => (Number(v)||0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+  const DOWL = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+  const DOWS = ["dom","seg","ter","qua","qui","sex","sáb"];
+  const monthOf = s => s.slice(0, 7);
+  const monthLabel = m => { const [y, mo] = m.split("-").map(Number); return `${MONTHS[mo-1]} ${y}`; };
+  const addMonth = (m, n) => { const [y, mo] = m.split("-").map(Number); const d = new Date(y, mo-1+n, 1); return `${d.getFullYear()}-${pad(d.getMonth()+1)}`; };
+  const daysIn = m => { const [y, mo] = m.split("-").map(Number); return new Date(y, mo, 0).getDate(); };
+  const TIPO = { PM: "Posto da Mata", PED: "Pedreira", OUT: "Outras" };
+  const TAGC = { PM: "var(--c-pm)", PED: "var(--c-ped)", OUT: "var(--c-out)" };
+  const sum = (arr, f) => arr.reduce((a, e) => a + (Number(f(e)) || 0), 0);
+  function el(tag, attrs, ...kids) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs || {})) {
+      if (k === "class") n.className = v; else if (k === "style") n.style.cssText = v;
+      else if (k.startsWith("on")) n[k] = v; else n.setAttribute(k, v);
+    }
+    kids.flat().forEach(c => c != null && n.append(c instanceof Node ? c : String(c)));
+    return n;
+  }
+  const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+
+  // ---------- state ----------
+  const DEFAULT_CFG = { precos: { g: 65, m: 35, moto: 50, carro: 40 }, destinos: [{ nome: "Pajé", valor: 40 }], cliente: "", prestador: "" };
+  const state = {
+    view: "painel",
+    month: monthOf(todayIso()),
+    day: todayIso(),
+    tipo: lsGet("ct.tipo", "PM"),
+    veic: "",
+    dest: "",
+    cfg: structuredClone(DEFAULT_CFG),
+    weeks: {},
+    monthEntries: [], dayEntries: [], todayEntries: [], weekEntries: [],
+    loadedMonth: false, loadedDay: false,
+    db: null, pendingDel: null, fresh: null,
+    custos: [], fixos: [], socios: [], allPM: [], loadedCustos: false, partner: false, uid: null, fs: null, email: "",
+    cTipo: lsGet("ct.ctipo", "combustivel"), cFuel: "Gasolina", cCat: "", cArea: "PM", cPendingDel: null,
+  };
+  const desc = e => e.tipo === "PM" ? [e.g ? `${e.g} G` : "", e.m ? `${e.m} M` : ""].filter(Boolean).join(" + ") || "0 caixas"
+    : e.tipo === "PED" ? (e.veiculo === "moto" ? "Moto" : "Carro da empresa") : (e.destino || "Entrega");
+
+  // ---------- routing ----------
+  const FIN_VIEWS = ["fin", "fin-lancar", "fin-orcamento", "fin-metas"];
+  const VIEWS = ["painel", "registrar", "custos", "relatorio", "ajustes", ...FIN_VIEWS];
+  function updateChrome() {
+    const fin = state.view.startsWith("fin");
+    document.body.classList.toggle("mod-fin", fin);
+    document.body.classList.toggle("has-tabs", !!state.db && (fin || !state.partner));
+    $$("[data-mod]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.mod === "fin") === fin)));
+    $("eyebrow").textContent = fin ? "Finanças" : state.partner ? "Sócio" : "Transporte";
+    $("appTitle").textContent = fin ? "Finanças da família" : state.partner ? "Posto da Mata" : "Transporte de alimentação";
+  }
+  function route() {
+    const h = location.hash.slice(1);
+    const allowed = APP === "fin" ? FIN_VIEWS : state.partner ? ["painel"] : VIEWS.filter(v => !FIN_VIEWS.includes(v));
+    const prev = state.view;
+    state.view = allowed.includes(h) ? h : allowed[0];
+    if (prev !== state.view) window.scrollTo(0, 0);
+    if (state.view.startsWith("fin")) state.lastFin = state.view; else state.lastTr = state.view;
+    if (state.view === "fin-orcamento" && prev !== state.view) state.foMonth = null;
+    updateChrome();
+    VIEWS.forEach(v => { $("v-" + v).hidden = v !== state.view; });
+    $$("nav.views a").forEach(a => a.setAttribute("aria-current", a.dataset.view === state.view ? "page" : "false"));
+    if (state.view === "ajustes") { fillCfgForm(); fillFixForm(); renderAcesso(); }
+    renderAll();
+  }
+  window.addEventListener("hashchange", route);
+
+  // ---------- PAINEL ----------
+  function weekRange() { const t = todayIso(), dow = (parse(t).getDay() + 6) % 7, mon = addDays(t, -dow); return [mon, addDays(mon, 6)]; }
+  const weekOf = ds => addDays(ds, -((parse(ds).getDay() + 6) % 7));
+  const isPaid = e => e.tipo !== "PM" && !!state.weeks[weekOf(e.data)]?.pago;
+  function monthWeeks(m) {
+    const first = `${m}-01`, last = `${m}-${pad(daysIn(m))}`, out = [];
+    for (let mon = weekOf(first); mon <= last; mon = addDays(mon, 7)) {
+      const e0 = addDays(mon, 6);
+      out.push({ mon, s: mon < first ? first : mon, e: e0 > last ? last : e0 });
+    }
+    return out;
+  }
+  const short = ds => fmtDate(ds).slice(0, 5);
+  const wkLabel = w => w.s === w.e ? short(w.s) : `${short(w.s)} a ${short(w.e)}`;
+  const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+  function renderPainel() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    const E = state.monthEntries;
+    const by = t => E.filter(e => e.tipo === t);
+
+    // PM
+    const P = by("PM");
+    const G = sum(P, e => e.g), M = sum(P, e => e.m);
+    const pDays = new Set(P.map(e => e.data)).size;
+    $("dPM").textContent = BRL(sum(P, e => e.valor));
+    $("dPMsub").textContent = !state.loadedMonth ? "Carregando…" : P.length ? `${G} caixas G · ${M} caixas M · ${plural(pDays, "dia", "dias")} com entrega` : "Nenhuma caixa registrada neste mês.";
+
+    // Pedreira + outras
+    const O = E.filter(e => e.tipo !== "PM");
+    const W = state.weekEntries.filter(e => e.tipo !== "PM");
+    const [ws, we] = weekRange();
+    $("dOW").textContent = BRL(sum(W, e => e.valor));
+    $("dOWsub").textContent = `${fmtDate(ws).slice(0,5)} a ${fmtDate(we).slice(0,5)} · ${plural(W.length, "entrega", "entregas")}`;
+    $("dOM").textContent = BRL(sum(O, e => e.valor));
+    $("dOMsub").textContent = `${monthLabel(state.month)} · ${plural(O.length, "entrega", "entregas")}`;
+    const Q = by("PED"), X = by("OUT");
+    $("dPED").textContent = BRL(sum(Q, e => e.valor));
+    $("dPEDsub").textContent = Q.length ? `${plural(Q.length, "dia", "dias")} · ${Q.filter(e => e.veiculo === "moto").length} moto · ${Q.filter(e => e.veiculo === "carro").length} carro` : "Nenhuma no mês";
+    $("dOUT").textContent = BRL(sum(X, e => e.valor));
+    $("dOUTsub").textContent = X.length ? [...new Set(X.map(e => e.destino))].join(", ") : "Nenhuma no mês";
+    $("dRec").textContent = BRL(sum(O.filter(e => !isPaid(e)), e => e.valor));
+    $("dPago").textContent = BRL(sum(O.filter(isPaid), e => e.valor));
+    const curPaid = !!state.weeks[ws]?.pago, seal = $("dOWseal");
+    seal.className = "pill seal " + (curPaid ? "ok" : "warn");
+    seal.textContent = curPaid ? "✓ Semana paga" : "Semana a receber";
+    const wl = $("weekList"); wl.textContent = "";
+    const wks = monthWeeks(state.month).map(w => ({ ...w, es: O.filter(e => e.data >= w.s && e.data <= w.e) })).filter(w => w.es.length || w.mon === ws);
+    if (!wks.length) wl.append(el("div", { class: "empty" }, "Nenhuma entrega de Pedreira ou outras neste mês."));
+    wks.forEach(w => {
+      const es = w.es, paid = !!state.weeks[w.mon]?.pago;
+      wl.append(el("div", { class: "wk" + (w.mon === ws ? " now" : "") },
+        el("div", { class: "t" }, el("b", {}, wkLabel(w)), el("small", {}, es.length ? plural(es.length, "entrega", "entregas") : "Sem entregas")),
+        el("span", { class: "num" }, BRL(sum(es, e => e.valor))),
+        el("button", { type: "button", class: "pill " + (paid ? "ok" : "warn"),
+          "aria-label": paid ? `Semana de ${short(w.s)} paga. Tocar para marcar como a receber` : `Semana de ${short(w.s)} a receber. Tocar para marcar como paga`,
+          onclick: () => toggleWeek(w.mon) }, paid ? "✓ Paga" : "A receber")));
+    });
+
+    // hoje
+    const T = state.todayEntries, t = todayIso();
+    $("todayLabel").textContent = `${DOWL[parse(t).getDay()]}, ${fmtDate(t).slice(0,5)}`;
+    const tPM = T.filter(e => e.tipo === "PM"), tPED = T.filter(e => e.tipo === "PED"), tOUT = T.filter(e => e.tipo === "OUT");
+    const g = sum(tPM, e => e.g), m = sum(tPM, e => e.m);
+    $("tPMsub").textContent = tPM.length ? `${g} G · ${m} M · ${g+m} caixas` : "Nenhuma caixa ainda";
+    $("tPM").textContent = BRL(sum(tPM, e => e.valor));
+    const ped = $("tPED");
+    if (tPED.length) { ped.className = "pill ok"; ped.textContent = `Feita · ${BRL(sum(tPED, e => e.valor))}`; $("tPEDsub").textContent = tPED.map(desc).join(", "); }
+    else { ped.className = "pill warn"; ped.textContent = "Pendente"; $("tPEDsub").textContent = "Ainda não registrada"; }
+    $("tOUTsub").textContent = tOUT.length ? tOUT.map(desc).join(", ") : "Nenhuma";
+    $("tOUT").textContent = BRL(sum(tOUT, e => e.valor));
+    $("tTotal").textContent = BRL(sum(T, e => e.valor));
+
+    // caixas
+    $("sG").textContent = G; $("sM").textContent = M; $("sDays").textContent = pDays;
+    $("sAvg").textContent = pDays ? ((G+M)/pDays).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) : "0";
+    renderResultado();
+    renderFuel();
+    renderChart();
+  }
+
+  function niceMax(v) { if (v <= 0) return 100; const p = Math.pow(10, Math.floor(Math.log10(v))); for (const s of [1,2,2.5,5,10]) if (s*p >= v) return s*p; return 10*p; }
+  function renderChart() {
+    const n = daysIn(state.month), cols = $("cols"); cols.textContent = "";
+    const data = [];
+    for (let d = 1; d <= n; d++) {
+      const ds = `${state.month}-${pad(d)}`, es = state.monthEntries.filter(e => e.data === ds);
+      data.push({ ds, PM: sum(es.filter(e => e.tipo === "PM"), e => e.valor), PED: sum(es.filter(e => e.tipo === "PED"), e => e.valor), OUT: sum(es.filter(e => e.tipo === "OUT"), e => e.valor) });
+    }
+    const max = niceMax(Math.max(0, ...data.map(x => x.PM + x.PED + x.OUT)));
+    const yax = $("yax"); yax.textContent = "";
+    [max, max/2, 0].forEach(v => yax.append(el("span", { class: "num" }, v >= 1000 ? `${(v/1000).toLocaleString("pt-BR")} mil` : v)));
+    $$("#plot .grid").forEach(g => g.remove());
+    [0, 50].forEach(p => $("plot").prepend(el("div", { class: "grid", style: `top:${p}%` })));
+    const t = todayIso();
+    data.forEach(x => {
+      const c = el("button", { type: "button", class: "col" + (x.ds === t ? " today" : ""), "aria-label": `${fmtDate(x.ds)}: ${BRL(x.PM + x.PED + x.OUT)}` });
+      chartKeys().forEach(k => { if (x[k] > 0) c.append(el("i", { class: "seg", style: `height:calc(${x[k]/max*100}% - 2px);background:${TAGC[k]}` })); });
+      const show = () => showTip(c, x);
+      c.onmouseenter = show; c.onfocus = show; c.onclick = show;
+      c.onmouseleave = hideTip; c.onblur = hideTip;
+      cols.append(c);
+    });
+    const xax = $("xax"); xax.textContent = "";
+    [1, 8, 15, 22, n].forEach(d => xax.append(el("span", { class: "num" }, pad(d))));
+  }
+  function showTip(col, x) {
+    const tip = $("tip"), chart = $("chart");
+    const cr = chart.getBoundingClientRect(), r = col.getBoundingClientRect();
+    tip.textContent = "";
+    const d = parse(x.ds);
+    tip.append(el("b", {}, `${DOWS[d.getDay()]} ${fmtDate(x.ds).slice(0,5)} · ${BRL(x.PM + x.PED + x.OUT)}`));
+    chartKeys().forEach(k => tip.append(el("div", {}, `${TIPO[k]}: ${BRL(x[k])}`)));
+    tip.hidden = false;
+    const w = tip.offsetWidth;
+    let left = r.left - cr.left + r.width / 2;
+    left = Math.max(w/2, Math.min(cr.width - w/2, left));
+    tip.style.left = left + "px"; tip.style.top = "-6px";
+  }
+  function hideTip() { $("tip").hidden = true; }
+
+  // ---------- REGISTRAR ----------
+  function renderRegistrar() {
+    const t = todayIso(), d = parse(state.day);
+    $("dayName").textContent = state.day === t ? "Hoje" : state.day === addDays(t, -1) ? "Ontem" : DOWL[d.getDay()];
+    $("daySub").textContent = `${DOWL[d.getDay()]} · ${fmtDate(state.day)}`;
+    $("dateInput").value = state.day;
+    $("todayBtn").hidden = state.day === t;
+
+    $$(".seg-ctl button[data-tipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tipo === state.tipo)));
+    ["PM", "PED", "OUT"].forEach(k => { $("f-" + k).hidden = k !== state.tipo; });
+    const P = state.cfg.precos;
+    $("lblG").textContent = BRL(P.g); $("lblM").textContent = BRL(P.m);
+    $("lblMoto").textContent = BRL(P.moto); $("lblCarro").textContent = BRL(P.carro);
+    $$(".opt").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.veic === state.veic)));
+    const pedDone = state.dayEntries.find(e => e.tipo === "PED");
+    $("pedNotice").hidden = !pedDone;
+    if (pedDone) $("pedNotice").textContent = `Pedreira já registrada neste dia (${desc(pedDone)} · ${BRL(pedDone.valor)}). Para trocar moto/carro, apague o registro na lista abaixo e registre de novo.`;
+    $$(".opt").forEach(b => b.disabled = !!pedDone);
+
+    const chips = $("destChips"); chips.textContent = "";
+    state.cfg.destinos.forEach(dd => chips.append(el("button", { type: "button", class: "chip", "aria-pressed": String(state.dest === dd.nome),
+      onclick: () => { state.dest = state.dest === dd.nome ? "" : dd.nome; renderRegistrar(); } }, `${dd.nome} · ${BRL(dd.valor)}`)));
+    chips.append(el("button", { type: "button", class: "chip", "aria-pressed": String(state.dest === "__outro"),
+      onclick: () => { state.dest = state.dest === "__outro" ? "" : "__outro"; renderRegistrar(); if (state.dest) $("odName").focus(); } }, "+ Outro destino"));
+    $("otherDest").hidden = state.dest !== "__outro";
+
+    updateSum();
+    renderDayList();
+  }
+
+  function draft() {
+    const P = state.cfg.precos;
+    if (state.tipo === "PM") {
+      const g = Math.max(0, parseInt($("qG").value, 10) || 0), m = Math.max(0, parseInt($("qM").value, 10) || 0);
+      return { ok: g + m > 0, msg: "Adicione pelo menos uma caixa", text: g + m ? `${g} G × ${BRL(P.g)} + ${m} M × ${BRL(P.m)}` : "Escolha as caixas",
+        entry: { tipo: "PM", g, m, precoG: P.g, precoM: P.m, valor: g * P.g + m * P.m } };
+    }
+    if (state.tipo === "PED") {
+      const v = state.veic === "moto" ? P.moto : state.veic === "carro" ? P.carro : 0;
+      if (state.dayEntries.some(e => e.tipo === "PED")) return { ok: false, msg: "Pedreira já registrada neste dia", text: "Uma Pedreira por dia", entry: { tipo: "PED", valor: 0 } };
+      return { ok: !!state.veic, msg: "Escolha moto ou carro da empresa", text: state.veic ? `Pedreira de ${state.veic === "moto" ? "moto" : "carro da empresa"}` : "Escolha como vai hoje",
+        entry: { tipo: "PED", veiculo: state.veic, valor: v } };
+    }
+    if (state.dest === "__outro") {
+      const nome = $("odName").value.trim(), v = parseFloat(String($("odVal").value).replace(",", ".")) || 0;
+      return { ok: !!nome && v > 0, msg: "Informe o nome e o valor do destino", text: nome || "Novo destino", entry: { tipo: "OUT", destino: nome, valor: v } };
+    }
+    const dd = state.cfg.destinos.find(x => x.nome === state.dest);
+    return { ok: !!dd, msg: "Escolha o destino", text: dd ? dd.nome : "Escolha o destino", entry: { tipo: "OUT", destino: dd?.nome || "", valor: dd?.valor || 0 } };
+  }
+  function updateSum() {
+    const d = draft();
+    $("sumText").textContent = d.text;
+    $("sumVal").textContent = BRL(d.entry.valor);
+    const btn = $("save");
+    if (!state.db) return;
+    btn.disabled = !d.ok;
+    btn.textContent = d.ok ? `Registrar ${state.tipo === "PM" ? "PM" : state.tipo === "PED" ? "Pedreira" : "entrega"} · ${BRL(d.entry.valor)}` : d.msg;
+  }
+
+  function renderDayList() {
+    const list = $("dayList"); list.textContent = "";
+    $("dayTitle").textContent = `Entregas de ${fmtDate(state.day).slice(0,5)}`;
+    const items = [...state.dayEntries].sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
+    if (!state.loadedDay) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!items.length) list.append(el("div", { class: "empty" }, "Nenhuma entrega neste dia. Registre a primeira no formulário acima."));
+    items.forEach(it => {
+      const confirming = state.pendingDel === it.id;
+      const del = el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+        if (confirming) return removeEntry(it.id);
+        state.pendingDel = it.id; renderDayList();
+        setTimeout(() => { if (state.pendingDel === it.id) { state.pendingDel = null; renderDayList(); } }, 4000);
+      } }, confirming ? "Confirmar" : "Apagar");
+      list.append(el("div", { class: "item" + (state.fresh === it.id ? " fresh" : "") },
+        el("span", { class: "tag", style: `background:${TAGC[it.tipo]}` }, it.tipo),
+        el("div", { class: "what" }, el("strong", {}, desc(it)), el("small", {}, [it.hora, it.obs].filter(Boolean).join(" · ") || TIPO[it.tipo])),
+        el("div", { class: "val" }, el("b", { class: "num" }, BRL(it.valor)), del)));
+    });
+    $("dayTotal").textContent = BRL(sum(items, e => e.valor));
+  }
+
+  function setStatus(id, msg, err) { const s = $(id); s.textContent = msg; s.className = "status" + (err ? " err" : ""); }
+
+  $("prevDay").onclick = () => setDay(addDays(state.day, -1));
+  $("nextDay").onclick = () => setDay(addDays(state.day, 1));
+  $("todayBtn").onclick = () => setDay(todayIso());
+  $("dateInput").onchange = e => e.target.value && setDay(e.target.value);
+  $$(".seg-ctl button[data-tipo]").forEach(b => b.onclick = () => { state.tipo = b.dataset.tipo; lsSet("ct.tipo", state.tipo); setStatus("status", ""); renderRegistrar(); });
+  $$(".opt").forEach(b => b.onclick = () => { state.veic = b.dataset.veic; renderRegistrar(); });
+  $$("[data-step]").forEach(b => b.onclick = () => { const inp = $(b.dataset.step === "g" ? "qG" : "qM"); inp.value = Math.max(0, (parseInt(inp.value, 10) || 0) + Number(b.dataset.d)); updateSum(); });
+  ["qG", "qM", "odName", "odVal"].forEach(id => $(id).addEventListener("input", updateSum));
+
+  $("regForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const d = draft();
+    if (!state.db || !d.ok) { setStatus("status", d.msg, true); return; }
+    const entry = { ...d.entry, data: state.day, hora: $("time").value || nowTime(), obs: $("obs").value.trim(), criadoEm: new Date().toISOString() };
+    $("save").disabled = true;
+    try {
+      const ref = state.db.collection("entregas").doc();
+      state.fresh = ref.id;
+      await ref.set(entry);
+      if (state.tipo === "OUT" && state.dest === "__outro" && $("odSave").checked && !state.cfg.destinos.some(x => x.nome === entry.destino)) {
+        await saveCfg({ ...state.cfg, destinos: [...state.cfg.destinos, { nome: entry.destino, valor: entry.valor }] });
+      }
+      setStatus("status", `Registrado: ${desc(entry)} · ${BRL(entry.valor)}.`);
+      $("qG").value = 0; $("qM").value = 0; $("obs").value = ""; $("odName").value = ""; $("odVal").value = ""; $("odSave").checked = false;
+      state.veic = ""; state.dest = ""; $("time").value = nowTime();
+      renderRegistrar();
+    } catch (e) {
+      setStatus("status", e?.code === "quota_exceeded" ? "O armazenamento está cheio. Peça ao Claude para arquivar meses antigos." : "Não foi possível salvar. Verifique a conexão e tente de novo.", true);
+      updateSum();
+    }
+  });
+
+  async function toggleWeek(mon) {
+    const paid = !!state.weeks[mon]?.pago;
+    try { await state.db.collection("semanas").doc(mon).set({ pago: !paid, atualizadoEm: new Date().toISOString() }); }
+    catch { setStatus("globalStatus", "Não foi possível marcar a semana. Tente de novo.", true); }
+  }
+
+  async function removeEntry(id) {
+    state.pendingDel = null;
+    try { await state.db.collection("entregas").doc(id).delete(); setStatus("status", "Entrega apagada."); }
+    catch { setStatus("status", "Não foi possível apagar. Tente de novo.", true); renderDayList(); }
+  }
+
+  $("copyDay").onclick = async () => {
+    const items = [...state.dayEntries].sort((a, b) => (a.hora || "").localeCompare(b.hora || ""));
+    const lines = [`*Entregas ${fmtDate(state.day)}*`];
+    ["PM", "PED", "OUT"].forEach(k => {
+      const its = items.filter(e => e.tipo === k); if (!its.length) return;
+      lines.push("", `*${TIPO[k]}*`);
+      its.forEach(e => lines.push(`${e.hora || ""} · ${desc(e)} · ${BRL(e.valor)}${e.obs ? ` (${e.obs})` : ""}`));
+    });
+    if (!items.length) lines.push("Nenhuma entrega registrada.");
+    else lines.push("", `*Total do dia: ${BRL(sum(items, e => e.valor))}*`);
+    await copyText(lines.join("\n"), "status");
+  };
+  async function copyText(text, statusId) {
+    try { await navigator.clipboard.writeText(text); setStatus(statusId, "Copiado. Cole no WhatsApp ou onde quiser."); }
+    catch { setStatus(statusId, "Não foi possível copiar automaticamente neste aparelho.", true); }
+  }
+
+  // ---------- RELATÓRIO ----------
+  const byTime = (a, b) => (a.data + (a.hora || "")).localeCompare(b.data + (b.hora || ""));
+  const dayLbl = ds => `${DOWS[parse(ds).getDay()]} ${fmtDate(ds).slice(0,5)}`;
+  const otLabel = e => e.tipo === "PED" ? `Pedreira (${e.veiculo === "moto" ? "moto" : "carro da empresa"})` : (e.destino || "Entrega");
+  const periodo = () => `01/${state.month.slice(5)}/${state.month.slice(0,4)} a ${pad(daysIn(state.month))}/${state.month.slice(5)}/${state.month.slice(0,4)}`;
+  const SCOPES = { ALL: "", PM: "Posto da Mata", OT: "Pedreira e outras entregas" };
+  state.repScope = SCOPES[lsGet("ct.repScope", "ALL")] !== undefined ? lsGet("ct.repScope", "ALL") : "ALL";
+  const scopeTitle = () => `Relatório de entregas${SCOPES[state.repScope] ? " · " + SCOPES[state.repScope] : ""}`;
+  function reportData() {
+    const showPM = state.repScope !== "OT", showOT = state.repScope !== "PM";
+    const all = [...state.monthEntries].sort(byTime);
+    const pm = showPM ? all.filter(e => e.tipo === "PM") : [];
+    const ot = showOT ? all.filter(e => e.tipo !== "PM") : [];
+    const paid = ot.filter(isPaid);
+    const group = (list, fn) => { const m = new Map(); list.forEach(e => fn(e).forEach(([key, label, qtd, unit]) => {
+      const k = key + "|" + unit; const it = m.get(k) || { label, qtd: 0, unit }; it.qtd += qtd; m.set(k, it); })); return [...m.values()]; };
+    const pmItems = group(pm, e => [e.g ? ["g", "Caixa G", e.g, e.precoG] : null, e.m ? ["m", "Caixa M", e.m, e.precoM] : null].filter(Boolean));
+    const otItems = group(ot, e => [[e.tipo + "-" + (e.veiculo || e.destino), otLabel(e), 1, e.valor]]);
+    const pmTotal = sum(pm, e => e.valor), otTotal = sum(ot, e => e.valor);
+    const paidTotal = sum(paid, e => e.valor);
+    const weeks = monthWeeks(state.month).map(w => { const es = ot.filter(e => e.data >= w.s && e.data <= w.e);
+      return { ...w, n: es.length, valor: sum(es, e => e.valor), pago: !!state.weeks[w.mon]?.pago }; }).filter(w => w.n);
+    return { showPM, showOT, pm, ot, paid, pmItems, otItems, pmTotal, otTotal, gross: pmTotal + otTotal, total: pmTotal + otTotal - paidTotal, paidTotal, weeks,
+      G: sum(pm, e => e.g), M: sum(pm, e => e.m) };
+  }
+
+  function mkTable(head, rows, foot, aligns) {
+    const td = (tag, v, i) => el(tag, aligns[i] === "l" ? { style: "text-align:left", class: i ? "txt" : "" } : {}, v);
+    return el("div", { class: "tbl-wrap" }, el("table", {},
+      el("thead", {}, el("tr", {}, head.map((h, i) => td("th", h, i)))),
+      el("tbody", {}, rows.map(r => el("tr", {}, r.map((v, i) => td("td", v, i))))),
+      foot ? el("tfoot", {}, el("tr", {}, foot.map((v, i) => td("td", v, i)))) : null));
+  }
+
+  function renderRelatorio() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    $$("[data-rscope]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.rscope === state.repScope)));
+    const R = reportData(), doc = $("repDoc"); doc.textContent = "";
+    doc.append(el("h3", {}, `${scopeTitle()} · ${monthLabel(state.month)}`));
+    doc.append(el("div", { class: "meta" },
+      el("span", {}, `Cliente: ${state.cfg.cliente || "(defina em Ajustes)"}`),
+      el("span", {}, `Prestador: ${state.cfg.prestador || "(defina em Ajustes)"}`),
+      el("span", {}, `Período: ${periodo()}`)));
+    if (!state.loadedMonth) { doc.append(el("div", { class: "empty" }, "Carregando…")); return; }
+    if (!R.pm.length && !R.ot.length) { doc.append(el("div", { class: "empty" }, `Nenhuma entrega${SCOPES[state.repScope] ? " de " + SCOPES[state.repScope] : ""} neste mês.`)); return; }
+
+    const sec = (title, color) => el("h4", { class: "sec" }, el("i", { class: "dot", style: `background:${color}` }), title);
+    const L4 = ["l", "r", "r", "r"];
+
+    if (R.showPM) {
+    doc.append(sec("Posto da Mata", "var(--c-pm)"));
+    if (R.pm.length) {
+      doc.append(mkTable(["Item", "Qtd", "Unitário", "Subtotal"], R.pmItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal PM", "", "", BRL(R.pmTotal)], L4));
+      doc.append(el("span", { class: "label" }, "Registros"));
+      doc.append(mkTable(["Data", "Hora", "G", "M", "Valor"], R.pm.map(e => [dayLbl(e.data), e.hora || "–", e.g || "–", e.m || "–", BRL(e.valor)]),
+        ["Total", "", R.G, R.M, BRL(R.pmTotal)], ["l", "l", "r", "r", "r"]));
+    } else doc.append(el("div", { class: "empty" }, "Nenhuma caixa neste mês."));
+    }
+
+    if (R.showOT) {
+    doc.append(sec("Pedreira e outras entregas", "var(--c-ped)"));
+    if (R.ot.length) {
+      doc.append(mkTable(["Item", "Qtd", "Unitário", "Subtotal"], R.otItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal", "", "", BRL(R.otTotal)], L4));
+      doc.append(el("span", { class: "label" }, "Registros"));
+      doc.append(mkTable(["Data", "Hora", "Entrega", "Valor"], R.ot.map(e => [dayLbl(e.data), e.hora || "–", otLabel(e), BRL(e.valor)]),
+        ["Total", "", plural(R.ot.length, "entrega", "entregas"), BRL(R.otTotal)], ["l", "l", "l", "r"]));
+    } else doc.append(el("div", { class: "empty" }, "Nenhuma entrega a cobrar neste mês."));
+    if (R.weeks.length) {
+      doc.append(el("span", { class: "label" }, "Pagamento por semana"));
+      doc.append(mkTable(["Semana", "Entregas", "Valor", "Situação"], R.weeks.map(w => [wkLabel(w), w.n, BRL(w.valor), w.pago ? "Paga" : "A receber"]),
+        null, ["l", "r", "r", "r"]));
+    }
+    }
+
+    doc.append(el("div", { class: "grand" },
+      R.showPM ? el("div", {}, el("span", {}, "Posto da Mata"), el("span", { class: "num" }, BRL(R.pmTotal))) : null,
+      R.showOT ? el("div", {}, el("span", {}, "Pedreira e outras"), el("span", { class: "num" }, BRL(R.otTotal))) : null,
+      R.paidTotal ? el("div", { class: "minus" }, el("span", {}, "Já recebido (semanas pagas)"), el("span", { class: "num" }, "− " + BRL(R.paidTotal))) : null,
+      el("div", { class: "tot" }, el("span", {}, "Total a receber"), el("span", { class: "num" }, BRL(R.total)))));
+  }
+
+  $$("[data-month]").forEach(b => b.onclick = () => setMonth(addMonth(state.month, Number(b.dataset.month))));
+  $$("[data-rscope]").forEach(b => b.onclick = () => { state.repScope = b.dataset.rscope; lsSet("ct.repScope", state.repScope); setStatus("repStatus", ""); renderRelatorio(); });
+
+  const fileBase = () => `relatorio-${{ ALL: "entregas", PM: "posto-da-mata", OT: "pedreira-e-outras" }[state.repScope]}-${state.month}`;
+  function downloadFile(filename, data, type) {
+    const blob = data instanceof Blob ? data : new Blob([data], { type: type || "application/octet-stream" });
+    const url = URL.createObjectURL(blob), a = document.createElement("a");
+    a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+  async function saveFile(filename, data) {
+    try { downloadFile(filename, data, filename.endsWith(".pdf") ? "application/pdf" : "text/csv;charset=utf-8"); setStatus("repStatus", `Arquivo ${filename} baixado.`); }
+    catch { setStatus("repStatus", "Não foi possível baixar o arquivo. Tente de novo.", true); }
+  }
+
+  $("txtBtn").onclick = () => {
+    const R = reportData();
+    const lines = [`*${scopeTitle()} · ${monthLabel(state.month)}*`];
+    if (state.cfg.cliente) lines.push(`Cliente: ${state.cfg.cliente}`);
+    if (state.cfg.prestador) lines.push(`Prestador: ${state.cfg.prestador}`);
+    lines.push(`Período: ${periodo()}`);
+    if (R.showPM) {
+      lines.push("", "*POSTO DA MATA*");
+      R.pmItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
+      lines.push(`Subtotal PM: ${BRL(R.pmTotal)}`, "");
+      R.pm.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${desc(e)} · ${BRL(e.valor)}`));
+    }
+    if (R.showOT) {
+      lines.push("", "*PEDREIRA E OUTRAS ENTREGAS*");
+      R.otItems.forEach(i => lines.push(`${i.label}: ${i.qtd} × ${BRL(i.unit)} = ${BRL(i.qtd * i.unit)}`));
+      lines.push(`Subtotal: ${BRL(R.otTotal)}`, "");
+      R.ot.forEach(e => lines.push(`${fmtDate(e.data).slice(0,5)} ${e.hora || ""} · ${otLabel(e)} · ${BRL(e.valor)}`));
+      if (R.weeks.length) { lines.push("", "_Semanas_"); R.weeks.forEach(w => lines.push(`${wkLabel(w)} · ${BRL(w.valor)} · ${w.pago ? "PAGA" : "a receber"}`)); }
+    }
+    lines.push("");
+    if (R.showPM) lines.push(`Posto da Mata: ${BRL(R.pmTotal)}`);
+    if (R.showOT) lines.push(`Pedreira e outras: ${BRL(R.otTotal)}`);
+    if (R.paidTotal) lines.push(`Já recebido (semanas pagas): − ${BRL(R.paidTotal)}`);
+    lines.push(`*TOTAL A RECEBER: ${BRL(R.total)}*`);
+    copyText(lines.join("\n"), "repStatus");
+  };
+
+  $("csvBtn").onclick = () => {
+    const R = reportData();
+    const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const num = v => (Number(v) || 0).toFixed(2).replace(".", ",");
+    const rows = [["Seção", "Data", "Hora", "Entrega", "Caixas G", "Caixas M", "Valor (R$)", "Semana", "Observação"]];
+    if (R.showPM) {
+      R.pm.forEach(e => rows.push(["Posto da Mata", fmtDate(e.data), e.hora || "", desc(e), e.g || "", e.m || "", num(e.valor), "", e.obs || ""]));
+      rows.push(["", "", "", "Subtotal Posto da Mata", R.G, R.M, num(R.pmTotal), ""], []);
+    }
+    if (R.showOT) {
+      R.ot.forEach(e => rows.push(["Pedreira e outras", fmtDate(e.data), e.hora || "", otLabel(e), "", "", num(e.valor), isPaid(e) ? "Paga" : "A receber", e.obs || ""]));
+      rows.push(["", "", "", "Subtotal Pedreira e outras", "", "", num(R.otTotal), ""], []);
+    }
+    if (R.paidTotal) rows.push(["", "", "", "Já recebido (semanas pagas)", "", "", "-" + num(R.paidTotal), ""]);
+    rows.push(["", "", "", "TOTAL A RECEBER", "", "", num(R.total), ""]);
+    saveFile(`${fileBase()}.csv`, "﻿" + rows.map(r => r.map(q).join(";")).join("\r\n"));
+  };
+
+  $("pdfBtn").onclick = () => {
+    if (!window.jspdf) { setStatus("repStatus", "O gerador de PDF não carregou. Verifique a conexão e recarregue.", true); return; }
+    const R = reportData();
+    if (!R.pm.length && !R.ot.length) { setStatus("repStatus", `Não há entregas${SCOPES[state.repScope] ? " de " + SCOPES[state.repScope] : ""} neste mês para gerar o PDF.`, true); return; }
+    const { jsPDF } = window.jspdf, pdf = new jsPDF({ unit: "mm", format: "a4" });
+    const L = 18, W = 210 - 36; let y = 22;
+    const ensure = h => { if (y + h > 280) { pdf.addPage(); y = 20; } };
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(16); pdf.text(`${scopeTitle().replace(" · ", " - ")} - ${monthLabel(state.month)}`, L, y); y += 8;
+    pdf.setFont("helvetica", "normal"); pdf.setFontSize(10); pdf.setTextColor(90);
+    if (state.cfg.cliente) { pdf.text(`Cliente: ${state.cfg.cliente}`, L, y); y += 5; }
+    if (state.cfg.prestador) { pdf.text(`Prestador: ${state.cfg.prestador}`, L, y); y += 5; }
+    pdf.text(`Período: ${periodo()}`, L, y); y += 5;
+    pdf.text(`Emitido em ${fmtDate(todayIso())}`, L, y); y += 9; pdf.setTextColor(0);
+
+    const table = (head, rows, foot, widths, aligns) => {
+      const xs = []; let acc = L; widths.forEach(w => { xs.push(acc); acc += w; });
+      const cell = (txt, i) => { const s = String(txt); if (aligns[i] === "r") pdf.text(s, xs[i] + widths[i] - 1.5, y, { align: "right" }); else pdf.text(s, xs[i] + 1.5, y); };
+      const header = () => { pdf.setFillColor(232, 238, 234); pdf.rect(L, y - 4.5, W, 7, "F"); pdf.setFont("helvetica", "bold"); pdf.setFontSize(9); head.forEach(cell); y += 7; pdf.setFont("helvetica", "normal"); pdf.setFontSize(9.5); };
+      ensure(14); header();
+      rows.forEach(r => { if (y + 7 > 280) { pdf.addPage(); y = 20; header(); } r.forEach(cell); pdf.setDrawColor(225); pdf.line(L, y + 2, L + W, y + 2); y += 6.5; });
+      if (foot) { ensure(8); pdf.setDrawColor(0); pdf.setLineWidth(0.5); pdf.line(L, y - 3.5, L + W, y - 3.5); pdf.setLineWidth(0.2); pdf.setFont("helvetica", "bold"); foot.forEach(cell); y += 9; pdf.setFont("helvetica", "normal"); }
+    };
+    const heading = (t, size = 12) => { ensure(16); pdf.setFont("helvetica", "bold"); pdf.setFontSize(size); pdf.text(t, L, y); y += 6.5; };
+    const sub = t => { ensure(12); pdf.setFont("helvetica", "bold"); pdf.setFontSize(9); pdf.setTextColor(90); pdf.text(t.toUpperCase(), L, y); pdf.setTextColor(0); y += 5; };
+    const SUMW = [84, 22, 34, 34], SUMA = ["l", "r", "r", "r"];
+
+    if (R.showPM) {
+    heading("Posto da Mata");
+    if (R.pm.length) {
+      table(["Item", "Qtd", "Unitário", "Subtotal"], R.pmItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal PM", "", "", BRL(R.pmTotal)], SUMW, SUMA);
+      sub("Registros");
+      table(["Data", "Hora", "G", "M", "Valor"], R.pm.map(e => [dayLbl(e.data), e.hora || "-", e.g || "-", e.m || "-", BRL(e.valor)]),
+        ["Total", "", R.G, R.M, BRL(R.pmTotal)], [44, 30, 30, 30, 40], ["l", "l", "r", "r", "r"]);
+    } else { pdf.setFontSize(10); pdf.text("Nenhuma caixa neste mês.", L, y); y += 9; }
+    }
+
+    if (R.showOT) {
+    heading("Pedreira e outras entregas");
+    if (R.ot.length) {
+      table(["Item", "Qtd", "Unitário", "Subtotal"], R.otItems.map(i => [i.label, i.qtd, BRL(i.unit), BRL(i.qtd * i.unit)]), ["Subtotal", "", "", BRL(R.otTotal)], SUMW, SUMA);
+      sub("Registros");
+      table(["Data", "Hora", "Entrega", "Valor"], R.ot.map(e => [dayLbl(e.data), e.hora || "-", otLabel(e), BRL(e.valor)]),
+        ["Total", "", plural(R.ot.length, "entrega", "entregas"), BRL(R.otTotal)], [32, 22, 80, 40], ["l", "l", "l", "r"]);
+    } else { pdf.setFontSize(10); pdf.text("Nenhuma entrega a cobrar neste mês.", L, y); y += 9; }
+
+    if (R.weeks.length) { sub("Pagamento por semana");
+      table(["Semana", "Entregas", "Valor", "Situação"], R.weeks.map(w => [wkLabel(w), w.n, BRL(w.valor), w.pago ? "Paga" : "A receber"]), null, [64, 30, 40, 40], ["l", "r", "r", "r"]); y += 3; }
+    }
+    heading("Total a receber");
+    const tRows = [];
+    if (R.showPM) tRows.push(["Posto da Mata", BRL(R.pmTotal)]);
+    if (R.showOT) tRows.push(["Pedreira e outras entregas", BRL(R.otTotal)]);
+    if (R.paidTotal) tRows.push(["Já recebido (semanas pagas)", "- " + BRL(R.paidTotal)]);
+    table(["Seção", "Valor"], tRows, ["Total a receber", BRL(R.total)], [134, 40], ["l", "r"]);
+    saveFile(`${fileBase()}.pdf`, pdf.output("arraybuffer"));
+  };
+
+  // ---------- CUSTOS: cálculos ----------
+  const chartKeys = () => state.partner ? ["PM"] : ["PM", "PED", "OUT"];
+  const FUELS = ["Gasolina", "Etanol", "Diesel", "GNV"];
+  const CATS = ["Passagem de ônibus", "Lavagem", "Alimentação", "Pedágio", "Estacionamento", "Outros"];
+  const AREAS = { PM: "Posto da Mata", OUT: "Pedreira e outras", GERAL: "Geral" };
+  const num2 = (v, d = 2) => (Number(v) || 0).toLocaleString("pt-BR", { maximumFractionDigits: d });
+  const pn = v => parseFloat(v) || 0;
+
+  function fuelRows() {
+    const fs = state.custos.filter(c => c.categoria === "combustivel")
+      .sort((a, b) => a.data.localeCompare(b.data) || (a.km || 0) - (b.km || 0));
+    return fs.map((f, i) => {
+      const p = fs[i - 1];
+      const dk = p && f.km > 0 && p.km > 0 && f.km > p.km ? f.km - p.km : null;
+      return { ...f, dk, cons: dk && f.litros ? dk / f.litros : null };
+    });
+  }
+  function fuelStats(m) {
+    const rows = fuelRows().filter(f => monthOf(f.data) === m);
+    const valid = rows.filter(f => f.dk);
+    const km = sum(valid, f => f.dk), lv = sum(valid, f => f.litros);
+    const gasto = sum(rows, f => f.valor), litros = sum(rows, f => f.litros);
+    return { rows, gasto, litros, km, consumo: lv ? km / lv : null, custoKm: km ? sum(valid, f => f.valor) / km : null, preco: litros ? gasto / litros : null };
+  }
+  function monthCosts(m) {
+    const esp = state.custos.filter(c => c.categoria === "esporadico" && monthOf(c.data) === m);
+    const fixos = m <= monthOf(todayIso()) ? state.fixos : [];
+    return { esp, fixos, fuel: fuelStats(m) };
+  }
+  function ledger(box, rows) {
+    box.textContent = "";
+    rows.forEach(r => box.append(el("div", { class: "lrow " + (r.k || "") },
+      el("div", { class: "t" }, el("span", {}, r.label), r.sub ? el("small", {}, r.sub) : null),
+      el("span", { class: "num" }, (r.k === "out" ? "− " : "") + BRL(r.v)))));
+  }
+  function setProfit(id, v) { const n = $(id); n.textContent = BRL(v); n.style.color = v < 0 ? "var(--danger)" : "var(--ok)"; }
+  // Dias úteis (segunda a sexta) do mês, até um dia (inclusive).
+  const isWorkday = ds => { const w = parse(ds).getDay(); return w >= 1 && w <= 5; };
+  function workdays(m, upto = daysIn(m)) { let c = 0; for (let d = 1; d <= upto; d++) if (isWorkday(`${m}-${pad(d)}`)) c++; return c; }
+  // Dias úteis já trabalhados: até ontem, mais hoje se hoje for dia útil e já tiver entrega registrada.
+  function workdaysDone(m) {
+    const t = todayIso(), day = parse(t).getDate();
+    return workdays(m, day - 1) + (isWorkday(t) && state.todayEntries.length ? 1 : 0);
+  }
+  function resultBlock(pre, rec, fuelGasto, otherCosts) {
+    const m = state.month, cur = monthOf(todayIso()), lucro = rec - fuelGasto - otherCosts, custo = fuelGasto + otherCosts;
+    setProfit(pre + "Lucro", lucro);
+    $(pre + "Margem").textContent = rec ? `Margem de ${num2(lucro / rec * 100, 1)}% · custos de ${BRL(custo)}` : `Custos de ${BRL(custo)}`;
+    const pill = $(pre + "State"), proj = $(pre + "Proj");
+    if (m > cur) { pill.className = "pill"; pill.textContent = "Mês futuro"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto"; return null; }
+    if (m < cur) { pill.className = "pill ok"; pill.textContent = "Mês fechado"; proj.hidden = true; $(pre + "LucroLbl").textContent = "Lucro bruto do mês"; return null; }
+    const done = workdaysDone(m), total = workdays(m);
+    pill.className = "pill rel"; pill.textContent = "Mês em andamento";
+    $(pre + "LucroLbl").textContent = "Lucro bruto até hoje";
+    proj.hidden = false;
+    if (!done) {
+      $(pre + "Prev").textContent = "–"; $(pre + "Prev").style.color = "";
+      $(pre + "PrevSub").textContent = "A previsão aparece depois do primeiro dia útil com entrega.";
+      $(pre + "Note").textContent = `O mês tem ${total} dias úteis (segunda a sexta).`;
+      return null;
+    }
+    const f = total / done;
+    const recP = rec * f, fuelP = fuelGasto * f;
+    const lucroP = recP - fuelP - otherCosts;
+    setProfit(pre + "Prev", lucroP);
+    $(pre + "PrevSub").textContent = fuelGasto ? `Faturamento previsto ${BRL(recP)} · combustível previsto ${BRL(fuelP)}` : `Faturamento previsto ${BRL(recP)}`;
+    $(pre + "Note").textContent = `Média de ${done} ${done === 1 ? "dia útil trabalhado" : "dias úteis trabalhados"}, projetada para os ${total} dias úteis do mês (segunda a sexta). Custos fixos e outros gastos entram como estão.`;
+    return { recP, lucroP };
+  }
+  function renderResultado() {
+    const E = state.monthEntries, { esp, fixos, fuel } = monthCosts(state.month);
+    const recPM = sum(E.filter(e => e.tipo === "PM"), e => e.valor);
+    const fixPM = fixos.filter(x => x.area === "PM"), espPM = esp.filter(x => x.area === "PM");
+    const espLabel = list => list.length ? [...new Set(list.map(x => x.tipoGasto))].join(", ") : "Nenhum no mês";
+    ledger($("pmLedger"), [
+      { label: "Faturamento", v: recPM, k: "in" },
+      { label: "Combustível", sub: fuel.rows.length ? plural(fuel.rows.length, "abastecimento", "abastecimentos") : "Nenhum abastecimento no mês", v: fuel.gasto, k: "out" },
+      ...fixPM.map(x => ({ label: x.nome, sub: "Custo fixo mensal", v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(espPM), v: sum(espPM, x => x.valor), k: "out" },
+    ]);
+    const pmP = resultBlock("pm", recPM, fuel.gasto, sum(fixPM, x => x.valor) + sum(espPM, x => x.valor));
+    if (state.partner) return;
+    const recOut = sum(E.filter(e => e.tipo !== "PM"), e => e.valor);
+    const fixOT = fixos.filter(x => x.area === "OUT"), espOT = esp.filter(x => x.area === "OUT");
+    ledger($("otLedger"), [
+      { label: "Faturamento", v: recOut, k: "in" },
+      ...fixOT.map(x => ({ label: x.nome, sub: "Custo fixo mensal", v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(espOT), v: sum(espOT, x => x.valor), k: "out" },
+    ]);
+    const otP = resultBlock("ot", recOut, 0, sum(fixOT, x => x.valor) + sum(espOT, x => x.valor));
+    ledger($("geLedger"), [
+      { label: "Faturamento Posto da Mata", v: recPM, k: "in" },
+      { label: "Faturamento Pedreira e outras", v: recOut, k: "in" },
+      { label: "Combustível", sub: "Carro do PM", v: fuel.gasto, k: "out" },
+      ...fixos.map(x => ({ label: x.nome, sub: `Custo fixo · ${AREAS[x.area] || "Geral"}`, v: x.valor, k: "out" })),
+      { label: "Outros gastos", sub: espLabel(esp), v: sum(esp, x => x.valor), k: "out" },
+    ]);
+    const geP = resultBlock("ge", recPM + recOut, fuel.gasto, sum(fixos, x => x.valor) + sum(esp, x => x.valor));
+    if (geP && pmP && otP) {
+      setProfit("gePrevPM", pmP.lucroP); setProfit("gePrevOT", otP.lucroP);
+      $("gePrevPMsub").textContent = `Faturamento previsto ${BRL(pmP.recP)}`;
+      $("gePrevOTsub").textContent = `Faturamento previsto ${BRL(otP.recP)}`;
+      $("gePrevSub").textContent = `Inclui custos gerais · faturamento previsto ${BRL(geP.recP)}`;
+    }
+  }
+  function costItem(it, deletable) {
+    const fuel = it.categoria === "combustivel";
+    const title = fuel ? `${it.combustivel || "Combustível"} · ${num2(it.litros)} L` : `${it.tipoGasto}${it.descricao ? " · " + it.descricao : ""}`;
+    const sub = fuel
+      ? [short(it.data), it.km ? `${num2(it.km, 0)} km` : "", it.precoLitro ? `${BRL(it.precoLitro)}/L` : "", it.cons ? `${num2(it.cons, 1)} km/l` : ""].filter(Boolean).join(" · ")
+      : [short(it.data), AREAS[it.area] || "", it.obs].filter(Boolean).join(" · ");
+    let del = null;
+    if (deletable) {
+      const confirming = state.cPendingDel === it.id;
+      del = el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+        if (confirming) return removeCost(it.id);
+        state.cPendingDel = it.id; renderCostList();
+        setTimeout(() => { if (state.cPendingDel === it.id) { state.cPendingDel = null; renderCostList(); } }, 4000);
+      } }, confirming ? "Confirmar" : "Apagar");
+    }
+    return el("div", { class: "item" }, el("span", { class: "tag neutral" }, fuel ? "COMB" : "GASTO"),
+      el("div", { class: "what" }, el("strong", {}, title), el("small", {}, sub)),
+      el("div", { class: "val" }, el("b", { class: "num" }, BRL(it.valor)), del));
+  }
+  function renderFuel() {
+    const s = fuelStats(state.month);
+    $("fGasto").textContent = BRL(s.gasto);
+    $("fLitros").textContent = `${num2(s.litros, 1)} L`;
+    $("fCons").textContent = s.consumo ? `${num2(s.consumo, 1)} km/l` : "–";
+    $("fCustoKm").textContent = s.custoKm ? BRL(s.custoKm) : "–";
+    $("fPreco").textContent = s.preco ? BRL(s.preco) : "–";
+    $("fKm").textContent = s.km ? `${num2(s.km, 0)} km` : "–";
+    const list = $("fuelList"); list.textContent = "";
+    if (!state.loadedCustos) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!s.rows.length) list.append(el("div", { class: "empty" }, "Nenhum abastecimento neste mês."));
+    [...s.rows].reverse().forEach(r => list.append(costItem(r, false)));
+  }
+
+  // ---------- CUSTOS: registro ----------
+  function chips(box, values, cur, on, label = v => v) {
+    box.textContent = "";
+    values.forEach(v => box.append(el("button", { type: "button", class: "chip", "aria-pressed": String(cur === v), onclick: () => on(v) }, label(v))));
+  }
+  function renderCustos() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    $$("[data-ctipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ctipo === state.cTipo)));
+    $("cf-comb").hidden = state.cTipo !== "combustivel";
+    $("cf-esp").hidden = state.cTipo !== "esporadico";
+    chips($("cFuelChips"), FUELS, state.cFuel, v => { state.cFuel = v; renderCustos(); });
+    chips($("cCatChips"), CATS, state.cCat, v => { state.cCat = state.cCat === v ? "" : v; renderCustos(); });
+    chips($("cAreaChips"), Object.keys(AREAS), state.cArea, v => { state.cArea = v; renderCustos(); }, k => AREAS[k]);
+    updateCostSum();
+    renderCostList();
+  }
+  function costDraft() {
+    const data = $("cData").value || todayIso(), obs = $("cObs").value.trim();
+    if (state.cTipo === "combustivel") {
+      const valor = pn($("cValorF").value), preco = pn($("cPreco").value), km = Math.round(pn($("cKm").value));
+      const litros = preco > 0 ? Math.round(valor / preco * 100) / 100 : 0;
+      const prev = fuelRows().filter(f => f.data <= data && f.km > 0).pop();
+      let msg = "";
+      if (!(valor > 0)) msg = "Informe o valor colocado";
+      else if (!(preco > 0)) msg = "Informe o preço do litro";
+      else if (!(km > 0)) msg = "Informe a km do carro";
+      else if (prev && km <= prev.km) msg = `A km precisa ser maior que ${num2(prev.km, 0)}`;
+      let info = litros ? `${num2(litros)} L de ${state.cFuel.toLowerCase()}` : "Preencha valor, preço do litro e km";
+      if (litros && prev && km > prev.km) info += ` · ${num2(km - prev.km, 0)} km desde ${short(prev.data)} · ${num2((km - prev.km) / litros, 1)} km/l`;
+      else if (litros && !prev) info += " · o consumo aparece a partir do próximo abastecimento";
+      return { ok: !msg, msg, info, entry: { categoria: "combustivel", area: "PM", data, combustivel: state.cFuel, valor, precoLitro: preco, litros, km, obs } };
+    }
+    const valor = pn($("cValorE").value);
+    const msg = !state.cCat ? "Escolha o tipo de gasto" : !(valor > 0) ? "Informe o valor" : "";
+    return { ok: !msg, msg, info: state.cCat ? `${state.cCat} · ${AREAS[state.cArea]}` : "Escolha o tipo de gasto",
+      entry: { categoria: "esporadico", tipoGasto: state.cCat, descricao: $("cDesc").value.trim(), valor, area: state.cArea, data, obs } };
+  }
+  function updateCostSum() {
+    const d = costDraft();
+    $("cInfo").textContent = d.info;
+    $("cTotal").textContent = BRL(d.entry.valor);
+    if (!state.db) return;
+    $("cSave").disabled = !d.ok;
+    $("cSave").textContent = d.ok ? `${state.cTipo === "combustivel" ? "Registrar abastecimento" : "Registrar gasto"} · ${BRL(d.entry.valor)}` : d.msg;
+  }
+  function renderCostList() {
+    const list = $("costList"); list.textContent = "";
+    const m = state.month;
+    $("costTitle").textContent = `Custos de ${monthLabel(m)}`;
+    const rowsF = fuelRows().filter(f => monthOf(f.data) === m);
+    const esp = state.custos.filter(c => c.categoria === "esporadico" && monthOf(c.data) === m);
+    const items = [...rowsF, ...esp].sort((a, b) => b.data.localeCompare(a.data) || (b.criadoEm || "").localeCompare(a.criadoEm || ""));
+    if (!state.loadedCustos) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!items.length) list.append(el("div", { class: "empty" }, "Nenhum abastecimento ou gasto neste mês. Use o formulário acima."));
+    items.forEach(it => list.append(costItem(it, true)));
+    const fixos = m <= monthOf(todayIso()) ? state.fixos : [];
+    const fx = $("fxSummary");
+    if (!fixos.length) { fx.textContent = ""; fx.append(el("div", { class: "empty" }, m > monthOf(todayIso()) ? "Os custos fixos entram quando o mês começar." : "Nenhum custo fixo cadastrado.")); }
+    else ledger(fx, fixos.map(x => ({ label: x.nome, sub: AREAS[x.area] || "Geral", v: x.valor, k: "out" })));
+    $("costTotal").textContent = BRL(sum(items, x => x.valor) + sum(fixos, x => x.valor));
+  }
+  async function removeCost(id) {
+    state.cPendingDel = null;
+    try { await state.db.collection("custos").doc(id).delete(); setStatus("cStatus", "Custo apagado."); }
+    catch { setStatus("cStatus", "Não foi possível apagar. Tente de novo.", true); renderCostList(); }
+  }
+  $$("[data-ctipo]").forEach(b => b.onclick = () => { state.cTipo = b.dataset.ctipo; lsSet("ct.ctipo", state.cTipo); setStatus("cStatus", ""); renderCustos(); });
+  ["cValorF", "cPreco", "cKm", "cValorE", "cDesc", "cData"].forEach(id => $(id).addEventListener("input", updateCostSum));
+  $("costForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const d = costDraft();
+    if (!state.db || !d.ok) { setStatus("cStatus", d.msg, true); return; }
+    $("cSave").disabled = true;
+    try {
+      await state.db.collection("custos").add({ ...d.entry, criadoEm: new Date().toISOString() });
+      setStatus("cStatus", `Registrado: ${d.entry.categoria === "combustivel" ? `abastecimento de ${num2(d.entry.litros)} L` : d.entry.tipoGasto} · ${BRL(d.entry.valor)}.`);
+      ["cValorF", "cKm", "cValorE", "cDesc", "cObs"].forEach(id => $(id).value = "");
+      state.cCat = "";
+      if (monthOf(d.entry.data) !== state.month) setMonth(monthOf(d.entry.data));
+      renderCustos();
+    } catch {
+      setStatus("cStatus", "Não foi possível salvar. Verifique a conexão e tente de novo.", true);
+      updateCostSum();
+    }
+  });
+
+  // ================= FINANÇAS =================
+  const FIN_DESP = ["Moradia", "Mercado", "Contas da casa", "Transporte", "Saúde", "Educação", "Lazer", "Assinaturas", "Cartão de crédito", "Outros"];
+  const FIN_REC = ["Salário", "Renda extra", "Outros"];
+  const AUTO_CAT = "Pedreira e outras";
+  const MONTHS_S = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  const mShort = m => `${MONTHS_S[Number(m.slice(5)) - 1]}/${m.slice(2, 4)}`;
+  const firstName = email => (email || "").split("@")[0] || "alguém";
+  Object.assign(state, { finLanc: [], finOrc: {}, finMetas: [], finImport: {}, finLoaded: false, finImportLoaded: false,
+    fTipo: "despesa", fCat: "", fPendingDel: null, gPendingDel: null, apGoal: null, foMonth: null, barsSel: null, balSel: null, lastFin: "fin", lastTr: "painel" });
+
+  // ---------- cálculos ----------
+  const normB = b => ({ receitas: { ...(b?.receitas || {}) }, despesas: { ...(b?.despesas || {}) } });
+  function budgetFor(m) {
+    if (state.finOrc[m]) return { ...normB(state.finOrc[m]), from: m };
+    const prev = Object.keys(state.finOrc).filter(k => /^\d{4}-\d{2}$/.test(k) && k < m).sort().pop();
+    return prev ? { ...normB(state.finOrc[prev]), from: prev } : { receitas: {}, despesas: {}, from: null };
+  }
+  const aportesOf = g => Array.isArray(g.aportes) ? g.aportes : [];
+  const guardadoOf = g => sum(aportesOf(g), a => a.valor);
+  function finMonth(m) {
+    const cur = monthOf(todayIso());
+    const L = state.finLanc.filter(x => x.data && monthOf(x.data) === m);
+    const rec = L.filter(x => x.tipo === "receita"), desp = L.filter(x => x.tipo === "despesa");
+    const imp = state.finImport[m];
+    const autoReal = imp ? Number(imp.lucro) || 0 : 0;
+    const autoPrev = imp ? Number(imp.previsto ?? imp.lucro) || 0 : 0;
+    const aportes = state.finMetas.flatMap(g => aportesOf(g).filter(a => a.data && monthOf(a.data) === m));
+    const B = budgetFor(m);
+    const recReal = sum(rec, x => x.valor) + autoReal, despReal = sum(desp, x => x.valor), guardado = sum(aportes, a => a.valor);
+    const byCat = (list, c) => sum(list.filter(x => x.categoria === c), x => x.valor);
+    const plan = (map, list) => { const cats = new Set([...Object.keys(map), ...list.map(x => x.categoria)]); return [...cats].reduce((a, c) => a + Math.max(Number(map[c]) || 0, byCat(list, c)), 0); };
+    let recPrev, despPrev;
+    if (m < cur) { recPrev = recReal; despPrev = despReal; }
+    else { recPrev = plan(B.receitas, rec) + (m === cur ? autoPrev : (autoPrev || futureAuto())); despPrev = plan(B.despesas, desp); }
+    const orcDesp = sum(Object.values(B.despesas), Number), orcRec = sum(Object.values(B.receitas), Number);
+    return { m, L, rec, desp, imp, autoReal, autoPrev, B, recReal, despReal, guardado, saldo: recReal - despReal - guardado,
+      recPrev, despPrev, saldoPrev: recPrev - despPrev - guardado, orcDesp, orcRec, byCat };
+  }
+  // Para meses futuros, estima o lucro da Pedreira pelo previsto do mês atual.
+  function futureAuto() { const imp = state.finImport[monthOf(todayIso())]; return imp ? Number(imp.previsto ?? imp.lucro) || 0 : 0; }
+
+  // ---------- gamificação ----------
+  const LEVELS = [[0, "Iniciante"], [100, "Anotador"], [300, "Organizado"], [600, "Poupador"], [1000, "Planejador"], [1600, "Estrategista"], [2500, "Investidor"], [4000, "Mestre das Finanças"], [6000, "Lenda da Casa"]];
+  function finGame() {
+    const L = state.finLanc, metas = state.finMetas, cur = monthOf(todayIso());
+    const aportes = metas.flatMap(aportesOf);
+    const totalGuardado = sum(metas, guardadoOf);
+    const concluidas = metas.filter(g => g.alvo > 0 && guardadoOf(g) >= g.alvo);
+    const months = [...new Set([...L.map(x => monthOf(x.data)), ...Object.keys(state.finImport)])].filter(m => m < cur);
+    const closed = months.map(finMonth);
+    const noAzul = closed.filter(f => f.saldo > 0 && (f.L.length || f.imp)).length;
+    const dentroOrc = closed.filter(f => f.orcDesp > 0 && f.despReal <= f.orcDesp).length;
+    const weeksSet = new Set(L.map(x => weekOf(x.data)));
+    let streak = 0, w = weekOf(todayIso());
+    if (!weeksSet.has(w)) w = addDays(w, -7);
+    while (weeksSet.has(w)) { streak++; w = addDays(w, -7); }
+    const quem = new Set(L.map(x => x.quem).filter(Boolean));
+    const xp = Math.min(L.length, 600) * 5 + Math.floor(Math.max(0, totalGuardado) / 10) + concluidas.length * 150 + metas.length * 25
+      + noAzul * 100 + dentroOrc * 100 + streak * 20 + (Object.keys(state.finOrc).length ? 50 : 0);
+    let li = 0; LEVELS.forEach(([t], i) => { if (xp >= t) li = i; });
+    const next = LEVELS[li + 1];
+    const badges = [
+      ["Primeiro passo", "Registrar o primeiro lançamento", L.length > 0],
+      ["Plano feito", "Montar o orçamento de um mês", Object.keys(state.finOrc).length > 0],
+      ["Sonho no papel", "Criar a primeira meta", metas.length > 0],
+      ["Cofrinho", "Guardar dinheiro numa meta", aportes.some(a => a.valor > 0)],
+      ["Meta batida", "Concluir uma meta", concluidas.length > 0],
+      ["Mês no azul", "Fechar um mês com saldo positivo", noAzul > 0],
+      ["Dentro do orçamento", "Fechar um mês gastando até o orçado", dentroOrc > 0],
+      ["Constância", "4 semanas seguidas registrando", streak >= 4],
+      ["Reserva de R$ 1 mil", "Juntar R$ 1.000 nas metas", totalGuardado >= 1000],
+      ["Reserva de R$ 10 mil", "Juntar R$ 10.000 nas metas", totalGuardado >= 10000],
+      ["Time em casa", "Os dois registrando lançamentos", quem.size >= 2],
+      ["Três meses no azul", "Fechar 3 meses com saldo positivo", noAzul >= 3],
+    ].map(([nome, desc, ok]) => ({ nome, desc, ok }));
+    return { xp, level: li + 1, name: LEVELS[li][1], base: LEVELS[li][0], next: next ? next[0] : null, nextName: next ? next[1] : null,
+      badges, streak, totalGuardado, concluidas: concluidas.length };
+  }
+
+  // ---------- desenho ----------
+  const pctTxt = v => `${num2(v * 100, 0)}%`;
+  function bar(frac, color) { return el("div", { class: "track" }, el("i", { style: `width:${Math.max(0, Math.min(1, frac)) * 100}%;background:${color}` })); }
+  function medal(ok) {
+    const ns = "http://www.w3.org/2000/svg", s = document.createElementNS(ns, "svg");
+    s.setAttribute("viewBox", "0 0 40 40"); s.setAttribute("aria-hidden", "true");
+    s.innerHTML = ok
+      ? '<path d="M13 3h6l-3 11h-6zM21 3h6l3 11h-6z" fill="#3d43a8"/><circle cx="20" cy="25" r="11" fill="#f2b63d"/><circle cx="20" cy="25" r="7.5" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/><path d="M20 20.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z" fill="#fff"/>'
+      : '<path d="M13 3h6l-3 11h-6zM21 3h6l3 11h-6z" fill="currentColor" opacity=".25"/><circle cx="20" cy="25" r="11" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 3"/>';
+    return s;
+  }
+  function ring(frac, done) {
+    const ns = "http://www.w3.org/2000/svg", s = document.createElementNS(ns, "svg"), r = 24, c = 2 * Math.PI * r;
+    s.setAttribute("viewBox", "0 0 60 60"); s.setAttribute("class", "ring"); s.setAttribute("aria-hidden", "true");
+    const f = Math.max(0, Math.min(1, frac));
+    s.innerHTML = `<circle cx="30" cy="30" r="${r}" fill="none" stroke="var(--fill)" stroke-width="7"/>
+      <circle cx="30" cy="30" r="${r}" fill="none" stroke="${done ? "#f2b63d" : "var(--accent)"}" stroke-width="7" stroke-linecap="round"
+        stroke-dasharray="${(c * f).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 30 30)"/>
+      <text x="30" y="34" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">${Math.round(f * 100)}%</text>`;
+    return s;
+  }
+  function finItem(x, deletable) {
+    const rec = x.tipo === "receita";
+    let del = null;
+    if (deletable) {
+      const confirming = state.fPendingDel === x.id;
+      del = el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+        if (confirming) return removeFin(x.id);
+        state.fPendingDel = x.id; renderAll();
+        setTimeout(() => { if (state.fPendingDel === x.id) { state.fPendingDel = null; renderAll(); } }, 4000);
+      } }, confirming ? "Confirmar" : "Apagar");
+    }
+    return el("div", { class: "item" }, el("span", { class: "tag", style: `background:${rec ? "var(--c-pm)" : "var(--c-ped)"}` }, rec ? "REC" : "DESP"),
+      el("div", { class: "what" }, el("strong", {}, x.categoria + (x.descricao ? " · " + x.descricao : "")),
+        el("small", {}, [short(x.data), x.quem ? "por " + firstName(x.quem) : ""].filter(Boolean).join(" · "))),
+      el("div", { class: "val" }, el("b", { class: "num", style: rec ? "color:var(--ok)" : "" }, (rec ? "+ " : "− ") + BRL(x.valor)), del));
+  }
+  function autoItem(f) {
+    return el("div", { class: "item" }, el("span", { class: "tag", style: "background:var(--c-pm)" }, "AUTO"),
+      el("div", { class: "what" }, el("strong", {}, AUTO_CAT), el("small", {}, `Lucro do transporte · previsto ${BRL(f.autoPrev)} no mês`)),
+      el("div", { class: "val" }, el("b", { class: "num", style: "color:var(--ok)" }, "+ " + BRL(f.autoReal))));
+  }
+
+  function renderFinResumo() {
+    const m = state.month, cur = monthOf(todayIso()), f = finMonth(m);
+    setProfit("fSaldo", f.saldo); $("fSaldo").style.color = f.saldo < 0 ? "var(--danger)" : "";
+    $("fSaldoSub").textContent = !state.finLoaded ? "Carregando…" : `Receitas − despesas${f.guardado ? " − guardado nas metas" : ""}, até agora`;
+    $("fRec").textContent = BRL(f.recReal);
+    $("fRecSub").textContent = f.imp ? `inclui ${BRL(f.autoReal)} da Pedreira` : (f.orcRec ? `de ${BRL(f.orcRec)} previstos` : "");
+    $("fDesp").textContent = BRL(f.despReal);
+    $("fDespSub").textContent = f.orcDesp ? `${pctTxt(f.despReal / f.orcDesp)} do orçado` : "sem orçamento";
+
+    // previsão
+    const pill = $("fPrevState");
+    ledger($("fPrevLedger"), [
+      { label: "Receitas previstas", sub: m > cur ? "Pelo orçamento" : `Recebido ${BRL(f.recReal)}`, v: f.recPrev, k: "in" },
+      ...(f.autoPrev || f.autoReal ? [{ label: "↳ Pedreira e outras", sub: m === cur ? "Lucro previsto pelos dias úteis" : "Lucro do transporte", v: m < cur ? f.autoReal : (f.autoPrev || futureAuto()) }] : []),
+      { label: "Despesas previstas", sub: `Gasto ${BRL(f.despReal)} · orçado ${BRL(f.orcDesp)}`, v: f.despPrev, k: "out" },
+      ...(f.guardado ? [{ label: "Guardado nas metas", v: f.guardado, k: "out" }] : []),
+    ]);
+    setProfit("fSaldoPrev", f.saldoPrev);
+    $("fSaldoPrevLbl").textContent = m < cur ? "Saldo final do mês" : "Saldo previsto no fim do mês";
+    const st = f.saldoPrev < 0 ? ["pill warn", "Atenção: no vermelho"] : f.recPrev && f.saldoPrev < f.recPrev * 0.1 ? ["pill rel", "Apertado"] : ["pill ok", "No azul"];
+    pill.className = st[0]; pill.textContent = m < cur ? (f.saldo >= 0 ? "Fechou no azul" : "Fechou no vermelho") : st[1];
+    $("fPrevNote").textContent = m < cur ? "Mês fechado: valores realizados."
+      : "Para cada categoria vale o maior entre o orçado e o já lançado. A Pedreira entra pelo lucro previsto.";
+    const pace = $("fPace"); pace.textContent = "";
+    if (m === cur && f.orcDesp) {
+      const day = parse(todayIso()).getDate(), mf = day / daysIn(m), sf = f.despReal / f.orcDesp;
+      pace.append(el("span", { class: "label" }, "Ritmo de gastos"),
+        el("div", { class: "pace" }, bar(sf, sf > 1 ? "var(--danger)" : sf > mf + 0.1 ? "var(--warn)" : "var(--accent)"), el("i", { class: "pace-mark", style: `left:${mf * 100}%` })),
+        el("small", { class: "muted" }, `Vocês já gastaram ${pctTxt(sf)} do orçado e o mês está em ${pctTxt(mf)}. ` + (sf > mf + 0.1 ? "Os gastos estão acima do ritmo." : "Os gastos estão no ritmo.")));
+    }
+
+    // nível
+    const G = finGame(), lm = $("fLevelMini"); lm.textContent = "";
+    lm.append(el("div", { class: "lvl-badge" }, el("small", {}, "nível"), el("b", {}, G.level)),
+      el("div", { class: "t" }, el("b", {}, G.name), el("small", {}, G.next ? `${G.xp} XP · faltam ${G.next - G.xp} para ${G.nextName}` : `${G.xp} XP · nível máximo`),
+        bar(G.next ? (G.xp - G.base) / (G.next - G.base) : 1, "linear-gradient(90deg,var(--accent),#f2b63d)"),
+        el("small", {}, `${G.badges.filter(b => b.ok).length} de ${G.badges.length} conquistas · ver metas ›`)));
+
+    // categorias
+    const cats = $("fCats"); cats.textContent = "";
+    const names = [...new Set([...Object.keys(f.B.despesas), ...f.desp.map(x => x.categoria)])]
+      .map(c => ({ c, gasto: f.byCat(f.desp, c), orc: Number(f.B.despesas[c]) || 0 })).filter(x => x.gasto || x.orc).sort((a, b) => b.gasto - a.gasto || b.orc - a.orc);
+    if (!names.length) cats.append(el("div", { class: "empty" }, "Monte o orçamento ou lance despesas para ver os gastos por categoria."));
+    const maxG = Math.max(1, ...names.map(x => x.gasto));
+    names.forEach(x => {
+      const frac = x.orc ? x.gasto / x.orc : x.gasto / maxG;
+      const color = !x.orc ? "var(--c-ped)" : frac > 1 ? "var(--danger)" : frac > 0.85 ? "var(--warn)" : "var(--accent)";
+      cats.append(el("div", { class: "cat" },
+        el("div", { class: "top" }, el("span", {}, x.c), el("span", { class: "num" }, BRL(x.gasto), el("small", {}, x.orc ? ` / ${BRL(x.orc)}` : " · sem orçamento"))),
+        bar(frac, color),
+        x.orc && x.gasto > x.orc ? el("small", { class: "over" }, `${BRL(x.gasto - x.orc)} acima do orçado`) : null));
+    });
+
+    // receitas x despesas (6 meses)
+    const ms = []; for (let i = 5; i >= 0; i--) ms.push(addMonth(m, -i));
+    const fs6 = ms.map(finMonth), maxV = Math.max(1, ...fs6.flatMap(x => [x.recReal, x.despReal]));
+    const fb = $("fBars"); fb.textContent = ""; fb.style.setProperty("--n", ms.length);
+    fs6.forEach(x => fb.append(el("button", { type: "button", class: "fcol", "aria-pressed": String(state.barsSel === x.m),
+      "aria-label": `${monthLabel(x.m)}: receitas ${BRL(x.recReal)}, despesas ${BRL(x.despReal)}`,
+      onclick: () => { state.barsSel = x.m; renderAll(); } },
+      el("div", { class: "bars" }, el("i", { style: `height:${x.recReal / maxV * 100}%;background:var(--c-pm)` }), el("i", { style: `height:${x.despReal / maxV * 100}%;background:var(--c-ped)` })),
+      el("em", {}, mShort(x.m)))));
+    const bs = fs6.find(x => x.m === state.barsSel);
+    $("fBarsCap").textContent = bs ? `${monthLabel(bs.m)}: receitas ${BRL(bs.recReal)} · despesas ${BRL(bs.despReal)} · saldo ${BRL(bs.recReal - bs.despReal)}` : "Toque num mês para ver os valores.";
+
+    // balanço mês a mês: 5 meses antes, o atual e 5 depois
+    const bm = []; for (let i = -5; i <= 5; i++) bm.push(addMonth(cur, i));
+    const bv = bm.map(k => { const x = finMonth(k); return { m: k, v: k < cur ? x.saldo : x.saldoPrev, fut: k >= cur }; });
+    const P = Math.max(0, ...bv.map(x => x.v)), N = Math.max(0, ...bv.map(x => -x.v)), R = P + N || 1, H = 140;
+    const bal = $("fBal"); bal.textContent = ""; bal.style.setProperty("--n", bm.length);
+    bv.forEach(x => {
+      const h = Math.abs(x.v) / R * H, zero = P / R * H;
+      const top = x.v >= 0 ? zero - h : zero;
+      bal.append(el("button", { type: "button", class: "bcol" + (x.fut ? " fut" : "") + (x.m === cur ? " now" : ""), "aria-pressed": String(state.balSel === x.m),
+        "aria-label": `${monthLabel(x.m)}: ${x.fut ? "previsto" : "realizado"} ${BRL(x.v)}`, onclick: () => { state.balSel = x.m; renderAll(); } },
+        el("span", { class: "zero", style: `top:${zero}px` }),
+        el("i", { style: `top:${top}px;height:${Math.max(h, x.v ? 2 : 0)}px;--c:${x.v < 0 ? "var(--danger)" : "var(--accent)"}` }),
+        el("em", {}, MONTHS_S[Number(x.m.slice(5)) - 1])));
+    });
+    const acc = sum(bv, x => x.v), sel = bv.find(x => x.m === state.balSel);
+    $("fBalCap").textContent = sel ? `${monthLabel(sel.m)}: ${sel.fut ? "saldo previsto" : "saldo"} ${BRL(sel.v)}`
+      : `Somando de ${mShort(bm[0])} a ${mShort(bm[bm.length - 1])}: ${BRL(acc)}. Meses futuros usam o orçamento.`;
+
+    // últimos lançamentos
+    const rl = $("fRecent"); rl.textContent = "";
+    const last = [...state.finLanc].sort((a, b) => (b.data + (b.criadoEm || "")).localeCompare(a.data + (a.criadoEm || ""))).slice(0, 5);
+    if (!last.length) rl.append(el("div", { class: "empty" }, "Nenhum lançamento ainda. Toque em Lançar para começar."));
+    last.forEach(x => rl.append(finItem(x, false)));
+  }
+
+  // ---------- lançar ----------
+  function finCats(tipo) {
+    const B = budgetFor(state.month);
+    const base = tipo === "receita" ? FIN_REC : FIN_DESP;
+    const extra = Object.keys(tipo === "receita" ? B.receitas : B.despesas).concat(state.finLanc.filter(x => x.tipo === tipo).map(x => x.categoria));
+    return [...new Set([...base.slice(0, -1), ...extra, base[base.length - 1]])].filter(c => c && c !== AUTO_CAT);
+  }
+  function renderFinLancar() {
+    $$("[data-ftipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ftipo === state.fTipo)));
+    chips($("flCats"), finCats(state.fTipo), state.fCat, v => { state.fCat = state.fCat === v ? "" : v; renderFinLancar(); });
+    updateFinSave();
+    const m = state.month, f = finMonth(m), list = $("flList"); list.textContent = "";
+    $("flTitle").textContent = `Lançamentos de ${monthLabel(m)}`;
+    const items = [...f.L].sort((a, b) => (b.data + (b.criadoEm || "")).localeCompare(a.data + (a.criadoEm || "")));
+    if (f.imp) list.append(autoItem(f));
+    if (!state.finLoaded) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!items.length && !f.imp) list.append(el("div", { class: "empty" }, "Nenhum lançamento neste mês."));
+    items.forEach(x => list.append(finItem(x, true)));
+    $("flTotal").textContent = BRL(f.recReal - f.despReal);
+  }
+  function finDraft() {
+    const valor = pn($("flValor").value);
+    const msg = !(valor > 0) ? "Informe o valor" : !state.fCat ? "Escolha a categoria" : "";
+    return { ok: !msg, msg, entry: { tipo: state.fTipo, valor, categoria: state.fCat, descricao: $("flDesc").value.trim(), data: $("flData").value || todayIso() } };
+  }
+  function updateFinSave() {
+    const d = finDraft(), b = $("flSave");
+    if (!state.db) return;
+    b.disabled = !d.ok;
+    b.textContent = d.ok ? `Lançar ${state.fTipo} · ${BRL(d.entry.valor)}` : d.msg;
+  }
+  $$("[data-ftipo]").forEach(b => b.onclick = () => { state.fTipo = b.dataset.ftipo; state.fCat = ""; setStatus("flStatus", ""); renderFinLancar(); });
+  ["flValor", "flDesc", "flData"].forEach(id => $(id).addEventListener("input", updateFinSave));
+  $("flForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const d = finDraft();
+    if (!state.db || !d.ok) { setStatus("flStatus", d.msg, true); return; }
+    $("flSave").disabled = true;
+    try {
+      await state.db.collection("fin_lanc").add({ ...d.entry, quem: state.email, criadoEm: new Date().toISOString() });
+      setStatus("flStatus", `Lançado: ${d.entry.categoria} · ${BRL(d.entry.valor)}. +5 XP`);
+      $("flValor").value = ""; $("flDesc").value = ""; state.fCat = "";
+      if (monthOf(d.entry.data) !== state.month) setMonth(monthOf(d.entry.data));
+      renderFinLancar();
+    } catch { setStatus("flStatus", "Não foi possível salvar. Verifique a conexão e tente de novo.", true); updateFinSave(); }
+  });
+  async function removeFin(id) {
+    state.fPendingDel = null;
+    try { await state.db.collection("fin_lanc").doc(id).delete(); setStatus("flStatus", "Lançamento apagado."); }
+    catch { setStatus("flStatus", "Não foi possível apagar. Tente de novo.", true); renderAll(); }
+  }
+
+  // ---------- orçamento ----------
+  let foDraft = { receitas: [], despesas: [] };
+  function fillBudget() {
+    const B = budgetFor(state.month);
+    state.foMonth = state.month;
+    const toRows = map => Object.entries(map).map(([nome, valor]) => ({ nome, valor: Number(valor) || 0 }));
+    foDraft = B.from ? { receitas: toRows(B.receitas), despesas: toRows(B.despesas) }
+      : { receitas: [{ nome: "Salário", valor: 0 }], despesas: FIN_DESP.map(nome => ({ nome, valor: 0 })) };
+    const from = $("foFrom");
+    from.hidden = !(B.from && B.from !== state.month);
+    from.className = "pill rel"; from.textContent = B.from ? `Copiado de ${mShort(B.from)}` : "";
+    $("foNote").textContent = !B.from ? "Ainda não há orçamento. Preencha quanto vocês esperam receber e gastar por mês."
+      : B.from !== state.month ? `Este mês ainda não tem orçamento próprio: estes valores vêm de ${monthLabel(B.from)}. Ajuste e salve para ${monthLabel(state.month)}.`
+      : "Ajuste os valores e salve. Os próximos meses usam este orçamento até ganharem um próprio.";
+    renderBudgetRows();
+  }
+  function budgetRows(box, rows, kind) {
+    box.textContent = "";
+    rows.forEach((x, i) => {
+      const n = el("input", { type: "text", value: x.nome, id: `fo${kind}n${i}`, "aria-label": "Categoria", placeholder: "Categoria" });
+      n.oninput = () => { x.nome = n.value; };
+      const v = el("input", { type: "number", step: "0.01", min: "0", value: x.valor || "", id: `fo${kind}v${i}`, "aria-label": `Valor de ${x.nome || "categoria"}`, inputmode: "decimal", placeholder: "0,00" });
+      v.oninput = () => { x.valor = pn(v.value); renderBudgetTotals(); };
+      box.append(el("div", { class: "brow" }, n, el("span", { class: "money" }, v),
+        el("button", { type: "button", class: "x", "aria-label": `Remover ${x.nome || "categoria"}`, onclick: () => { rows.splice(i, 1); renderBudgetRows(); } }, "×")));
+    });
+  }
+  function renderBudgetRows() {
+    budgetRows($("foRec"), foDraft.receitas, "r");
+    budgetRows($("foDesp"), foDraft.despesas, "d");
+    renderBudgetTotals();
+  }
+  function renderBudgetTotals() {
+    const cur = monthOf(todayIso()), imp = state.finImport[state.month];
+    const auto = state.month < cur ? (imp ? Number(imp.lucro) || 0 : 0) : imp ? Number(imp.previsto ?? imp.lucro) || 0 : futureAuto();
+    const a = $("foAuto"); a.textContent = "";
+    a.append(el("div", { class: "t" }, el("span", {}, AUTO_CAT), el("small", {}, "Automático · lucro do transporte" + (state.month > cur ? " (estimado pelo mês atual)" : ""))),
+      el("span", { class: "num" }, BRL(auto)));
+    const r = sum(foDraft.receitas, x => x.valor) + auto, d = sum(foDraft.despesas, x => x.valor);
+    ledger($("foTotals"), [
+      { label: "Receitas previstas", v: r, k: "in" },
+      { label: "Despesas previstas", v: d, k: "out" },
+      { label: "Saldo orçado", sub: r ? `${pctTxt(Math.max(0, r - d) / r)} da receita sobra` : "", v: r - d, k: "in" },
+    ]);
+  }
+  $("foAddRec").onclick = () => { foDraft.receitas.push({ nome: "", valor: 0 }); renderBudgetRows(); $(`forn${foDraft.receitas.length - 1}`).focus(); };
+  $("foAddDesp").onclick = () => { foDraft.despesas.push({ nome: "", valor: 0 }); renderBudgetRows(); $(`fodn${foDraft.despesas.length - 1}`).focus(); };
+  $("foForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const toMap = rows => { const o = {}; rows.forEach(x => { const k = x.nome.trim().replace(/[.~*/[\]]/g, " ").trim(); if (k && k !== AUTO_CAT) o[k] = (o[k] || 0) + (Number(x.valor) || 0); }); return o; };
+    try {
+      await state.db.collection("fin_orc").doc(state.month).set({ receitas: toMap(foDraft.receitas), despesas: toMap(foDraft.despesas), quem: state.email, atualizadoEm: new Date().toISOString() });
+      setStatus("foStatus", `Orçamento de ${monthLabel(state.month)} salvo.`);
+    } catch { setStatus("foStatus", "Não foi possível salvar. Tente de novo.", true); }
+  });
+
+  // ---------- metas ----------
+  function renderFinMetas() {
+    const G = finGame(), lv = $("gLevel"); lv.textContent = "";
+    lv.append(el("div", { class: "lvl-badge big" }, el("small", {}, "nível"), el("b", {}, G.level)),
+      el("div", { class: "t" }, el("span", { class: "label" }, "Finanças da família"), el("h2", {}, G.name),
+        bar(G.next ? (G.xp - G.base) / (G.next - G.base) : 1, "linear-gradient(90deg,var(--accent),#f2b63d)"),
+        el("small", { class: "muted" }, G.next ? `${G.xp} XP · faltam ${G.next - G.xp} XP para ${G.nextName}` : `${G.xp} XP · nível máximo`),
+        el("div", { class: "chips-mini" },
+          el("span", { class: "pill" }, G.streak === 1 ? "1 semana registrando" : `${G.streak} semanas seguidas`),
+          el("span", { class: "pill ok" }, `${BRL(G.totalGuardado)} guardados`),
+          el("span", { class: "pill rel" }, `${G.concluidas} ${G.concluidas === 1 ? "meta batida" : "metas batidas"}`))));
+
+    // desafio: guardar 10% das receitas do mês
+    const cur = monthOf(todayIso()), f = finMonth(cur), alvo = Math.max(0, f.recReal * 0.1), ch = $("gChallenge"); ch.textContent = "";
+    const frac = alvo ? f.guardado / alvo : 0, done = alvo > 0 && f.guardado >= alvo;
+    $("gChState").className = done ? "pill ok" : "pill"; $("gChState").textContent = done ? "Concluído · +100 XP" : `até ${pad(daysIn(cur))}/${cur.slice(5)}`;
+    ch.append(el("b", {}, "Guardar 10% do que entrou em " + MONTHS[Number(cur.slice(5)) - 1].toLowerCase()),
+      bar(frac, done ? "#f2b63d" : "var(--accent)"),
+      el("small", { class: "muted" }, alvo ? (done ? `Vocês guardaram ${BRL(f.guardado)}. Desafio cumprido!` : `${BRL(f.guardado)} de ${BRL(alvo)} · faltam ${BRL(alvo - f.guardado)}`)
+        : "Lance as receitas do mês para o desafio começar."));
+
+    // metas
+    const box = $("gGoals"); box.textContent = "";
+    const metas = [...state.finMetas].sort((a, b) => (a.criadoEm || "").localeCompare(b.criadoEm || ""));
+    $("gGoalsSub").textContent = metas.length ? `${BRL(G.totalGuardado)} guardados` : "";
+    if (!metas.length) box.append(el("div", { class: "empty" }, "Nenhuma meta ainda. Crie a primeira abaixo, por exemplo uma reserva de emergência."));
+    metas.forEach(g => {
+      const gs = guardadoOf(g), fr = g.alvo ? gs / g.alvo : 0, ok = g.alvo > 0 && gs >= g.alvo;
+      let plano = "";
+      if (!ok && g.prazo) {
+        const meses = Math.max(1, (Number(g.prazo.slice(0, 4)) - Number(cur.slice(0, 4))) * 12 + Number(g.prazo.slice(5, 7)) - Number(cur.slice(5)) + 1);
+        plano = g.prazo < todayIso() ? "Prazo passou" : `Guardem ${BRL((g.alvo - gs) / meses)} por mês até ${fmtDate(g.prazo).slice(3)}`;
+      }
+      const confirming = state.gPendingDel === g.id;
+      box.append(el("div", { class: "goal" + (ok ? " done" : "") }, ring(fr, ok),
+        el("div", { class: "t" },
+          el("b", {}, g.nome, ok ? el("span", { class: "pill ok", style: "margin-left:8px" }, "Concluída") : null),
+          el("small", { class: "num" }, `${BRL(gs)} de ${BRL(g.alvo)}` + (ok ? "" : ` · faltam ${BRL(g.alvo - gs)}`)),
+          plano ? el("small", {}, plano) : null,
+          el("div", { class: "row", style: "gap:8px;margin-top:6px" },
+            el("button", { type: "button", class: "ghost", onclick: () => openAporte(g.id) }, ok ? "Movimentar" : "Guardar dinheiro"),
+            el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+              if (confirming) return removeGoal(g.id);
+              state.gPendingDel = g.id; renderAll();
+              setTimeout(() => { if (state.gPendingDel === g.id) { state.gPendingDel = null; renderAll(); } }, 4000);
+            } }, confirming ? "Confirmar exclusão" : "Excluir")))));
+    });
+
+    const bx = $("gBadges"); bx.textContent = "";
+    G.badges.forEach(b => bx.append(el("div", { class: "badge" + (b.ok ? "" : " off"), title: b.desc }, medal(b.ok), el("b", {}, b.nome), el("small", {}, b.desc))));
+    $("gBadgesSub").textContent = `${G.badges.filter(b => b.ok).length} de ${G.badges.length}`;
+  }
+  function openAporte(id) {
+    const g = state.finMetas.find(x => x.id === id); if (!g) return;
+    state.apGoal = id;
+    $("apTitle").textContent = g.nome;
+    $("apSub").textContent = `${BRL(guardadoOf(g))} de ${BRL(g.alvo)} guardados`;
+    $("aporteForm").hidden = false; $("apValor").value = ""; setStatus("apStatus", "");
+    $("aporteForm").scrollIntoView({ behavior: "smooth", block: "center" }); $("apValor").focus();
+  }
+  async function aporte(sign) {
+    const g = state.finMetas.find(x => x.id === state.apGoal), v = pn($("apValor").value);
+    if (!g) return;
+    if (!(v > 0)) { setStatus("apStatus", "Informe o valor.", true); return; }
+    if (sign < 0 && v > guardadoOf(g)) { setStatus("apStatus", `Só há ${BRL(guardadoOf(g))} guardados nesta meta.`, true); return; }
+    try {
+      const aportes = [...aportesOf(g), { valor: sign * v, data: todayIso(), quem: state.email }];
+      await state.db.collection("fin_metas").doc(g.id).update({ aportes });
+      const total = sum(aportes, a => a.valor);
+      setStatus("apStatus", sign > 0 ? (g.alvo && total >= g.alvo ? `Meta "${g.nome}" concluída! +150 XP` : `${BRL(v)} guardados. +${Math.floor(v / 10)} XP`) : `${BRL(v)} retirados.`);
+      $("apValor").value = "";
+      setTimeout(() => { $("aporteForm").hidden = true; }, 1600);
+    } catch { setStatus("apStatus", "Não foi possível salvar. Tente de novo.", true); }
+  }
+  $("aporteForm").addEventListener("submit", ev => { ev.preventDefault(); aporte(1); });
+  $("apSubBtn").onclick = () => aporte(-1);
+  $("apCancel").onclick = () => { $("aporteForm").hidden = true; state.apGoal = null; };
+  $("goalForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const nome = $("gNome").value.trim(), alvo = pn($("gAlvo").value), prazo = $("gPrazo").value || "";
+    if (!nome) { setStatus("gStatus", "Dê um nome para a meta.", true); return; }
+    if (!(alvo > 0)) { setStatus("gStatus", "Informe quanto querem juntar.", true); return; }
+    try {
+      await state.db.collection("fin_metas").add({ nome, alvo, prazo, aportes: [], quem: state.email, criadoEm: new Date().toISOString() });
+      $("gNome").value = ""; $("gAlvo").value = ""; $("gPrazo").value = "";
+      setStatus("gStatus", `Meta "${nome}" criada. +25 XP`);
+    } catch { setStatus("gStatus", "Não foi possível criar a meta. Tente de novo.", true); }
+  });
+  async function removeGoal(id) {
+    state.gPendingDel = null;
+    try { await state.db.collection("fin_metas").doc(id).delete(); } catch { setStatus("gStatus", "Não foi possível excluir. Tente de novo.", true); renderAll(); }
+  }
+
+  function renderFin() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    if (state.view === "fin") renderFinResumo();
+    else if (state.view === "fin-lancar") renderFinLancar();
+    else if (state.view === "fin-orcamento") { if (state.foMonth !== state.month) fillBudget(); else renderBudgetTotals(); }
+    else if (state.view === "fin-metas") renderFinMetas();
+  }
+
+  // ---------- lucro da Pedreira e outras → Finanças (só o dono calcula e grava) ----------
+  let finSyncTimer = null, finSyncKey = null;
+  function finSync() {
+    if (state.partner || !state.db || !state.loadedMonth || !state.loadedCustos || !state.finImportLoaded) return;
+    const m = state.month, cur = monthOf(todayIso());
+    if (m > cur) return;
+    const E = state.monthEntries.filter(e => e.tipo !== "PM");
+    const { esp, fixos } = monthCosts(m);
+    const custos = sum(fixos.filter(x => x.area === "OUT"), x => x.valor) + sum(esp.filter(x => x.area === "OUT"), x => x.valor);
+    const receita = sum(E, e => e.valor), lucro = receita - custos;
+    let previsto = lucro;
+    if (m === cur) { const done = workdaysDone(m); if (done) previsto = receita * workdays(m) / done - custos; }
+    const r = v => Math.round(v * 100) / 100;
+    const next = { receita: r(receita), custos: r(custos), lucro: r(lucro), previsto: r(previsto) };
+    const have = state.finImport[m];
+    if (!have && !receita && !custos) return;
+    if (have && Object.keys(next).every(k => have[k] === next[k])) return;
+    const key = m + JSON.stringify(next);
+    if (finSyncKey === key) return;
+    clearTimeout(finSyncTimer);
+    finSyncKey = key;
+    finSyncTimer = setTimeout(() => {
+      state.db.collection("fin_import").doc(m).set({ ...next, atualizadoEm: new Date().toISOString() })
+        .catch(() => {}).finally(() => { if (finSyncKey === key) finSyncKey = null; });
+    }, 1200);
+  }
+
+  function startFinance(db) {
+    db.collection("fin_import").onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finImport = m; state.finImportLoaded = true; renderAll(); }, () => { state.finImportLoaded = true; });
+    if (APP !== "fin") return;
+    const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "As Finanças ainda não estão liberadas para esta conta. Fale com o responsável ou publique as regras novas do Firestore.", true); };
+    db.collection("fin_lanc").limit(5000).onSnapshot(s => { state.finLanc = toList(s); state.finLoaded = true; loaded(); renderAll(); }, denied);
+    db.collection("fin_orc").onSnapshot(s => {
+      const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finOrc = m;
+      if (state.view === "fin-orcamento" && !document.activeElement?.closest("#foForm")) state.foMonth = null;
+      renderAll();
+    }, denied);
+    db.collection("fin_metas").onSnapshot(s => { state.finMetas = toList(s); renderAll(); }, denied);
+    $("flData").value = todayIso();
+  }
+
+  // ---------- AJUSTES: custos fixos e sócio ----------
+  let fxDraft = [];
+  function fillFixForm() { fxDraft = state.fixos.map(x => ({ id: x.id, nome: x.nome, valor: x.valor, area: x.area || "PM" })); renderFx(); }
+  function renderFx() {
+    const box = $("fxList"); box.textContent = "";
+    if (!fxDraft.length) box.append(el("span", { class: "muted" }, "Nenhum custo fixo."));
+    fxDraft.forEach((x, i) => {
+      const n = el("input", { type: "text", value: x.nome, id: `fxn${i}`, "aria-label": "Nome do custo fixo", placeholder: "Ex.: Seguro" });
+      n.oninput = () => x.nome = n.value;
+      const v = el("input", { type: "number", step: "0.01", min: "0", value: x.valor, id: `fxv${i}`, "aria-label": "Valor mensal", inputmode: "decimal" });
+      v.oninput = () => x.valor = pn(v.value);
+      const a = el("select", { id: `fxa${i}`, "aria-label": "Área do custo" }, Object.entries(AREAS).map(([k, l]) => { const o = el("option", { value: k }, l); if (k === x.area) o.selected = true; return o; }));
+      a.onchange = () => x.area = a.value;
+      box.append(el("div", { class: "fx" }, n, el("span", { class: "money" }, v), a,
+        el("button", { type: "button", class: "x", "aria-label": `Remover ${x.nome || "custo"}`, onclick: () => { fxDraft.splice(i, 1); renderFx(); } }, "×")));
+    });
+  }
+  $("fxAdd").onclick = () => { fxDraft.push({ nome: "", valor: 0, area: "PM" }); renderFx(); $(`fxn${fxDraft.length - 1}`).focus(); };
+  $("fixForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const items = fxDraft.map((x, i) => ({ ...x, nome: x.nome.trim(), valor: Number(x.valor) || 0, ordem: i })).filter(x => x.nome);
+    const old = [...state.fixos];
+    try {
+      const keep = new Set();
+      for (const x of items) {
+        const ref = x.id ? state.db.collection("fixos").doc(x.id) : state.db.collection("fixos").doc();
+        keep.add(ref.id);
+        await ref.set({ nome: x.nome, valor: x.valor, area: x.area, ordem: x.ordem });
+      }
+      for (const x of old) if (!keep.has(x.id)) await state.db.collection("fixos").doc(x.id).delete();
+      setStatus("fxStatus", "Custos fixos salvos.");
+    } catch { setStatus("fxStatus", "Não foi possível salvar. Tente de novo.", true); }
+  });
+  function renderAcesso() {
+    const box = $("accList"); box.textContent = "";
+    if (!state.socios.length) { box.append(el("span", { class: "muted" }, "Nenhum sócio com acesso.")); return; }
+    state.socios.forEach(email => box.append(el("div", { class: "tline" },
+      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "PM só leitura aqui · Finanças no app de Finanças")),
+      el("button", { type: "button", class: "ghost", onclick: () => removeSocio(email) }, "Remover"))));
+  }
+  $("accForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const email = $("accEmail").value.trim().toLowerCase();
+    if (!/^[^@\s/]+@[^@\s/]+\.[^@\s/]+$/.test(email)) { setStatus("accStatus", "Digite um e-mail válido.", true); return; }
+    if (email === state.email) { setStatus("accStatus", "Esse é o seu e-mail. Coloque o e-mail do sócio.", true); return; }
+    try {
+      await state.fs.collection("socios").doc(email).set({ owner: state.uid, criadoEm: new Date().toISOString() });
+      await state.db.doc("config/acesso").set({ socios: [...new Set([...state.socios, email])] });
+      $("accEmail").value = "";
+      setStatus("accStatus", `Acesso liberado para ${email}. Mande o link do app para o sócio.`);
+    } catch {
+      setStatus("accStatus", "Não foi possível liberar. Confira se as regras novas do Firestore foram publicadas.", true);
+    }
+  });
+  async function removeSocio(email) {
+    try {
+      await state.fs.collection("socios").doc(email).delete();
+      await state.db.doc("config/acesso").set({ socios: state.socios.filter(e => e !== email) });
+      setStatus("accStatus", `Acesso de ${email} removido.`);
+    } catch { setStatus("accStatus", "Não foi possível remover. Tente de novo.", true); }
+  }
+
+  // ---------- AJUSTES ----------
+  let cfgDraft = null;
+  function fillCfgForm() {
+    cfgDraft = structuredClone(state.cfg);
+    $("cfCliente").value = cfgDraft.cliente || ""; $("cfPrestador").value = cfgDraft.prestador || "";
+    $("cfG").value = cfgDraft.precos.g; $("cfM").value = cfgDraft.precos.m; $("cfMoto").value = cfgDraft.precos.moto; $("cfCarro").value = cfgDraft.precos.carro;
+    renderDests();
+  }
+  function renderDests() {
+    const box = $("cfDests"); box.textContent = "";
+    if (!cfgDraft.destinos.length) box.append(el("span", { class: "muted" }, "Nenhum destino frequente."));
+    cfgDraft.destinos.forEach((d, i) => {
+      const n = el("input", { type: "text", value: d.nome, "aria-label": "Nome do destino", id: `cfdn${i}` });
+      n.oninput = () => cfgDraft.destinos[i].nome = n.value;
+      const v = el("input", { type: "number", step: "0.01", min: "0", value: d.valor, "aria-label": "Valor", id: `cfdv${i}` });
+      v.oninput = () => cfgDraft.destinos[i].valor = parseFloat(v.value) || 0;
+      box.append(el("div", { class: "dest" }, n, el("span", { class: "money" }, v),
+        el("button", { type: "button", class: "x", "aria-label": `Remover ${d.nome}`, onclick: () => { cfgDraft.destinos.splice(i, 1); renderDests(); } }, "×")));
+    });
+  }
+  $("cfAddDest").onclick = () => { cfgDraft.destinos.push({ nome: "", valor: 0 }); renderDests(); $(`cfdn${cfgDraft.destinos.length - 1}`).focus(); };
+  $("cfgForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const n = id => parseFloat($(id).value) || 0;
+    const next = { cliente: $("cfCliente").value.trim(), prestador: $("cfPrestador").value.trim(),
+      precos: { g: n("cfG"), m: n("cfM"), moto: n("cfMoto"), carro: n("cfCarro") },
+      destinos: cfgDraft.destinos.map(d => ({ nome: d.nome.trim(), valor: Number(d.valor) || 0 })).filter(d => d.nome) };
+    try { await saveCfg(next); setStatus("cfStatus", "Ajustes salvos."); }
+    catch { setStatus("cfStatus", "Não foi possível salvar. Tente de novo.", true); }
+  });
+  async function saveCfg(next) {
+    if (!state.db) throw new Error("offline");
+    state.cfg = next;
+    await state.db.doc("config/geral").set({ ...next, fixosIniciados: true, atualizadoEm: new Date().toISOString() });
+  }
+
+  // ---------- data ----------
+  let unsubMonth = null, unsubDay = null;
+  function setMonth(m) { if (m === state.month) return; state.month = m; state.loadedMonth = false; state.monthEntries = []; subMonth(); renderAll(); }
+  function setDay(d) { if (d === state.day) return; state.day = d; state.loadedDay = false; state.dayEntries = []; state.pendingDel = null; subDay(); renderAll(); }
+  const toList = snap => snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+  function partnerDerive() {
+    const t = todayIso();
+    state.monthEntries = state.allPM.filter(e => monthOf(e.data) === state.month);
+    state.todayEntries = state.allPM.filter(e => e.data === t);
+    state.loadedMonth = true;
+  }
+  function subMonth() {
+    if (state.partner) { partnerDerive(); return; }
+    if (!state.db) return;
+    unsubMonth?.();
+    const m = state.month;
+    unsubMonth = state.db.collection("entregas").where("data", ">=", `${m}-01`).where("data", "<=", `${m}-31`).limit(1000)
+      .onSnapshot(s => { if (m !== state.month) return; state.monthEntries = toList(s); state.loadedMonth = true; loaded(); renderAll(); },
+        () => { state.loadedMonth = true; setStatus("globalStatus", "Erro ao carregar o mês. Recarregue a página.", true); renderAll(); });
+  }
+  function subDay() {
+    if (state.partner || !state.db) return;
+    unsubDay?.();
+    const d = state.day;
+    unsubDay = state.db.collection("entregas").where("data", "==", d).onSnapshot(s => {
+      if (d !== state.day) return; state.dayEntries = toList(s); state.loadedDay = true; loaded();
+      if (d === todayIso()) state.todayEntries = state.dayEntries;
+      renderAll();
+    }, () => { state.loadedDay = true; setStatus("globalStatus", "Erro ao carregar o dia. Recarregue a página.", true); renderAll(); });
+  }
+  let loadTimer = null;
+  function loaded() { clearTimeout(loadTimer); if ($("globalStatus").textContent.startsWith("Os dados")) setStatus("globalStatus", ""); }
+
+  function renderAll() {
+    if (state.view === "painel") renderPainel();
+    else if (state.view === "registrar") renderRegistrar();
+    else if (state.view === "relatorio") renderRelatorio();
+    else if (state.view === "custos") renderCustos();
+    else if (state.view.startsWith("fin")) renderFin();
+    if (APP === "tr" && !state.partner) finSync();
+  }
+
+  $("time").value = nowTime();
+  $("cData").value = todayIso();
+  route();
+
+  // ---------- login (Firebase) ----------
+  const byOrdem = (a, b) => (a.ordem ?? 0) - (b.ordem ?? 0);
+  let seeded = false;
+  async function seedFixos() {
+    try {
+      await state.db.collection("fixos").doc("protecao").set({ nome: "Proteção veicular", valor: 350, area: "PM", ordem: 0 });
+      await state.db.collection("fixos").doc("manutencao").set({ nome: "Manutenção preventiva", valor: 150, area: "PM", ordem: 1 });
+      await state.db.doc("config/geral").set({ fixosIniciados: true }, { merge: true });
+    } catch {}
+  }
+  function startPartner(db) {
+    state.db = db; state.partner = true;
+    document.body.classList.add("partner");
+    loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    if (APP === "fin") { startFinance(db); route(); return; }
+    const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "Seu acesso de sócio não está liberado. Fale com o responsável pela operação.", true); };
+    db.collection("entregas").where("tipo", "==", "PM").limit(1000).onSnapshot(s => { state.allPM = toList(s); partnerDerive(); loaded(); renderAll(); }, denied);
+    db.collection("custos").where("area", "==", "PM").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, denied);
+    db.collection("fixos").where("area", "==", "PM").onSnapshot(s => { state.fixos = toList(s).sort(byOrdem); renderAll(); }, denied);
+    route();
+  }
+  function startApp(db, uid) {
+    state.db = db; state.uid = uid;
+    loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
+    startFinance(db);
+    updateChrome();
+    if (APP === "fin") { route(); return; }
+    db.collection("custos").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, () => {});
+    db.collection("fixos").onSnapshot(s => {
+      state.fixos = toList(s).sort(byOrdem);
+      if (state.view === "ajustes" && !document.activeElement?.closest("#fixForm")) fillFixForm();
+      renderAll();
+    }, () => {});
+    db.doc("config/acesso").onSnapshot(s => { state.socios = (s.exists && s.data().socios) || []; if (state.view === "ajustes") renderAcesso(); }, () => {});
+    db.doc("config/geral").onSnapshot(s => {
+      const d = s.exists ? s.data() : {};
+      if (!s.metadata.fromCache && !d.fixosIniciados && !seeded) { seeded = true; seedFixos(); }
+      state.cfg = { ...DEFAULT_CFG, ...d, precos: { ...DEFAULT_CFG.precos, ...(d.precos || {}) }, destinos: Array.isArray(d.destinos) ? d.destinos : DEFAULT_CFG.destinos };
+      if (state.view === "ajustes" && !document.activeElement?.closest("#cfgForm")) fillCfgForm();
+      renderAll();
+    }, () => {});
+    subMonth(); subDay();
+    db.collection("semanas").limit(1000).onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.weeks = m; renderAll(); }, () => {});
+    const [ws, we] = weekRange();
+    db.collection("entregas").where("data", ">=", ws).where("data", "<=", we).onSnapshot(s => { state.weekEntries = toList(s); if (state.view === "painel") renderPainel(); }, () => {});
+    db.collection("entregas").where("data", "==", todayIso()).onSnapshot(s => { state.todayEntries = toList(s); if (state.view === "painel") renderPainel(); }, () => {});
+    updateSum();
+    updateCostSum();
+  }
+
+  // backup
+  $("bkExport").onclick = async () => {
+    try {
+      const out = { app: "central-trabalho", versao: 2, exportadoEm: new Date().toISOString(), entregas: {}, config: {}, semanas: {}, custos: {}, fixos: {}, fin_lanc: {}, fin_orc: {}, fin_metas: {}, fin_import: {} };
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos", "fin_lanc", "fin_orc", "fin_metas", "fin_import"]) (await state.db.collection(c).get()).docs.forEach(d => out[c][d.id] = d.data());
+      downloadFile(`backup-central-trabalho-${todayIso()}.json`, JSON.stringify(out, null, 2), "application/json");
+      setStatus("bkStatus", `Backup baixado: ${Object.keys(out.entregas).length} entregas.`);
+    } catch { setStatus("bkStatus", "Não foi possível gerar o backup. Verifique a conexão.", true); }
+  };
+  $("bkImport").onchange = async ev => {
+    const file = ev.target.files[0]; ev.target.value = "";
+    if (!file) return;
+    try {
+      const data = JSON.parse(await file.text());
+      if (data.app !== "central-trabalho") throw new Error("formato");
+      const writes = [];
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos", "fin_lanc", "fin_orc", "fin_metas", "fin_import"]) for (const [id, doc] of Object.entries(data[c] || {})) writes.push([c, id, doc]);
+      for (let k = 0; k < writes.length; k += 400) {
+        const batch = window.firebase.firestore().batch();
+        writes.slice(k, k + 400).forEach(([c, id, doc]) => batch.set(state.db.collection(c).doc(id), doc));
+        await batch.commit();
+      }
+      setStatus("bkStatus", `Backup importado: ${Object.keys(data.entregas || {}).length} entregas.`);
+    } catch (e) {
+      setStatus("bkStatus", e.message === "formato" ? "Este arquivo não é um backup da Central de Trabalho." : "Não foi possível importar. Confira o arquivo e a conexão.", true);
+    }
+  };
+
+  // ---------- instalar como aplicativo ----------
+  (() => {
+    const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const bar = $("installBar"), btn = $("installBtn"), go = $("installGo");
+    let deferred = null;
+    const recentlyDismissed = () => Date.now() - lsGet("splog.installDismissed", 0) < 7 * 864e5;
+    const setBar = on => { bar.hidden = !on; document.body.classList.toggle("has-bar", on); };
+    const offer = () => { if (standalone) return; btn.hidden = false; if (!recentlyDismissed()) setBar(true); };
+    const done = () => { setBar(false); btn.hidden = true; };
+    async function install() {
+      if (deferred) {
+        deferred.prompt();
+        try { await deferred.userChoice; } catch {}
+        deferred = null; done(); return;
+      }
+      if (ios) {
+        $("installHint").textContent = "No Safari, toque em Compartilhar (quadrado com seta para cima) e depois em “Adicionar à Tela de Início”.";
+        go.hidden = true; setBar(true);
+      }
+    }
+    window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; go.hidden = false; go.textContent = "Instalar"; offer(); });
+    window.addEventListener("appinstalled", done);
+    go.onclick = install; btn.onclick = install;
+    $("installClose").onclick = () => { setBar(false); lsSet("splog.installDismissed", Date.now()); };
+    if (ios && !standalone) { go.textContent = "Como instalar"; offer(); }
+    if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("../sw.js").catch(() => {});
+  })();
+
+  (() => {
+    const cfg = window.FIREBASE_CONFIG;
+    const showLogin = () => { $("boot").hidden = true; $("app").hidden = true; $("login").hidden = false; };
+    if (!window.firebase || !cfg || !cfg.apiKey || cfg.apiKey.startsWith("COLE")) {
+      showLogin(); $("lgBtn").disabled = true;
+      setStatus("lgStatus", !window.firebase ? "Não foi possível carregar o login. Verifique a internet e recarregue." : "Falta configurar o arquivo config.js com os dados do seu projeto Firebase.", true);
+      return;
+    }
+    firebase.initializeApp(cfg);
+    const auth = firebase.auth(), fs = firebase.firestore();
+    fs.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+    let started = false;
+    auth.onAuthStateChanged(async u => {
+      if (!u) { showLogin(); return; }
+      if (started) return; started = true;
+      const email = (u.email || "").toLowerCase();
+      state.fs = fs; state.email = email;
+      let owner = null;
+      try {
+        const s = await fs.collection("socios").doc(email).get();
+        if (s.exists && s.data().owner && s.data().owner !== u.uid) owner = s.data().owner;
+      } catch {}
+      $("boot").hidden = true; $("login").hidden = true; $("app").hidden = false;
+      $("userEmail").textContent = email;
+      const root = fs.collection("usuarios").doc(owner || u.uid);
+      const db = { collection: n => root.collection(n), doc: p => { const [c, id] = p.split("/"); return root.collection(c).doc(id); } };
+      if (owner) startPartner(db); else startApp(db, u.uid);
+    });
+    const MSG = {
+      "auth/invalid-credential": "E-mail ou senha incorretos.", "auth/wrong-password": "E-mail ou senha incorretos.",
+      "auth/user-not-found": "E-mail ou senha incorretos.", "auth/invalid-email": "Digite um e-mail válido.",
+      "auth/too-many-requests": "Muitas tentativas. Espere alguns minutos e tente de novo.",
+      "auth/network-request-failed": "Sem conexão com a internet.", "auth/user-disabled": "Este acesso foi desativado.",
+    };
+    $("loginForm").addEventListener("submit", async ev => {
+      ev.preventDefault();
+      $("lgBtn").disabled = true; setStatus("lgStatus", "Entrando…");
+      try { await auth.signInWithEmailAndPassword($("lgEmail").value.trim(), $("lgPass").value); setStatus("lgStatus", ""); }
+      catch (e) { setStatus("lgStatus", MSG[e.code] || "Não foi possível entrar. Tente de novo.", true); }
+      finally { $("lgBtn").disabled = false; }
+    });
+    $("lgForgot").onclick = async () => {
+      const email = $("lgEmail").value.trim();
+      if (!email) { setStatus("lgStatus", "Digite seu e-mail acima e toque de novo em “Esqueci minha senha”.", true); return; }
+      try { await auth.sendPasswordResetEmail(email); setStatus("lgStatus", "Se o e-mail estiver cadastrado, você vai receber um link para criar uma nova senha."); }
+      catch (e) { setStatus("lgStatus", MSG[e.code] || "Não foi possível enviar o e-mail agora.", true); }
+    };
+    $("logout").onclick = () => auth.signOut().then(() => location.reload());
+  })();
+})();
+</script>
+</body>
+</html>
