@@ -25,6 +25,21 @@ service cloud.firestore {
       allow read: if socioDe(uid) && resource.data.area == "PM";
     }
 
+    // Finanças da família: a pessoa liberada lê e escreve junto com o dono
+    match /usuarios/{uid}/fin_lanc/{id} {
+      allow read, write: if socioDe(uid);
+    }
+    match /usuarios/{uid}/fin_orc/{id} {
+      allow read, write: if socioDe(uid);
+    }
+    match /usuarios/{uid}/fin_metas/{id} {
+      allow read, write: if socioDe(uid);
+    }
+    // Lucro da Pedreira e outras (calculado pelo app do dono): só leitura
+    match /usuarios/{uid}/fin_import/{id} {
+      allow read: if socioDe(uid);
+    }
+
     // Lista de sócios: só o dono cria e remove; quem já é sócio não cria outros
     match /socios/{email} {
       allow read: if signedIn() && (request.auth.token.email == email || resource.data.owner == request.auth.uid);

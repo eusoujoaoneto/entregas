@@ -303,6 +303,69 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
 .install-bar .t b{font-weight:600}
 .install-bar small{color:var(--muted);font-size:13px;line-height:1.35}
 .install-bar .x{border:none;background:var(--fill);color:var(--muted);font-size:16px;width:28px;height:28px;border-radius:50%;line-height:1}
+
+/* módulos: Transporte | Finanças */
+.modsw{margin-top:12px}
+.modsw button{padding:7px 4px;font-size:15px}
+nav.views.fin-nav{grid-template-columns:repeat(4,minmax(0,112px))}
+body:not(.mod-fin) nav.fin-nav{display:none!important}
+body.mod-fin nav.tr-nav{display:none!important}
+body.mod-fin .ro-badge{display:none!important}
+
+/* finanças */
+.cap{font-size:14px;color:var(--muted);min-height:1.3em}
+.track{height:8px;border-radius:99px;background:var(--fill);overflow:hidden}
+.track i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
+.cats{display:flex;flex-direction:column;gap:14px}
+.cat{display:flex;flex-direction:column;gap:6px}
+.cat .top{display:flex;justify-content:space-between;gap:8px;font-size:15px}
+.cat .top small{color:var(--muted);font-size:13px}
+.cat .over{color:var(--danger);font-size:13px}
+.pace{position:relative;margin-block:8px 6px}
+.pace-mark{position:absolute;top:-4px;width:2px;height:16px;background:var(--fg);border-radius:2px;transform:translateX(-1px)}
+#fPace{display:flex;flex-direction:column;gap:2px}
+#fPace:empty{display:none}
+.fchart{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:6px;height:170px;border-bottom:.5px solid var(--sep)}
+.fcol{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;background:none;border:none;padding:0 0 4px;min-width:0;border-radius:8px}
+.fcol .bars{display:flex;gap:3px;align-items:flex-end;height:calc(100% - 22px);width:100%;justify-content:center}
+.fcol .bars i{width:38%;max-width:18px;border-radius:4px 4px 0 0;min-height:2px}
+.fcol em,.bcol em{font-style:normal;font-size:11px;color:var(--muted)}
+.bcol em{font-size:10px;letter-spacing:-.01em}
+.fcol[aria-pressed="true"],.bcol[aria-pressed="true"]{background:var(--fill)}
+.fcol[aria-pressed="true"] em,.bcol[aria-pressed="true"] em{color:var(--fg);font-weight:600}
+.bal{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;height:166px}
+.bcol{position:relative;height:100%;background:none;border:none;padding:0;min-width:0;border-radius:6px}
+.bcol .zero{position:absolute;left:-2px;right:-2px;height:0;border-top:.5px solid var(--sep)}
+.bcol i{position:absolute;left:22%;right:22%;background:var(--c);border-radius:3px}
+.bcol.fut i{background:transparent;border:1.5px dashed var(--c);opacity:.85}
+.bcol.now i{left:16%;right:16%}
+.bcol em{position:absolute;bottom:2px;left:0;right:0;text-align:center}
+.dot.dashed{background:transparent;border:1.5px dashed var(--accent)}
+.level,.level-mini{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.level .t,.level-mini .t{display:flex;flex-direction:column;gap:6px;min-width:0}
+.level-mini .t small{color:var(--muted);font-size:13px}
+.lvl-badge{width:60px;height:60px;border-radius:18px;background:linear-gradient(150deg,var(--accent),#14482f);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(31,107,69,.28)}
+.lvl-badge b{font-size:26px;line-height:1;font-weight:700}
+.lvl-badge small{font-size:10px;opacity:.85;text-transform:uppercase;letter-spacing:.06em}
+.lvl-badge.big{width:76px;height:76px;border-radius:22px}
+.lvl-badge.big b{font-size:34px}
+.chips-mini{display:flex;gap:6px;flex-wrap:wrap}
+.goals{display:flex;flex-direction:column}
+.goal{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:14px 0;border-top:.5px solid var(--sep)}
+.goal:first-child{border-top:none;padding-top:2px}
+.goal .t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.goal .t small{color:var(--muted);font-size:13px}
+.goal .ring{width:62px;height:62px;color:var(--fg)}
+.goal.done .t b{color:var(--ok)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
+.badge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:12px 6px;border-radius:14px;background:var(--sunk);color:var(--muted)}
+.badge svg{width:40px;height:40px}
+.badge b{font-size:13px;color:var(--fg);line-height:1.2}
+.badge small{font-size:11px;line-height:1.25}
+.badge.off b{color:var(--muted)}
+.brow{display:grid;grid-template-columns:1fr 132px auto;gap:8px;align-items:center}
+.brow .x{border:none;background:var(--fill);color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%}
+@media (max-width:400px){.brow{grid-template-columns:1fr 112px auto}}
 </style>
 </head>
 <body>
@@ -329,17 +392,27 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   <header>
     <div class="toprow"><div class="brand"><span class="logo" aria-label="SPLOG">SPLOG<i aria-hidden="true"></i></span><span class="eyebrow" id="eyebrow">Transporte</span></div>
       <div class="acts"><button class="linkbtn" type="button" id="installBtn" hidden>Instalar app</button><button class="linkbtn" type="button" id="logout">Sair</button></div></div>
+    <div class="seg-ctl two modsw" role="group" aria-label="Módulo">
+      <button type="button" data-mod="tr" id="modTr">Transporte</button>
+      <button type="button" data-mod="fin">Finanças</button>
+    </div>
     <h1 id="appTitle">Transporte de alimentação</h1>
-    <span class="pill rel partner-only" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
+    <span class="pill rel partner-only ro-badge" style="align-self:flex-start;margin-top:4px">Visão do sócio · somente leitura</span>
     <small class="muted" id="userEmail"></small>
   </header>
 
-  <nav class="views owner-only" aria-label="Seções">
+  <nav class="views tr-nav owner-only" aria-label="Seções do transporte">
     <a href="#painel" data-view="painel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Painel</a>
     <a href="#registrar" data-view="registrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><path d="M12 8v8M8 12h8"/></svg>Registrar</a>
     <a href="#custos" data-view="custos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M3 10h18M7 14.5h4"/></svg>Custos</a>
     <a href="#relatorio" data-view="relatorio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4 4v11.5a1.5 1.5 0 0 1-1.5 1.5h-9.5a1.5 1.5 0 0 1-1.5-1.5v-14a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13.5 3.5v4.5h4.5M9 13h6M9 16.5h4"/></svg>Relatório</a>
     <a href="#ajustes" data-view="ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M18 7h2M4 17h2M11 17h9"/><circle cx="15.5" cy="7" r="2.25"/><circle cx="8.5" cy="17" r="2.25"/></svg>Ajustes</a>
+  </nav>
+  <nav class="views fin-nav" aria-label="Seções das finanças">
+    <a href="#fin" data-view="fin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5h16"/><rect x="5.5" y="11" width="3" height="6.5" rx="1"/><rect x="10.5" y="7" width="3" height="10.5" rx="1"/><rect x="15.5" y="4" width="3" height="13.5" rx="1"/></svg>Resumo</a>
+    <a href="#fin-lancar" data-view="fin-lancar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><path d="M12 8v8M8 12h8"/></svg>Lançar</a>
+    <a href="#fin-orcamento" data-view="fin-orcamento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5H12z"/><path d="M15 3.8A8.5 8.5 0 0 1 20.2 9H15z"/></svg>Orçamento</a>
+    <a href="#fin-metas" data-view="fin-metas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>Metas</a>
   </nav>
 
   <div class="status" id="globalStatus" role="status"></div>
@@ -569,6 +642,151 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     </section>
   </section>
 
+  <!-- ===================== FINANÇAS · RESUMO ===================== -->
+  <section id="v-fin" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês das finanças</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+
+    <div class="panel hero">
+      <span class="label">Saldo do mês</span>
+      <span class="big num" id="fSaldo">R$ 0,00</span>
+      <span class="muted" id="fSaldoSub">Carregando…</span>
+      <div class="split2">
+        <div><span class="label" style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-pm)"></i>Receitas</span><b class="num" id="fRec">R$ 0,00</b><small id="fRecSub"></small></div>
+        <div><span class="label" style="display:flex;align-items:center;gap:6px"><i class="dot" style="background:var(--c-ped)"></i>Despesas</span><b class="num" id="fDesp">R$ 0,00</b><small id="fDespSub"></small></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Previsão do balanço</h2><span class="pill" id="fPrevState"></span></div>
+      <div class="ledger" id="fPrevLedger"></div>
+      <div class="profit"><span class="label" id="fSaldoPrevLbl">Saldo previsto no fim do mês</span><b class="num" id="fSaldoPrev">R$ 0,00</b><small id="fPrevNote"></small></div>
+      <div id="fPace"></div>
+    </div>
+
+    <a class="panel level-mini" href="#fin-metas" id="fLevelMini" style="text-decoration:none;color:inherit"></a>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Gastos por categoria</h2><small class="muted">gasto / orçado</small></div>
+      <div class="cats" id="fCats"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Receitas e despesas</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--c-pm)"></i>Receitas</span><span><i class="dot" style="background:var(--c-ped)"></i>Despesas</span></div>
+      </div>
+      <div class="fchart" id="fBars"></div>
+      <div class="cap" id="fBarsCap">Toque num mês para ver os valores.</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Balanço mês a mês</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--accent)"></i>Realizado</span><span><i class="dot dashed"></i>Previsto</span></div>
+      </div>
+      <div class="bal" id="fBal"></div>
+      <div class="cap" id="fBalCap"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Últimos lançamentos</h2><a class="ghost" href="#fin-lancar" style="text-decoration:none">Lançar</a></div>
+      <div class="list" id="fRecent"></div>
+    </div>
+  </section>
+
+  <!-- ===================== FINANÇAS · LANÇAR ===================== -->
+  <section id="v-fin-lancar" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês dos lançamentos</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+    <form class="panel" id="flForm">
+      <div class="seg-ctl two" role="group" aria-label="Tipo de lançamento">
+        <button type="button" data-ftipo="despesa">Despesa<small>Saiu dinheiro</small></button>
+        <button type="button" data-ftipo="receita">Receita<small>Entrou dinheiro</small></button>
+      </div>
+      <div class="row">
+        <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="flValor" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+        <label class="field" style="flex:0 0 160px;min-width:160px"><span class="label">Data</span><input type="date" id="flData"></label>
+      </div>
+      <span class="label">Categoria</span>
+      <div class="chips" id="flCats"></div>
+      <label class="field"><span class="label">Descrição</span><input type="text" id="flDesc" placeholder="Opcional · ex.: conta de luz" autocomplete="off"></label>
+      <button class="primary" id="flSave" type="submit" disabled>Conectando…</button>
+      <div class="status" id="flStatus" role="status"></div>
+    </form>
+    <section class="panel">
+      <h2 id="flTitle">Lançamentos</h2>
+      <div class="list" id="flList"></div>
+      <div class="totals"><span>Saldo dos lançamentos</span><span class="num" id="flTotal">R$ 0,00</span></div>
+    </section>
+  </section>
+
+  <!-- ===================== FINANÇAS · ORÇAMENTO ===================== -->
+  <section id="v-fin-orcamento" class="wrap" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" data-month="-1" aria-label="Mês anterior">‹</button>
+      <div class="mid"><b class="monthName">—</b><small>Mês do orçamento</small></div>
+      <button class="arrow" type="button" data-month="1" aria-label="Próximo mês">›</button>
+    </div>
+    <form class="panel" id="foForm">
+      <div class="panel-head"><h2>Orçamento do mês</h2><span class="pill" id="foFrom" hidden></span></div>
+      <p class="muted" id="foNote" style="margin:0;font-size:14px"></p>
+      <span class="label">Receitas previstas</span>
+      <div class="lrow" id="foAuto"></div>
+      <div id="foRec" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="foAddRec">+ Adicionar receita</button>
+      <span class="label" style="margin-top:6px">Despesas previstas</span>
+      <div id="foDesp" class="wrap" style="gap:10px"></div>
+      <button class="ghost" type="button" id="foAddDesp">+ Adicionar despesa</button>
+      <div class="ledger" id="foTotals" style="margin-top:6px"></div>
+      <button class="primary" type="submit">Salvar orçamento</button>
+      <div class="status" id="foStatus" role="status"></div>
+    </form>
+  </section>
+
+  <!-- ===================== FINANÇAS · METAS ===================== -->
+  <section id="v-fin-metas" class="wrap" style="gap:16px" hidden>
+    <div class="panel level" id="gLevel"></div>
+    <div class="panel">
+      <div class="panel-head"><h2>Desafio do mês</h2><span class="pill" id="gChState"></span></div>
+      <div id="gChallenge"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Metas</h2><span class="muted" id="gGoalsSub" style="font-size:14px"></span></div>
+      <div class="goals" id="gGoals"></div>
+    </div>
+    <form class="panel" id="aporteForm" hidden>
+      <h2 id="apTitle">Guardar dinheiro</h2>
+      <small class="muted" id="apSub"></small>
+      <label class="field"><span class="label">Valor</span><span class="money"><input type="number" id="apValor" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+      <div class="row">
+        <button class="primary" type="submit" id="apAdd" style="flex:1">Guardar</button>
+        <button class="ghost" type="button" id="apSubBtn">Retirar</button>
+        <button class="ghost" type="button" id="apCancel">Cancelar</button>
+      </div>
+      <div class="status" id="apStatus" role="status"></div>
+    </form>
+    <form class="panel" id="goalForm">
+      <h2>Nova meta</h2>
+      <label class="field"><span class="label">Nome da meta</span><input type="text" id="gNome" placeholder="Ex.: Reserva de emergência" autocomplete="off"></label>
+      <div class="row">
+        <label class="field"><span class="label">Quanto quer juntar</span><span class="money"><input type="number" id="gAlvo" inputmode="decimal" min="0" step="0.01" placeholder="0,00"></span></label>
+        <label class="field"><span class="label">Até quando (opcional)</span><input type="date" id="gPrazo"></label>
+      </div>
+      <button class="primary" type="submit">Criar meta</button>
+      <div class="status" id="gStatus" role="status"></div>
+    </form>
+    <div class="panel">
+      <div class="panel-head"><h2>Conquistas</h2><span class="muted" id="gBadgesSub" style="font-size:14px"></span></div>
+      <div class="badges" id="gBadges"></div>
+      <small class="muted">Você ganha XP registrando lançamentos, guardando dinheiro nas metas, fechando meses no azul e dentro do orçamento.</small>
+    </div>
+  </section>
+
   <!-- ===================== RELATÓRIO ===================== -->
   <section id="v-relatorio" class="wrap" style="gap:16px" hidden>
     <div class="switch">
@@ -631,8 +849,8 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     </form>
 
     <form class="panel" id="accForm">
-      <h2>Acesso do sócio</h2>
-      <p class="muted" style="margin:0;font-size:14px">O sócio vê só o painel do Posto da Mata (faturamento, custos, lucro e combustível) e não consegue alterar nada.</p>
+      <h2>Acesso compartilhado</h2>
+      <p class="muted" style="margin:0;font-size:14px">A pessoa liberada vê o painel do Posto da Mata sem poder alterar, e usa as Finanças junto com você: lança, monta o orçamento e acompanha as metas.</p>
       <ol class="steps">
         <li>No Firebase, em Authentication → Usuários, crie o usuário do sócio com o e-mail e uma senha.</li>
         <li>Coloque o e-mail dele aqui e toque em Liberar acesso.</li>
@@ -719,19 +937,33 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     : e.tipo === "PED" ? (e.veiculo === "moto" ? "Moto" : "Carro da empresa") : (e.destino || "Entrega");
 
   // ---------- routing ----------
-  const VIEWS = ["painel", "registrar", "custos", "relatorio", "ajustes"];
+  const FIN_VIEWS = ["fin", "fin-lancar", "fin-orcamento", "fin-metas"];
+  const VIEWS = ["painel", "registrar", "custos", "relatorio", "ajustes", ...FIN_VIEWS];
+  function updateChrome() {
+    const fin = state.view.startsWith("fin");
+    document.body.classList.toggle("mod-fin", fin);
+    document.body.classList.toggle("has-tabs", !!state.db && (fin || !state.partner));
+    $$("[data-mod]").forEach(b => b.setAttribute("aria-pressed", String((b.dataset.mod === "fin") === fin)));
+    $("modTr").textContent = state.partner ? "Posto da Mata" : "Transporte";
+    $("eyebrow").textContent = fin ? "Finanças" : state.partner ? "Sócio" : "Transporte";
+    $("appTitle").textContent = fin ? "Finanças da família" : state.partner ? "Posto da Mata" : "Transporte de alimentação";
+  }
   function route() {
     const h = location.hash.slice(1);
-    const allowed = state.partner ? ["painel"] : VIEWS;
+    const allowed = state.partner ? ["painel", ...FIN_VIEWS] : VIEWS;
     const prev = state.view;
     state.view = allowed.includes(h) ? h : "painel";
     if (prev !== state.view) window.scrollTo(0, 0);
+    if (state.view.startsWith("fin")) state.lastFin = state.view; else state.lastTr = state.view;
+    if (state.view === "fin-orcamento" && prev !== state.view) state.foMonth = null;
+    updateChrome();
     VIEWS.forEach(v => { $("v-" + v).hidden = v !== state.view; });
     $$("nav.views a").forEach(a => a.setAttribute("aria-current", a.dataset.view === state.view ? "page" : "false"));
     if (state.view === "ajustes") { fillCfgForm(); fillFixForm(); renderAcesso(); }
     renderAll();
   }
   window.addEventListener("hashchange", route);
+  $$("[data-mod]").forEach(b => b.onclick = () => { location.hash = b.dataset.mod === "fin" ? (state.lastFin || "fin") : (state.lastTr || "painel"); });
 
   // ---------- PAINEL ----------
   function weekRange() { const t = todayIso(), dow = (parse(t).getDay() + 6) % 7, mon = addDays(t, -dow); return [mon, addDays(mon, 6)]; }
@@ -861,7 +1093,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     $("dateInput").value = state.day;
     $("todayBtn").hidden = state.day === t;
 
-    $$(".seg-ctl button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tipo === state.tipo)));
+    $$(".seg-ctl button[data-tipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tipo === state.tipo)));
     ["PM", "PED", "OUT"].forEach(k => { $("f-" + k).hidden = k !== state.tipo; });
     const P = state.cfg.precos;
     $("lblG").textContent = BRL(P.g); $("lblM").textContent = BRL(P.m);
@@ -940,7 +1172,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   $("nextDay").onclick = () => setDay(addDays(state.day, 1));
   $("todayBtn").onclick = () => setDay(todayIso());
   $("dateInput").onchange = e => e.target.value && setDay(e.target.value);
-  $$(".seg-ctl button").forEach(b => b.onclick = () => { state.tipo = b.dataset.tipo; lsSet("ct.tipo", state.tipo); setStatus("status", ""); renderRegistrar(); });
+  $$(".seg-ctl button[data-tipo]").forEach(b => b.onclick = () => { state.tipo = b.dataset.tipo; lsSet("ct.tipo", state.tipo); setStatus("status", ""); renderRegistrar(); });
   $$(".opt").forEach(b => b.onclick = () => { state.veic = b.dataset.veic; renderRegistrar(); });
   $$("[data-step]").forEach(b => b.onclick = () => { const inp = $(b.dataset.step === "g" ? "qG" : "qM"); inp.value = Math.max(0, (parseInt(inp.value, 10) || 0) + Number(b.dataset.d)); updateSum(); });
   ["qG", "qM", "odName", "odVal"].forEach(id => $(id).addEventListener("input", updateSum));
@@ -1419,6 +1651,467 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     }
   });
 
+  // ================= FINANÇAS =================
+  const FIN_DESP = ["Moradia", "Mercado", "Contas da casa", "Transporte", "Saúde", "Educação", "Lazer", "Assinaturas", "Cartão de crédito", "Outros"];
+  const FIN_REC = ["Salário", "Renda extra", "Outros"];
+  const AUTO_CAT = "Pedreira e outras";
+  const MONTHS_S = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  const mShort = m => `${MONTHS_S[Number(m.slice(5)) - 1]}/${m.slice(2, 4)}`;
+  const firstName = email => (email || "").split("@")[0] || "alguém";
+  Object.assign(state, { finLanc: [], finOrc: {}, finMetas: [], finImport: {}, finLoaded: false, finImportLoaded: false,
+    fTipo: "despesa", fCat: "", fPendingDel: null, gPendingDel: null, apGoal: null, foMonth: null, barsSel: null, balSel: null, lastFin: "fin", lastTr: "painel" });
+
+  // ---------- cálculos ----------
+  const normB = b => ({ receitas: { ...(b?.receitas || {}) }, despesas: { ...(b?.despesas || {}) } });
+  function budgetFor(m) {
+    if (state.finOrc[m]) return { ...normB(state.finOrc[m]), from: m };
+    const prev = Object.keys(state.finOrc).filter(k => /^\d{4}-\d{2}$/.test(k) && k < m).sort().pop();
+    return prev ? { ...normB(state.finOrc[prev]), from: prev } : { receitas: {}, despesas: {}, from: null };
+  }
+  const aportesOf = g => Array.isArray(g.aportes) ? g.aportes : [];
+  const guardadoOf = g => sum(aportesOf(g), a => a.valor);
+  function finMonth(m) {
+    const cur = monthOf(todayIso());
+    const L = state.finLanc.filter(x => x.data && monthOf(x.data) === m);
+    const rec = L.filter(x => x.tipo === "receita"), desp = L.filter(x => x.tipo === "despesa");
+    const imp = state.finImport[m];
+    const autoReal = imp ? Number(imp.lucro) || 0 : 0;
+    const autoPrev = imp ? Number(imp.previsto ?? imp.lucro) || 0 : 0;
+    const aportes = state.finMetas.flatMap(g => aportesOf(g).filter(a => a.data && monthOf(a.data) === m));
+    const B = budgetFor(m);
+    const recReal = sum(rec, x => x.valor) + autoReal, despReal = sum(desp, x => x.valor), guardado = sum(aportes, a => a.valor);
+    const byCat = (list, c) => sum(list.filter(x => x.categoria === c), x => x.valor);
+    const plan = (map, list) => { const cats = new Set([...Object.keys(map), ...list.map(x => x.categoria)]); return [...cats].reduce((a, c) => a + Math.max(Number(map[c]) || 0, byCat(list, c)), 0); };
+    let recPrev, despPrev;
+    if (m < cur) { recPrev = recReal; despPrev = despReal; }
+    else { recPrev = plan(B.receitas, rec) + (m === cur ? autoPrev : (autoPrev || futureAuto())); despPrev = plan(B.despesas, desp); }
+    const orcDesp = sum(Object.values(B.despesas), Number), orcRec = sum(Object.values(B.receitas), Number);
+    return { m, L, rec, desp, imp, autoReal, autoPrev, B, recReal, despReal, guardado, saldo: recReal - despReal - guardado,
+      recPrev, despPrev, saldoPrev: recPrev - despPrev - guardado, orcDesp, orcRec, byCat };
+  }
+  // Para meses futuros, estima o lucro da Pedreira pelo previsto do mês atual.
+  function futureAuto() { const imp = state.finImport[monthOf(todayIso())]; return imp ? Number(imp.previsto ?? imp.lucro) || 0 : 0; }
+
+  // ---------- gamificação ----------
+  const LEVELS = [[0, "Iniciante"], [100, "Anotador"], [300, "Organizado"], [600, "Poupador"], [1000, "Planejador"], [1600, "Estrategista"], [2500, "Investidor"], [4000, "Mestre das Finanças"], [6000, "Lenda da Casa"]];
+  function finGame() {
+    const L = state.finLanc, metas = state.finMetas, cur = monthOf(todayIso());
+    const aportes = metas.flatMap(aportesOf);
+    const totalGuardado = sum(metas, guardadoOf);
+    const concluidas = metas.filter(g => g.alvo > 0 && guardadoOf(g) >= g.alvo);
+    const months = [...new Set([...L.map(x => monthOf(x.data)), ...Object.keys(state.finImport)])].filter(m => m < cur);
+    const closed = months.map(finMonth);
+    const noAzul = closed.filter(f => f.saldo > 0 && (f.L.length || f.imp)).length;
+    const dentroOrc = closed.filter(f => f.orcDesp > 0 && f.despReal <= f.orcDesp).length;
+    const weeksSet = new Set(L.map(x => weekOf(x.data)));
+    let streak = 0, w = weekOf(todayIso());
+    if (!weeksSet.has(w)) w = addDays(w, -7);
+    while (weeksSet.has(w)) { streak++; w = addDays(w, -7); }
+    const quem = new Set(L.map(x => x.quem).filter(Boolean));
+    const xp = Math.min(L.length, 600) * 5 + Math.floor(Math.max(0, totalGuardado) / 10) + concluidas.length * 150 + metas.length * 25
+      + noAzul * 100 + dentroOrc * 100 + streak * 20 + (Object.keys(state.finOrc).length ? 50 : 0);
+    let li = 0; LEVELS.forEach(([t], i) => { if (xp >= t) li = i; });
+    const next = LEVELS[li + 1];
+    const badges = [
+      ["Primeiro passo", "Registrar o primeiro lançamento", L.length > 0],
+      ["Plano feito", "Montar o orçamento de um mês", Object.keys(state.finOrc).length > 0],
+      ["Sonho no papel", "Criar a primeira meta", metas.length > 0],
+      ["Cofrinho", "Guardar dinheiro numa meta", aportes.some(a => a.valor > 0)],
+      ["Meta batida", "Concluir uma meta", concluidas.length > 0],
+      ["Mês no azul", "Fechar um mês com saldo positivo", noAzul > 0],
+      ["Dentro do orçamento", "Fechar um mês gastando até o orçado", dentroOrc > 0],
+      ["Constância", "4 semanas seguidas registrando", streak >= 4],
+      ["Reserva de R$ 1 mil", "Juntar R$ 1.000 nas metas", totalGuardado >= 1000],
+      ["Reserva de R$ 10 mil", "Juntar R$ 10.000 nas metas", totalGuardado >= 10000],
+      ["Time em casa", "Os dois registrando lançamentos", quem.size >= 2],
+      ["Três meses no azul", "Fechar 3 meses com saldo positivo", noAzul >= 3],
+    ].map(([nome, desc, ok]) => ({ nome, desc, ok }));
+    return { xp, level: li + 1, name: LEVELS[li][1], base: LEVELS[li][0], next: next ? next[0] : null, nextName: next ? next[1] : null,
+      badges, streak, totalGuardado, concluidas: concluidas.length };
+  }
+
+  // ---------- desenho ----------
+  const pctTxt = v => `${num2(v * 100, 0)}%`;
+  function bar(frac, color) { return el("div", { class: "track" }, el("i", { style: `width:${Math.max(0, Math.min(1, frac)) * 100}%;background:${color}` })); }
+  function medal(ok) {
+    const ns = "http://www.w3.org/2000/svg", s = document.createElementNS(ns, "svg");
+    s.setAttribute("viewBox", "0 0 40 40"); s.setAttribute("aria-hidden", "true");
+    s.innerHTML = ok
+      ? '<path d="M13 3h6l-3 11h-6zM21 3h6l3 11h-6z" fill="#3d43a8"/><circle cx="20" cy="25" r="11" fill="#f2b63d"/><circle cx="20" cy="25" r="7.5" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/><path d="M20 20.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z" fill="#fff"/>'
+      : '<path d="M13 3h6l-3 11h-6zM21 3h6l3 11h-6z" fill="currentColor" opacity=".25"/><circle cx="20" cy="25" r="11" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="2" stroke-dasharray="3 3"/>';
+    return s;
+  }
+  function ring(frac, done) {
+    const ns = "http://www.w3.org/2000/svg", s = document.createElementNS(ns, "svg"), r = 24, c = 2 * Math.PI * r;
+    s.setAttribute("viewBox", "0 0 60 60"); s.setAttribute("class", "ring"); s.setAttribute("aria-hidden", "true");
+    const f = Math.max(0, Math.min(1, frac));
+    s.innerHTML = `<circle cx="30" cy="30" r="${r}" fill="none" stroke="var(--fill)" stroke-width="7"/>
+      <circle cx="30" cy="30" r="${r}" fill="none" stroke="${done ? "#f2b63d" : "var(--accent)"}" stroke-width="7" stroke-linecap="round"
+        stroke-dasharray="${(c * f).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 30 30)"/>
+      <text x="30" y="34" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">${Math.round(f * 100)}%</text>`;
+    return s;
+  }
+  function finItem(x, deletable) {
+    const rec = x.tipo === "receita";
+    let del = null;
+    if (deletable) {
+      const confirming = state.fPendingDel === x.id;
+      del = el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+        if (confirming) return removeFin(x.id);
+        state.fPendingDel = x.id; renderAll();
+        setTimeout(() => { if (state.fPendingDel === x.id) { state.fPendingDel = null; renderAll(); } }, 4000);
+      } }, confirming ? "Confirmar" : "Apagar");
+    }
+    return el("div", { class: "item" }, el("span", { class: "tag", style: `background:${rec ? "var(--c-pm)" : "var(--c-ped)"}` }, rec ? "REC" : "DESP"),
+      el("div", { class: "what" }, el("strong", {}, x.categoria + (x.descricao ? " · " + x.descricao : "")),
+        el("small", {}, [short(x.data), x.quem ? "por " + firstName(x.quem) : ""].filter(Boolean).join(" · "))),
+      el("div", { class: "val" }, el("b", { class: "num", style: rec ? "color:var(--ok)" : "" }, (rec ? "+ " : "− ") + BRL(x.valor)), del));
+  }
+  function autoItem(f) {
+    return el("div", { class: "item" }, el("span", { class: "tag", style: "background:var(--c-pm)" }, "AUTO"),
+      el("div", { class: "what" }, el("strong", {}, AUTO_CAT), el("small", {}, `Lucro do transporte · previsto ${BRL(f.autoPrev)} no mês`)),
+      el("div", { class: "val" }, el("b", { class: "num", style: "color:var(--ok)" }, "+ " + BRL(f.autoReal))));
+  }
+
+  function renderFinResumo() {
+    const m = state.month, cur = monthOf(todayIso()), f = finMonth(m);
+    setProfit("fSaldo", f.saldo); $("fSaldo").style.color = f.saldo < 0 ? "var(--danger)" : "";
+    $("fSaldoSub").textContent = !state.finLoaded ? "Carregando…" : `Receitas − despesas${f.guardado ? " − guardado nas metas" : ""}, até agora`;
+    $("fRec").textContent = BRL(f.recReal);
+    $("fRecSub").textContent = f.imp ? `inclui ${BRL(f.autoReal)} da Pedreira` : (f.orcRec ? `de ${BRL(f.orcRec)} previstos` : "");
+    $("fDesp").textContent = BRL(f.despReal);
+    $("fDespSub").textContent = f.orcDesp ? `${pctTxt(f.despReal / f.orcDesp)} do orçado` : "sem orçamento";
+
+    // previsão
+    const pill = $("fPrevState");
+    ledger($("fPrevLedger"), [
+      { label: "Receitas previstas", sub: m > cur ? "Pelo orçamento" : `Recebido ${BRL(f.recReal)}`, v: f.recPrev, k: "in" },
+      ...(f.autoPrev || f.autoReal ? [{ label: "↳ Pedreira e outras", sub: m === cur ? "Lucro previsto pelos dias úteis" : "Lucro do transporte", v: m < cur ? f.autoReal : (f.autoPrev || futureAuto()) }] : []),
+      { label: "Despesas previstas", sub: `Gasto ${BRL(f.despReal)} · orçado ${BRL(f.orcDesp)}`, v: f.despPrev, k: "out" },
+      ...(f.guardado ? [{ label: "Guardado nas metas", v: f.guardado, k: "out" }] : []),
+    ]);
+    setProfit("fSaldoPrev", f.saldoPrev);
+    $("fSaldoPrevLbl").textContent = m < cur ? "Saldo final do mês" : "Saldo previsto no fim do mês";
+    const st = f.saldoPrev < 0 ? ["pill warn", "Atenção: no vermelho"] : f.recPrev && f.saldoPrev < f.recPrev * 0.1 ? ["pill rel", "Apertado"] : ["pill ok", "No azul"];
+    pill.className = st[0]; pill.textContent = m < cur ? (f.saldo >= 0 ? "Fechou no azul" : "Fechou no vermelho") : st[1];
+    $("fPrevNote").textContent = m < cur ? "Mês fechado: valores realizados."
+      : "Para cada categoria vale o maior entre o orçado e o já lançado. A Pedreira entra pelo lucro previsto.";
+    const pace = $("fPace"); pace.textContent = "";
+    if (m === cur && f.orcDesp) {
+      const day = parse(todayIso()).getDate(), mf = day / daysIn(m), sf = f.despReal / f.orcDesp;
+      pace.append(el("span", { class: "label" }, "Ritmo de gastos"),
+        el("div", { class: "pace" }, bar(sf, sf > 1 ? "var(--danger)" : sf > mf + 0.1 ? "var(--warn)" : "var(--accent)"), el("i", { class: "pace-mark", style: `left:${mf * 100}%` })),
+        el("small", { class: "muted" }, `Vocês já gastaram ${pctTxt(sf)} do orçado e o mês está em ${pctTxt(mf)}. ` + (sf > mf + 0.1 ? "Os gastos estão acima do ritmo." : "Os gastos estão no ritmo.")));
+    }
+
+    // nível
+    const G = finGame(), lm = $("fLevelMini"); lm.textContent = "";
+    lm.append(el("div", { class: "lvl-badge" }, el("small", {}, "nível"), el("b", {}, G.level)),
+      el("div", { class: "t" }, el("b", {}, G.name), el("small", {}, G.next ? `${G.xp} XP · faltam ${G.next - G.xp} para ${G.nextName}` : `${G.xp} XP · nível máximo`),
+        bar(G.next ? (G.xp - G.base) / (G.next - G.base) : 1, "linear-gradient(90deg,var(--accent),#f2b63d)"),
+        el("small", {}, `${G.badges.filter(b => b.ok).length} de ${G.badges.length} conquistas · ver metas ›`)));
+
+    // categorias
+    const cats = $("fCats"); cats.textContent = "";
+    const names = [...new Set([...Object.keys(f.B.despesas), ...f.desp.map(x => x.categoria)])]
+      .map(c => ({ c, gasto: f.byCat(f.desp, c), orc: Number(f.B.despesas[c]) || 0 })).filter(x => x.gasto || x.orc).sort((a, b) => b.gasto - a.gasto || b.orc - a.orc);
+    if (!names.length) cats.append(el("div", { class: "empty" }, "Monte o orçamento ou lance despesas para ver os gastos por categoria."));
+    const maxG = Math.max(1, ...names.map(x => x.gasto));
+    names.forEach(x => {
+      const frac = x.orc ? x.gasto / x.orc : x.gasto / maxG;
+      const color = !x.orc ? "var(--c-ped)" : frac > 1 ? "var(--danger)" : frac > 0.85 ? "var(--warn)" : "var(--accent)";
+      cats.append(el("div", { class: "cat" },
+        el("div", { class: "top" }, el("span", {}, x.c), el("span", { class: "num" }, BRL(x.gasto), el("small", {}, x.orc ? ` / ${BRL(x.orc)}` : " · sem orçamento"))),
+        bar(frac, color),
+        x.orc && x.gasto > x.orc ? el("small", { class: "over" }, `${BRL(x.gasto - x.orc)} acima do orçado`) : null));
+    });
+
+    // receitas x despesas (6 meses)
+    const ms = []; for (let i = 5; i >= 0; i--) ms.push(addMonth(m, -i));
+    const fs6 = ms.map(finMonth), maxV = Math.max(1, ...fs6.flatMap(x => [x.recReal, x.despReal]));
+    const fb = $("fBars"); fb.textContent = ""; fb.style.setProperty("--n", ms.length);
+    fs6.forEach(x => fb.append(el("button", { type: "button", class: "fcol", "aria-pressed": String(state.barsSel === x.m),
+      "aria-label": `${monthLabel(x.m)}: receitas ${BRL(x.recReal)}, despesas ${BRL(x.despReal)}`,
+      onclick: () => { state.barsSel = x.m; renderAll(); } },
+      el("div", { class: "bars" }, el("i", { style: `height:${x.recReal / maxV * 100}%;background:var(--c-pm)` }), el("i", { style: `height:${x.despReal / maxV * 100}%;background:var(--c-ped)` })),
+      el("em", {}, mShort(x.m)))));
+    const bs = fs6.find(x => x.m === state.barsSel);
+    $("fBarsCap").textContent = bs ? `${monthLabel(bs.m)}: receitas ${BRL(bs.recReal)} · despesas ${BRL(bs.despReal)} · saldo ${BRL(bs.recReal - bs.despReal)}` : "Toque num mês para ver os valores.";
+
+    // balanço mês a mês: 5 meses antes, o atual e 5 depois
+    const bm = []; for (let i = -5; i <= 5; i++) bm.push(addMonth(cur, i));
+    const bv = bm.map(k => { const x = finMonth(k); return { m: k, v: k < cur ? x.saldo : x.saldoPrev, fut: k >= cur }; });
+    const P = Math.max(0, ...bv.map(x => x.v)), N = Math.max(0, ...bv.map(x => -x.v)), R = P + N || 1, H = 140;
+    const bal = $("fBal"); bal.textContent = ""; bal.style.setProperty("--n", bm.length);
+    bv.forEach(x => {
+      const h = Math.abs(x.v) / R * H, zero = P / R * H;
+      const top = x.v >= 0 ? zero - h : zero;
+      bal.append(el("button", { type: "button", class: "bcol" + (x.fut ? " fut" : "") + (x.m === cur ? " now" : ""), "aria-pressed": String(state.balSel === x.m),
+        "aria-label": `${monthLabel(x.m)}: ${x.fut ? "previsto" : "realizado"} ${BRL(x.v)}`, onclick: () => { state.balSel = x.m; renderAll(); } },
+        el("span", { class: "zero", style: `top:${zero}px` }),
+        el("i", { style: `top:${top}px;height:${Math.max(h, x.v ? 2 : 0)}px;--c:${x.v < 0 ? "var(--danger)" : "var(--accent)"}` }),
+        el("em", {}, MONTHS_S[Number(x.m.slice(5)) - 1])));
+    });
+    const acc = sum(bv, x => x.v), sel = bv.find(x => x.m === state.balSel);
+    $("fBalCap").textContent = sel ? `${monthLabel(sel.m)}: ${sel.fut ? "saldo previsto" : "saldo"} ${BRL(sel.v)}`
+      : `Somando de ${mShort(bm[0])} a ${mShort(bm[bm.length - 1])}: ${BRL(acc)}. Meses futuros usam o orçamento.`;
+
+    // últimos lançamentos
+    const rl = $("fRecent"); rl.textContent = "";
+    const last = [...state.finLanc].sort((a, b) => (b.data + (b.criadoEm || "")).localeCompare(a.data + (a.criadoEm || ""))).slice(0, 5);
+    if (!last.length) rl.append(el("div", { class: "empty" }, "Nenhum lançamento ainda. Toque em Lançar para começar."));
+    last.forEach(x => rl.append(finItem(x, false)));
+  }
+
+  // ---------- lançar ----------
+  function finCats(tipo) {
+    const B = budgetFor(state.month);
+    const base = tipo === "receita" ? FIN_REC : FIN_DESP;
+    const extra = Object.keys(tipo === "receita" ? B.receitas : B.despesas).concat(state.finLanc.filter(x => x.tipo === tipo).map(x => x.categoria));
+    return [...new Set([...base.slice(0, -1), ...extra, base[base.length - 1]])].filter(c => c && c !== AUTO_CAT);
+  }
+  function renderFinLancar() {
+    $$("[data-ftipo]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ftipo === state.fTipo)));
+    chips($("flCats"), finCats(state.fTipo), state.fCat, v => { state.fCat = state.fCat === v ? "" : v; renderFinLancar(); });
+    updateFinSave();
+    const m = state.month, f = finMonth(m), list = $("flList"); list.textContent = "";
+    $("flTitle").textContent = `Lançamentos de ${monthLabel(m)}`;
+    const items = [...f.L].sort((a, b) => (b.data + (b.criadoEm || "")).localeCompare(a.data + (a.criadoEm || "")));
+    if (f.imp) list.append(autoItem(f));
+    if (!state.finLoaded) list.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!items.length && !f.imp) list.append(el("div", { class: "empty" }, "Nenhum lançamento neste mês."));
+    items.forEach(x => list.append(finItem(x, true)));
+    $("flTotal").textContent = BRL(f.recReal - f.despReal);
+  }
+  function finDraft() {
+    const valor = pn($("flValor").value);
+    const msg = !(valor > 0) ? "Informe o valor" : !state.fCat ? "Escolha a categoria" : "";
+    return { ok: !msg, msg, entry: { tipo: state.fTipo, valor, categoria: state.fCat, descricao: $("flDesc").value.trim(), data: $("flData").value || todayIso() } };
+  }
+  function updateFinSave() {
+    const d = finDraft(), b = $("flSave");
+    if (!state.db) return;
+    b.disabled = !d.ok;
+    b.textContent = d.ok ? `Lançar ${state.fTipo} · ${BRL(d.entry.valor)}` : d.msg;
+  }
+  $$("[data-ftipo]").forEach(b => b.onclick = () => { state.fTipo = b.dataset.ftipo; state.fCat = ""; setStatus("flStatus", ""); renderFinLancar(); });
+  ["flValor", "flDesc", "flData"].forEach(id => $(id).addEventListener("input", updateFinSave));
+  $("flForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const d = finDraft();
+    if (!state.db || !d.ok) { setStatus("flStatus", d.msg, true); return; }
+    $("flSave").disabled = true;
+    try {
+      await state.db.collection("fin_lanc").add({ ...d.entry, quem: state.email, criadoEm: new Date().toISOString() });
+      setStatus("flStatus", `Lançado: ${d.entry.categoria} · ${BRL(d.entry.valor)}. +5 XP`);
+      $("flValor").value = ""; $("flDesc").value = ""; state.fCat = "";
+      if (monthOf(d.entry.data) !== state.month) setMonth(monthOf(d.entry.data));
+      renderFinLancar();
+    } catch { setStatus("flStatus", "Não foi possível salvar. Verifique a conexão e tente de novo.", true); updateFinSave(); }
+  });
+  async function removeFin(id) {
+    state.fPendingDel = null;
+    try { await state.db.collection("fin_lanc").doc(id).delete(); setStatus("flStatus", "Lançamento apagado."); }
+    catch { setStatus("flStatus", "Não foi possível apagar. Tente de novo.", true); renderAll(); }
+  }
+
+  // ---------- orçamento ----------
+  let foDraft = { receitas: [], despesas: [] };
+  function fillBudget() {
+    const B = budgetFor(state.month);
+    state.foMonth = state.month;
+    const toRows = map => Object.entries(map).map(([nome, valor]) => ({ nome, valor: Number(valor) || 0 }));
+    foDraft = B.from ? { receitas: toRows(B.receitas), despesas: toRows(B.despesas) }
+      : { receitas: [{ nome: "Salário", valor: 0 }], despesas: FIN_DESP.map(nome => ({ nome, valor: 0 })) };
+    const from = $("foFrom");
+    from.hidden = !(B.from && B.from !== state.month);
+    from.className = "pill rel"; from.textContent = B.from ? `Copiado de ${mShort(B.from)}` : "";
+    $("foNote").textContent = !B.from ? "Ainda não há orçamento. Preencha quanto vocês esperam receber e gastar por mês."
+      : B.from !== state.month ? `Este mês ainda não tem orçamento próprio: estes valores vêm de ${monthLabel(B.from)}. Ajuste e salve para ${monthLabel(state.month)}.`
+      : "Ajuste os valores e salve. Os próximos meses usam este orçamento até ganharem um próprio.";
+    renderBudgetRows();
+  }
+  function budgetRows(box, rows, kind) {
+    box.textContent = "";
+    rows.forEach((x, i) => {
+      const n = el("input", { type: "text", value: x.nome, id: `fo${kind}n${i}`, "aria-label": "Categoria", placeholder: "Categoria" });
+      n.oninput = () => { x.nome = n.value; };
+      const v = el("input", { type: "number", step: "0.01", min: "0", value: x.valor || "", id: `fo${kind}v${i}`, "aria-label": `Valor de ${x.nome || "categoria"}`, inputmode: "decimal", placeholder: "0,00" });
+      v.oninput = () => { x.valor = pn(v.value); renderBudgetTotals(); };
+      box.append(el("div", { class: "brow" }, n, el("span", { class: "money" }, v),
+        el("button", { type: "button", class: "x", "aria-label": `Remover ${x.nome || "categoria"}`, onclick: () => { rows.splice(i, 1); renderBudgetRows(); } }, "×")));
+    });
+  }
+  function renderBudgetRows() {
+    budgetRows($("foRec"), foDraft.receitas, "r");
+    budgetRows($("foDesp"), foDraft.despesas, "d");
+    renderBudgetTotals();
+  }
+  function renderBudgetTotals() {
+    const cur = monthOf(todayIso()), imp = state.finImport[state.month];
+    const auto = state.month < cur ? (imp ? Number(imp.lucro) || 0 : 0) : imp ? Number(imp.previsto ?? imp.lucro) || 0 : futureAuto();
+    const a = $("foAuto"); a.textContent = "";
+    a.append(el("div", { class: "t" }, el("span", {}, AUTO_CAT), el("small", {}, "Automático · lucro do transporte" + (state.month > cur ? " (estimado pelo mês atual)" : ""))),
+      el("span", { class: "num" }, BRL(auto)));
+    const r = sum(foDraft.receitas, x => x.valor) + auto, d = sum(foDraft.despesas, x => x.valor);
+    ledger($("foTotals"), [
+      { label: "Receitas previstas", v: r, k: "in" },
+      { label: "Despesas previstas", v: d, k: "out" },
+      { label: "Saldo orçado", sub: r ? `${pctTxt(Math.max(0, r - d) / r)} da receita sobra` : "", v: r - d, k: "in" },
+    ]);
+  }
+  $("foAddRec").onclick = () => { foDraft.receitas.push({ nome: "", valor: 0 }); renderBudgetRows(); $(`forn${foDraft.receitas.length - 1}`).focus(); };
+  $("foAddDesp").onclick = () => { foDraft.despesas.push({ nome: "", valor: 0 }); renderBudgetRows(); $(`fodn${foDraft.despesas.length - 1}`).focus(); };
+  $("foForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const toMap = rows => { const o = {}; rows.forEach(x => { const k = x.nome.trim().replace(/[.~*/[\]]/g, " ").trim(); if (k && k !== AUTO_CAT) o[k] = (o[k] || 0) + (Number(x.valor) || 0); }); return o; };
+    try {
+      await state.db.collection("fin_orc").doc(state.month).set({ receitas: toMap(foDraft.receitas), despesas: toMap(foDraft.despesas), quem: state.email, atualizadoEm: new Date().toISOString() });
+      setStatus("foStatus", `Orçamento de ${monthLabel(state.month)} salvo.`);
+    } catch { setStatus("foStatus", "Não foi possível salvar. Tente de novo.", true); }
+  });
+
+  // ---------- metas ----------
+  function renderFinMetas() {
+    const G = finGame(), lv = $("gLevel"); lv.textContent = "";
+    lv.append(el("div", { class: "lvl-badge big" }, el("small", {}, "nível"), el("b", {}, G.level)),
+      el("div", { class: "t" }, el("span", { class: "label" }, "Finanças da família"), el("h2", {}, G.name),
+        bar(G.next ? (G.xp - G.base) / (G.next - G.base) : 1, "linear-gradient(90deg,var(--accent),#f2b63d)"),
+        el("small", { class: "muted" }, G.next ? `${G.xp} XP · faltam ${G.next - G.xp} XP para ${G.nextName}` : `${G.xp} XP · nível máximo`),
+        el("div", { class: "chips-mini" },
+          el("span", { class: "pill" }, G.streak === 1 ? "1 semana registrando" : `${G.streak} semanas seguidas`),
+          el("span", { class: "pill ok" }, `${BRL(G.totalGuardado)} guardados`),
+          el("span", { class: "pill rel" }, `${G.concluidas} ${G.concluidas === 1 ? "meta batida" : "metas batidas"}`))));
+
+    // desafio: guardar 10% das receitas do mês
+    const cur = monthOf(todayIso()), f = finMonth(cur), alvo = Math.max(0, f.recReal * 0.1), ch = $("gChallenge"); ch.textContent = "";
+    const frac = alvo ? f.guardado / alvo : 0, done = alvo > 0 && f.guardado >= alvo;
+    $("gChState").className = done ? "pill ok" : "pill"; $("gChState").textContent = done ? "Concluído · +100 XP" : `até ${pad(daysIn(cur))}/${cur.slice(5)}`;
+    ch.append(el("b", {}, "Guardar 10% do que entrou em " + MONTHS[Number(cur.slice(5)) - 1].toLowerCase()),
+      bar(frac, done ? "#f2b63d" : "var(--accent)"),
+      el("small", { class: "muted" }, alvo ? (done ? `Vocês guardaram ${BRL(f.guardado)}. Desafio cumprido!` : `${BRL(f.guardado)} de ${BRL(alvo)} · faltam ${BRL(alvo - f.guardado)}`)
+        : "Lance as receitas do mês para o desafio começar."));
+
+    // metas
+    const box = $("gGoals"); box.textContent = "";
+    const metas = [...state.finMetas].sort((a, b) => (a.criadoEm || "").localeCompare(b.criadoEm || ""));
+    $("gGoalsSub").textContent = metas.length ? `${BRL(G.totalGuardado)} guardados` : "";
+    if (!metas.length) box.append(el("div", { class: "empty" }, "Nenhuma meta ainda. Crie a primeira abaixo, por exemplo uma reserva de emergência."));
+    metas.forEach(g => {
+      const gs = guardadoOf(g), fr = g.alvo ? gs / g.alvo : 0, ok = g.alvo > 0 && gs >= g.alvo;
+      let plano = "";
+      if (!ok && g.prazo) {
+        const meses = Math.max(1, (Number(g.prazo.slice(0, 4)) - Number(cur.slice(0, 4))) * 12 + Number(g.prazo.slice(5, 7)) - Number(cur.slice(5)) + 1);
+        plano = g.prazo < todayIso() ? "Prazo passou" : `Guardem ${BRL((g.alvo - gs) / meses)} por mês até ${fmtDate(g.prazo).slice(3)}`;
+      }
+      const confirming = state.gPendingDel === g.id;
+      box.append(el("div", { class: "goal" + (ok ? " done" : "") }, ring(fr, ok),
+        el("div", { class: "t" },
+          el("b", {}, g.nome, ok ? el("span", { class: "pill ok", style: "margin-left:8px" }, "Concluída") : null),
+          el("small", { class: "num" }, `${BRL(gs)} de ${BRL(g.alvo)}` + (ok ? "" : ` · faltam ${BRL(g.alvo - gs)}`)),
+          plano ? el("small", {}, plano) : null,
+          el("div", { class: "row", style: "gap:8px;margin-top:6px" },
+            el("button", { type: "button", class: "ghost", onclick: () => openAporte(g.id) }, ok ? "Movimentar" : "Guardar dinheiro"),
+            el("button", { type: "button", class: "del" + (confirming ? " confirm" : ""), onclick: () => {
+              if (confirming) return removeGoal(g.id);
+              state.gPendingDel = g.id; renderAll();
+              setTimeout(() => { if (state.gPendingDel === g.id) { state.gPendingDel = null; renderAll(); } }, 4000);
+            } }, confirming ? "Confirmar exclusão" : "Excluir")))));
+    });
+
+    const bx = $("gBadges"); bx.textContent = "";
+    G.badges.forEach(b => bx.append(el("div", { class: "badge" + (b.ok ? "" : " off"), title: b.desc }, medal(b.ok), el("b", {}, b.nome), el("small", {}, b.desc))));
+    $("gBadgesSub").textContent = `${G.badges.filter(b => b.ok).length} de ${G.badges.length}`;
+  }
+  function openAporte(id) {
+    const g = state.finMetas.find(x => x.id === id); if (!g) return;
+    state.apGoal = id;
+    $("apTitle").textContent = g.nome;
+    $("apSub").textContent = `${BRL(guardadoOf(g))} de ${BRL(g.alvo)} guardados`;
+    $("aporteForm").hidden = false; $("apValor").value = ""; setStatus("apStatus", "");
+    $("aporteForm").scrollIntoView({ behavior: "smooth", block: "center" }); $("apValor").focus();
+  }
+  async function aporte(sign) {
+    const g = state.finMetas.find(x => x.id === state.apGoal), v = pn($("apValor").value);
+    if (!g) return;
+    if (!(v > 0)) { setStatus("apStatus", "Informe o valor.", true); return; }
+    if (sign < 0 && v > guardadoOf(g)) { setStatus("apStatus", `Só há ${BRL(guardadoOf(g))} guardados nesta meta.`, true); return; }
+    try {
+      const aportes = [...aportesOf(g), { valor: sign * v, data: todayIso(), quem: state.email }];
+      await state.db.collection("fin_metas").doc(g.id).update({ aportes });
+      const total = sum(aportes, a => a.valor);
+      setStatus("apStatus", sign > 0 ? (g.alvo && total >= g.alvo ? `Meta "${g.nome}" concluída! +150 XP` : `${BRL(v)} guardados. +${Math.floor(v / 10)} XP`) : `${BRL(v)} retirados.`);
+      $("apValor").value = "";
+      setTimeout(() => { $("aporteForm").hidden = true; }, 1600);
+    } catch { setStatus("apStatus", "Não foi possível salvar. Tente de novo.", true); }
+  }
+  $("aporteForm").addEventListener("submit", ev => { ev.preventDefault(); aporte(1); });
+  $("apSubBtn").onclick = () => aporte(-1);
+  $("apCancel").onclick = () => { $("aporteForm").hidden = true; state.apGoal = null; };
+  $("goalForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const nome = $("gNome").value.trim(), alvo = pn($("gAlvo").value), prazo = $("gPrazo").value || "";
+    if (!nome) { setStatus("gStatus", "Dê um nome para a meta.", true); return; }
+    if (!(alvo > 0)) { setStatus("gStatus", "Informe quanto querem juntar.", true); return; }
+    try {
+      await state.db.collection("fin_metas").add({ nome, alvo, prazo, aportes: [], quem: state.email, criadoEm: new Date().toISOString() });
+      $("gNome").value = ""; $("gAlvo").value = ""; $("gPrazo").value = "";
+      setStatus("gStatus", `Meta "${nome}" criada. +25 XP`);
+    } catch { setStatus("gStatus", "Não foi possível criar a meta. Tente de novo.", true); }
+  });
+  async function removeGoal(id) {
+    state.gPendingDel = null;
+    try { await state.db.collection("fin_metas").doc(id).delete(); } catch { setStatus("gStatus", "Não foi possível excluir. Tente de novo.", true); renderAll(); }
+  }
+
+  function renderFin() {
+    $$(".monthName").forEach(n => n.textContent = monthLabel(state.month));
+    if (state.view === "fin") renderFinResumo();
+    else if (state.view === "fin-lancar") renderFinLancar();
+    else if (state.view === "fin-orcamento") { if (state.foMonth !== state.month) fillBudget(); else renderBudgetTotals(); }
+    else if (state.view === "fin-metas") renderFinMetas();
+  }
+
+  // ---------- lucro da Pedreira e outras → Finanças (só o dono calcula e grava) ----------
+  let finSyncTimer = null, finSyncKey = null;
+  function finSync() {
+    if (state.partner || !state.db || !state.loadedMonth || !state.loadedCustos || !state.finImportLoaded) return;
+    const m = state.month, cur = monthOf(todayIso());
+    if (m > cur) return;
+    const E = state.monthEntries.filter(e => e.tipo !== "PM");
+    const { esp, fixos } = monthCosts(m);
+    const custos = sum(fixos.filter(x => x.area === "OUT"), x => x.valor) + sum(esp.filter(x => x.area === "OUT"), x => x.valor);
+    const receita = sum(E, e => e.valor), lucro = receita - custos;
+    let previsto = lucro;
+    if (m === cur) { const done = workdaysDone(m); if (done) previsto = receita * workdays(m) / done - custos; }
+    const r = v => Math.round(v * 100) / 100;
+    const next = { receita: r(receita), custos: r(custos), lucro: r(lucro), previsto: r(previsto) };
+    const have = state.finImport[m];
+    if (!have && !receita && !custos) return;
+    if (have && Object.keys(next).every(k => have[k] === next[k])) return;
+    const key = m + JSON.stringify(next);
+    if (finSyncKey === key) return;
+    clearTimeout(finSyncTimer);
+    finSyncKey = key;
+    finSyncTimer = setTimeout(() => {
+      state.db.collection("fin_import").doc(m).set({ ...next, atualizadoEm: new Date().toISOString() })
+        .catch(() => {}).finally(() => { if (finSyncKey === key) finSyncKey = null; });
+    }, 1200);
+  }
+
+  function startFinance(db) {
+    const denied = () => setStatus("globalStatus", "As Finanças ainda não estão liberadas para esta conta. Publique as regras novas do Firestore.", true);
+    db.collection("fin_lanc").limit(5000).onSnapshot(s => { state.finLanc = toList(s); state.finLoaded = true; renderAll(); }, denied);
+    db.collection("fin_orc").onSnapshot(s => {
+      const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finOrc = m;
+      if (state.view === "fin-orcamento" && !document.activeElement?.closest("#foForm")) state.foMonth = null;
+      renderAll();
+    }, denied);
+    db.collection("fin_metas").onSnapshot(s => { state.finMetas = toList(s); renderAll(); }, denied);
+    db.collection("fin_import").onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.finImport = m; state.finImportLoaded = true; renderAll(); }, () => { state.finImportLoaded = true; });
+    $("flData").value = todayIso();
+  }
+
   // ---------- AJUSTES: custos fixos e sócio ----------
   let fxDraft = [];
   function fillFixForm() { fxDraft = state.fixos.map(x => ({ id: x.id, nome: x.nome, valor: x.valor, area: x.area || "PM" })); renderFx(); }
@@ -1456,7 +2149,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     const box = $("accList"); box.textContent = "";
     if (!state.socios.length) { box.append(el("span", { class: "muted" }, "Nenhum sócio com acesso.")); return; }
     state.socios.forEach(email => box.append(el("div", { class: "tline" },
-      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "Vê o painel do Posto da Mata, sem alterar")),
+      el("div", { class: "t" }, el("b", {}, email), el("small", {}, "Vê o PM (só leitura) e usa as Finanças")),
       el("button", { type: "button", class: "ghost", onclick: () => removeSocio(email) }, "Remover"))));
   }
   $("accForm").addEventListener("submit", async ev => {
@@ -1556,6 +2249,8 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
     else if (state.view === "registrar") renderRegistrar();
     else if (state.view === "relatorio") renderRelatorio();
     else if (state.view === "custos") renderCustos();
+    else if (state.view.startsWith("fin")) renderFin();
+    if (!state.partner) finSync();
   }
 
   $("time").value = nowTime();
@@ -1575,18 +2270,18 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   function startPartner(db) {
     state.db = db; state.partner = true;
     document.body.classList.add("partner");
-    $("eyebrow").textContent = "Sócio";
-    $("appTitle").textContent = "Posto da Mata";
     loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
     const denied = () => { clearTimeout(loadTimer); setStatus("globalStatus", "Seu acesso de sócio não está liberado. Fale com o responsável pela operação.", true); };
     db.collection("entregas").where("tipo", "==", "PM").limit(1000).onSnapshot(s => { state.allPM = toList(s); partnerDerive(); loaded(); renderAll(); }, denied);
     db.collection("custos").where("area", "==", "PM").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, denied);
     db.collection("fixos").where("area", "==", "PM").onSnapshot(s => { state.fixos = toList(s).sort(byOrdem); renderAll(); }, denied);
+    startFinance(db);
     route();
   }
   function startApp(db, uid) {
     state.db = db; state.uid = uid;
-    document.body.classList.add("has-tabs");
+    startFinance(db);
+    updateChrome();
     loadTimer = setTimeout(() => setStatus("globalStatus", "Os dados ainda não carregaram. Verifique a conexão.", true), 10000);
     db.collection("custos").limit(1000).onSnapshot(s => { state.custos = toList(s); state.loadedCustos = true; renderAll(); }, () => {});
     db.collection("fixos").onSnapshot(s => {
@@ -1614,8 +2309,8 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
   // backup
   $("bkExport").onclick = async () => {
     try {
-      const out = { app: "central-trabalho", versao: 2, exportadoEm: new Date().toISOString(), entregas: {}, config: {}, semanas: {}, custos: {}, fixos: {} };
-      for (const c of ["entregas", "config", "semanas", "custos", "fixos"]) (await state.db.collection(c).get()).docs.forEach(d => out[c][d.id] = d.data());
+      const out = { app: "central-trabalho", versao: 2, exportadoEm: new Date().toISOString(), entregas: {}, config: {}, semanas: {}, custos: {}, fixos: {}, fin_lanc: {}, fin_orc: {}, fin_metas: {}, fin_import: {} };
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos", "fin_lanc", "fin_orc", "fin_metas", "fin_import"]) (await state.db.collection(c).get()).docs.forEach(d => out[c][d.id] = d.data());
       downloadFile(`backup-central-trabalho-${todayIso()}.json`, JSON.stringify(out, null, 2), "application/json");
       setStatus("bkStatus", `Backup baixado: ${Object.keys(out.entregas).length} entregas.`);
     } catch { setStatus("bkStatus", "Não foi possível gerar o backup. Verifique a conexão.", true); }
@@ -1627,7 +2322,7 @@ body.has-tabs.has-bar{padding-bottom:calc(170px + env(safe-area-inset-bottom,0px
       const data = JSON.parse(await file.text());
       if (data.app !== "central-trabalho") throw new Error("formato");
       const writes = [];
-      for (const c of ["entregas", "config", "semanas", "custos", "fixos"]) for (const [id, doc] of Object.entries(data[c] || {})) writes.push([c, id, doc]);
+      for (const c of ["entregas", "config", "semanas", "custos", "fixos", "fin_lanc", "fin_orc", "fin_metas", "fin_import"]) for (const [id, doc] of Object.entries(data[c] || {})) writes.push([c, id, doc]);
       for (let k = 0; k < writes.length; k += 400) {
         const batch = window.firebase.firestore().batch();
         writes.slice(k, k + 400).forEach(([c, id, doc]) => batch.set(state.db.collection(c).doc(id), doc));
