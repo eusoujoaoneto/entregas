@@ -91,7 +91,7 @@ h2{font-family:var(--f-display);font-weight:600;font-size:20px;line-height:1.25;
 .linkbtn{background:none;border:none;color:var(--accent);font-weight:400;font-size:17px;padding:4px 0}
 
 /* barra de abas inferior (estilo iOS) */
-nav.views{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(5,minmax(0,112px));justify-content:center;
+nav.views{position:fixed;left:0;right:0;bottom:0;z-index:15;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));justify-content:center;max-width:600px;margin:0 auto;left:0;right:0;
   background:var(--bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:.5px solid var(--sep);
   padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 nav.views a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 5px;text-decoration:none;color:var(--tab-off);font-size:10.5px;font-weight:500;letter-spacing:.01em}
@@ -367,6 +367,24 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 .brow{display:grid;grid-template-columns:1fr 132px auto;gap:8px;align-items:center}
 .brow .x{border:none;background:var(--fill);color:var(--muted);font-size:18px;width:32px;height:32px;border-radius:50%}
 @media (max-width:400px){.brow{grid-template-columns:1fr 112px auto}}
+
+/* checklist de entregas */
+.ckhead,.ckrow{display:grid;grid-template-columns:36px 36px minmax(0,1fr) 76px 28px;gap:6px;align-items:center}
+.ckhead{font-size:11px;color:var(--muted);font-weight:500;padding-bottom:2px}
+.ckhead span:nth-child(-n+2){text-align:center}
+.ckhead span:nth-child(4){text-align:center}
+.ckrow{padding:10px 0;border-top:.5px solid var(--sep)}
+.ckrow:first-child{border-top:none}
+.ckrow input[type=checkbox]{width:24px;height:24px;margin:0 auto;accent-color:var(--accent);cursor:pointer}
+.ckrow input[type=checkbox]:disabled{opacity:.3;cursor:default}
+.ckrow input[type=text]{min-height:42px;padding:8px 10px;font-size:16px}
+.ckrow input[type=number]{min-height:42px;padding:8px 4px;text-align:center;font-size:16px;font-variant-numeric:tabular-nums}
+.ckrow.done input[type=text]{color:var(--muted);text-decoration:line-through}
+.ckrow .x{border:none;background:var(--fill);color:var(--muted);font-size:16px;width:28px;height:28px;border-radius:50%;line-height:1}
+#ckRows{display:flex;flex-direction:column}
+#ckPerfis .chip{white-space:nowrap}
+#ckPerfis .chip.add{background:none;border:1px dashed var(--line);color:var(--accent)}
+@media (max-width:360px){.ckhead,.ckrow{grid-template-columns:30px 30px minmax(0,1fr) 64px 24px;gap:4px}}
 </style>
 </head>
 <body>
@@ -405,6 +423,7 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
   <nav class="views tr-nav owner-only" aria-label="Seções do transporte">
     <a href="#painel" data-view="painel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Painel</a>
     <a href="#registrar" data-view="registrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.75"/><path d="M12 8v8M8 12h8"/></svg>Registrar</a>
+    <a href="#checklist" data-view="checklist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>Checklist</a>
     <a href="#custos" data-view="custos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M3 10h18M7 14.5h4"/></svg>Custos</a>
     <a href="#relatorio" data-view="relatorio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4 4v11.5a1.5 1.5 0 0 1-1.5 1.5h-9.5a1.5 1.5 0 0 1-1.5-1.5v-14a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13.5 3.5v4.5h4.5M9 13h6M9 16.5h4"/></svg>Relatório</a>
     <a href="#ajustes" data-view="ajustes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M18 7h2M4 17h2M11 17h9"/><circle cx="15.5" cy="7" r="2.25"/><circle cx="8.5" cy="17" r="2.25"/></svg>Ajustes</a>
@@ -587,6 +606,40 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
       <div class="list" id="dayList"><div class="empty">Carregando…</div></div>
       <div class="totals"><span>Total do dia</span><span class="num" id="dayTotal">R$ 0,00</span></div>
     </section>
+  </section>
+
+  <!-- ===================== CHECKLIST DE ENTREGAS ===================== -->
+  <section id="v-checklist" class="wrap owner-only" style="gap:16px" hidden>
+    <div class="switch">
+      <button class="arrow" type="button" id="ckPrev" aria-label="Dia anterior">‹</button>
+      <label class="mid" for="ckDate"><b id="ckDayName">Hoje</b><small class="num" id="ckDaySub"></small>
+        <input type="date" id="ckDate" aria-label="Escolher data"></label>
+      <button class="arrow" type="button" id="ckNext" aria-label="Próximo dia">›</button>
+    </div>
+
+    <div class="chips" id="ckPerfis" role="group" aria-label="Perfil"></div>
+
+    <form class="panel" id="ckPerfilForm" hidden>
+      <label class="field"><span class="label">Nome do novo perfil</span><input type="text" id="ckNovoNome" placeholder="Ex.: Fazenda Boa Vista" autocomplete="off"></label>
+      <div class="row"><button class="primary sm" type="submit" style="flex:1">Criar perfil</button><button class="ghost" type="button" id="ckNovoCancel">Cancelar</button></div>
+    </form>
+
+    <section class="panel" aria-labelledby="ckTitle">
+      <div class="panel-head"><h2 id="ckTitle">Pajé</h2><button class="ghost" type="button" id="ckCopy">Copiar do dia anterior</button></div>
+      <div class="ckhead" aria-hidden="true"><span>Conf.</span><span>Entr.</span><span>Nome</span><span>Marmitas</span><span></span></div>
+      <div id="ckRows"></div>
+      <button class="ghost" type="button" id="ckAdd" style="align-self:flex-start">+ Adicionar nome</button>
+      <div class="totals" style="flex-direction:column;align-items:flex-start;gap:4px">
+        <span class="num" id="ckSum">0 marmitas</span>
+        <span class="muted" id="ckProg">0/0 entregues</span>
+      </div>
+      <div class="actions" style="grid-template-columns:1fr 1fr">
+        <button class="primary" type="button" id="ckPdf">Baixar relatório (PDF)</button>
+        <button class="ghost" type="button" id="ckCsv">Baixar planilha</button>
+      </div>
+      <div class="status" id="ckStatus" role="status"></div>
+    </section>
+    <small class="muted" style="text-align:center">Marque <b>Conf.</b> quando conferir o pedido. A entrega (<b>Entr.</b>) só libera depois de conferido.</small>
   </section>
 
   <!-- ===================== CUSTOS ===================== -->
@@ -948,7 +1001,7 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 
   // ---------- routing ----------
   const FIN_VIEWS = ["fin", "fin-lancar", "fin-orcamento", "fin-metas"];
-  const VIEWS = ["painel", "registrar", "custos", "relatorio", "ajustes", ...FIN_VIEWS];
+  const VIEWS = ["painel", "registrar", "checklist", "custos", "relatorio", "ajustes", ...FIN_VIEWS];
   function updateChrome() {
     const fin = state.view.startsWith("fin");
     document.body.classList.toggle("mod-fin", fin);
@@ -2122,6 +2175,193 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
     $("flData").value = todayIso();
   }
 
+  // ================= CHECKLIST DE ENTREGAS PERSONALIZADAS =================
+  const CK_DEFAULT = [{ id: "paje", nome: "Pajé" }, { id: "outros", nome: "Outros" }];
+  Object.assign(state, { ck: { day: todayIso(), perfil: "paje", perfis: CK_DEFAULT, docs: {}, dirty: {}, timer: null, unsub: null, loaded: false } });
+  const ckId = (day, perfil) => `${day}__${perfil}`;
+  const rid = () => Math.random().toString(36).slice(2, 9);
+  const slugOf = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "perfil";
+  const ckItens = () => state.ck.docs[state.ck.perfil] || [];
+  const ckNome = id => (state.ck.perfis.find(p => p.id === id) || {}).nome || "Perfil";
+  const ckClean = it => ({ id: it.id, nome: String(it.nome || ""), marmitas: Number(it.marmitas) || 0, conferida: !!it.conferida, entregue: !!it.entregue });
+
+  // Guarda as mudanças do perfil atual; "now" grava logo, senão espera a pessoa parar de digitar.
+  function ckChange(now) {
+    const ck = state.ck;
+    ck.dirty[ck.perfil] = true;
+    clearTimeout(ck.timer);
+    ck.timer = setTimeout(ckSave, now ? 0 : 700);
+  }
+  async function ckSave() {
+    const ck = state.ck, day = ck.day, pend = Object.keys(ck.dirty).filter(p => ck.dirty[p]);
+    if (!pend.length || !state.db) return;
+    const writes = pend.map(p => [ckId(day, p), { data: day, perfil: p, itens: (ck.docs[p] || []).map(ckClean), atualizadoEm: new Date().toISOString() }]);
+    pend.forEach(p => ck.dirty[p] = false);
+    try {
+      for (const [id, body] of writes) await state.db.collection("checklist").doc(id).set(body);
+    } catch {
+      pend.forEach(p => ck.dirty[p] = true);
+      setStatus("ckStatus", "Não foi possível salvar. Verifique a conexão.", true);
+    }
+  }
+
+  function setCkDay(d) {
+    if (d === state.ck.day) return;
+    ckSave();                       // grava o que estava pendente no dia que está saindo
+    state.ck.unsub?.();
+    Object.assign(state.ck, { day: d, docs: {}, dirty: {}, loaded: false, lastIncoming: null });
+    clearTimeout(state.ck.timer);
+    subCk(); renderAll();
+  }
+  // Aplica a lista que veio do servidor. Enquanto alguém edita a lista, espera o foco sair:
+  // redesenhar no meio da digitação faria o campo perder o que foi digitado.
+  function ckApply() {
+    const ck = state.ck;
+    if (!ck.lastIncoming) return;
+    if ($("ckRows").contains(document.activeElement)) return;
+    state.ck.perfis.forEach(pf => { if (!ck.dirty[pf.id]) ck.docs[pf.id] = (ck.lastIncoming[pf.id] || []).map(it => ({ ...it })); });
+    renderAll();
+  }
+  function subCk() {
+    if (!state.db) return;
+    const day = state.ck.day;
+    state.ck.unsub = state.db.collection("checklist").where("data", "==", day).onSnapshot(s => {
+      if (day !== state.ck.day) return;
+      const incoming = {};
+      s.docs.forEach(d => { const x = d.data(); if (x.perfil) incoming[x.perfil] = x.itens || []; });
+      state.ck.lastIncoming = incoming; state.ck.loaded = true;
+      ckApply();
+    }, () => { state.ck.loaded = true; setStatus("ckStatus", "Não foi possível carregar a lista.", true); });
+  }
+  $("ckRows").addEventListener("focusout", () => setTimeout(ckApply, 0));
+
+  function ckTotals() {
+    const it = ckItens().filter(x => x.nome.trim()), tot = sum(it, x => x.marmitas);
+    const conf = it.filter(x => x.conferida).length, ent = it.filter(x => x.entregue).length;
+    $("ckSum").textContent = `${tot} ${tot === 1 ? "marmita" : "marmitas"} · ${conf}/${it.length} conferidas`;
+    $("ckProg").textContent = `${ent}/${it.length} entregues`;
+  }
+  function ckRow(it) {
+    const conf = el("input", { type: "checkbox", "aria-label": "Conferida" });
+    conf.checked = !!it.conferida;
+    conf.onchange = () => { it.conferida = conf.checked; if (!it.conferida) it.entregue = false; ckChange(true); renderCk(); };
+    const ent = el("input", { type: "checkbox", "aria-label": "Entregue" });
+    ent.checked = !!it.entregue; ent.disabled = !it.conferida;
+    ent.onchange = () => { it.entregue = ent.checked; ckChange(true); renderCk(); };
+    const nome = el("input", { type: "text", value: it.nome, placeholder: "Nome", "aria-label": "Nome", autocomplete: "off" });
+    nome.oninput = () => { it.nome = nome.value; ckChange(false); ckTotals(); };
+    nome.onblur = () => ckChange(true);
+    const marm = el("input", { type: "number", min: "0", inputmode: "numeric", placeholder: "0", "aria-label": "Marmitas" });
+    marm.value = it.marmitas || "";
+    marm.oninput = () => { it.marmitas = Math.max(0, parseInt(marm.value, 10) || 0); ckChange(false); ckTotals(); };
+    marm.onblur = () => ckChange(true);
+    const del = el("button", { type: "button", class: "x", "aria-label": `Remover ${it.nome || "nome"}`, onclick: () => {
+      state.ck.docs[state.ck.perfil] = ckItens().filter(x => x !== it); ckChange(true); renderCk();
+    } }, "×");
+    return el("div", { class: "ckrow" + (it.entregue ? " done" : "") }, conf, ent, nome, marm, del);
+  }
+  function renderCk() {
+    const ck = state.ck, d = parse(ck.day);
+    const t = todayIso();
+    $("ckDayName").textContent = ck.day === t ? "Hoje" : ck.day === addDays(t, -1) ? "Ontem" : DOWL[d.getDay()];
+    $("ckDaySub").textContent = `${DOWL[d.getDay()]} · ${fmtDate(ck.day)}`;
+    $("ckDate").value = ck.day;
+    $("ckTitle").textContent = ckNome(ck.perfil);
+    chips($("ckPerfis"), [...ck.perfis.map(p => p.id), "__novo"], ck.perfil, v => {
+      if (v === "__novo") { $("ckPerfilForm").hidden = false; $("ckNovoNome").focus(); return; }
+      state.ck.perfil = v; renderCk();
+    }, v => v === "__novo" ? "+ Novo perfil" : ckNome(v));
+    const box = $("ckRows"); box.textContent = "";
+    const itens = ckItens();
+    if (!ck.loaded) box.append(el("div", { class: "empty" }, "Carregando…"));
+    else if (!itens.length) box.append(el("div", { class: "empty" }, "Nenhum nome nesta lista. Toque em + Adicionar nome."));
+    itens.forEach(it => box.append(ckRow(it)));
+    ckTotals();
+  }
+
+  $("ckPrev").onclick = () => setCkDay(addDays(state.ck.day, -1));
+  $("ckNext").onclick = () => setCkDay(addDays(state.ck.day, 1));
+  $("ckDate").onchange = e => e.target.value && setCkDay(e.target.value);
+  $("ckAdd").onclick = () => {
+    state.ck.docs[state.ck.perfil] = [...ckItens(), { id: rid(), nome: "", marmitas: 0, conferida: false, entregue: false }];
+    ckChange(true); renderCk();
+    $("ckRows").lastElementChild?.querySelector("input[type=text]")?.focus();
+  };
+  $("ckCopy").onclick = async () => {
+    const prev = addDays(state.ck.day, -1), p = state.ck.perfil;
+    try {
+      const s = await state.db.collection("checklist").doc(ckId(prev, p)).get();
+      if (!s.exists) { setStatus("ckStatus", `Não há lista de ${fmtDate(prev)} para copiar.`, true); return; }
+      state.ck.docs[p] = (s.data().itens || []).map(it => ({ id: rid(), nome: it.nome, marmitas: it.marmitas || 0, conferida: false, entregue: false }));
+      ckChange(true); renderCk();
+      setStatus("ckStatus", `Nomes copiados de ${fmtDate(prev)}. Confira e marque o que foi feito.`);
+    } catch { setStatus("ckStatus", "Não foi possível copiar. Tente de novo.", true); }
+  };
+  $("ckNovoCancel").onclick = () => { $("ckPerfilForm").hidden = true; };
+  $("ckPerfilForm").addEventListener("submit", async ev => {
+    ev.preventDefault();
+    const nome = $("ckNovoNome").value.trim();
+    if (!nome) { setStatus("ckStatus", "Dê um nome para o perfil.", true); return; }
+    const id = `${slugOf(nome)}-${rid().slice(0, 4)}`;
+    try {
+      await state.db.doc("config/checklist").set({ perfis: [...state.ck.perfis, { id, nome }] }, { merge: true });
+      state.ck.perfil = id; $("ckNovoNome").value = ""; $("ckPerfilForm").hidden = true;
+      renderCk();
+      setStatus("ckStatus", `Perfil ${nome} criado.`);
+    } catch { setStatus("ckStatus", "Não foi possível criar o perfil. Tente de novo.", true); }
+  });
+
+  // relatório da lista do dia (um perfil): cada entrega em uma linha
+  function ckLinhas() {
+    return ckItens().filter(x => x.nome.trim()).map(x => [x.nome.trim(), x.marmitas || 0, x.conferida ? "Sim" : "Não", x.entregue ? "Sim" : "Não"]);
+  }
+  function ckDownload(filename, data, type) {
+    try { downloadFile(filename, data, type); setStatus("ckStatus", `Arquivo ${filename} baixado.`); }
+    catch { setStatus("ckStatus", "Não foi possível baixar o arquivo. Tente de novo.", true); }
+  }
+  $("ckPdf").onclick = () => {
+    if (!window.jspdf) { setStatus("ckStatus", "O gerador de PDF não carregou. Verifique a conexão e recarregue.", true); return; }
+    const linhas = ckLinhas();
+    if (!linhas.length) { setStatus("ckStatus", "Adicione nomes antes de baixar o relatório.", true); return; }
+    const { jsPDF } = window.jspdf, pdf = new jsPDF({ unit: "mm", format: "a4" });
+    const day = state.ck.day, nome = ckNome(state.ck.perfil), L = 18, W = 174;
+    let y = 22;
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(16); pdf.text(`Entregas · ${nome}`, L, y); y += 8;
+    pdf.setFont("helvetica", "normal"); pdf.setFontSize(10); pdf.setTextColor(90);
+    pdf.text(`Data: ${fmtDate(day)} (${DOWL[parse(day).getDay()]})`, L, y); y += 5;
+    pdf.text(`Emitido em ${fmtDate(todayIso())}`, L, y); y += 9; pdf.setTextColor(0);
+    const cols = [["Nome", L + 2, "l"], ["Marmitas", L + 112, "c"], ["Conferida", L + 138, "c"], ["Entregue", L + 164, "c"]];
+    const header = () => {
+      pdf.setFillColor(232, 238, 234); pdf.rect(L, y - 4.5, W, 7, "F");
+      pdf.setFont("helvetica", "bold"); pdf.setFontSize(9);
+      cols.forEach(([t, x, a]) => pdf.text(t, a === "c" ? x : x, y, a === "c" ? { align: "center" } : undefined));
+      y += 7; pdf.setFont("helvetica", "normal"); pdf.setFontSize(10);
+    };
+    header();
+    linhas.forEach(r => {
+      if (y > 270) { pdf.addPage(); y = 20; header(); }
+      pdf.text(String(r[0]), cols[0][1], y);
+      pdf.text(String(r[1]), L + 112, y, { align: "center" });
+      pdf.text(r[2], L + 138, y, { align: "center" });
+      pdf.text(r[3], L + 164, y, { align: "center" });
+      pdf.setDrawColor(225); pdf.line(L, y + 2, L + W, y + 2); y += 6.5;
+    });
+    const tot = sum(linhas, r => r[1]), ent = linhas.filter(r => r[3] === "Sim").length, conf = linhas.filter(r => r[2] === "Sim").length;
+    y += 3; pdf.setDrawColor(0); pdf.setLineWidth(0.5); pdf.line(L, y, L + W, y); y += 6;
+    pdf.setFont("helvetica", "bold"); pdf.setFontSize(11);
+    pdf.text(`Total: ${tot} ${tot === 1 ? "marmita" : "marmitas"}`, L, y);
+    pdf.text(`Conferidas: ${conf}/${linhas.length} · Entregues: ${ent}/${linhas.length}`, L + W, y, { align: "right" });
+    ckDownload(`entregas-${slugOf(nome)}-${day}.pdf`, pdf.output("arraybuffer"), "application/pdf");
+  };
+  $("ckCsv").onclick = () => {
+    const linhas = ckLinhas();
+    if (!linhas.length) { setStatus("ckStatus", "Adicione nomes antes de baixar a planilha.", true); return; }
+    const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const rows = [["Data", "Perfil", "Nome", "Marmitas", "Conferida", "Entregue"]];
+    linhas.forEach(r => rows.push([fmtDate(state.ck.day), ckNome(state.ck.perfil), r[0], r[1], r[2], r[3]]));
+    ckDownload(`entregas-${slugOf(ckNome(state.ck.perfil))}-${state.ck.day}.csv`, "﻿" + rows.map(r => r.map(q).join(";")).join("\r\n"), "text/csv;charset=utf-8");
+  };
+
   // ---------- AJUSTES: custos fixos e sócio ----------
   let fxDraft = [];
   function fillFixForm() { fxDraft = state.fixos.map(x => ({ id: x.id, nome: x.nome, valor: x.valor, area: x.area || "PM" })); renderFx(); }
@@ -2259,6 +2499,10 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
     else if (state.view === "registrar") renderRegistrar();
     else if (state.view === "relatorio") renderRelatorio();
     else if (state.view === "custos") renderCustos();
+    else if (state.view === "checklist") {
+      // não redesenha a lista enquanto a pessoa digita nela (o campo perderia o texto)
+      if ($("ckRows").contains(document.activeElement)) ckTotals(); else renderCk();
+    }
     else if (state.view.startsWith("fin")) renderFin();
     if (APP === "tr" && !state.partner) finSync();
   }
@@ -2309,6 +2553,12 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
       renderAll();
     }, () => {});
     subMonth(); subDay();
+    subCk();
+    db.doc("config/checklist").onSnapshot(s => {
+      const perfis = s.exists && Array.isArray(s.data().perfis) ? s.data().perfis : null;
+      if (perfis && perfis.length) state.ck.perfis = perfis;
+      renderAll();
+    }, () => {});
     db.collection("semanas").limit(1000).onSnapshot(s => { const m = {}; s.docs.forEach(d => m[d.id] = d.data()); state.weeks = m; renderAll(); }, () => {});
     const [ws, we] = weekRange();
     db.collection("entregas").where("data", ">=", ws).where("data", "<=", we).onSnapshot(s => { state.weekEntries = toList(s); if (state.view === "painel") renderPainel(); }, () => {});
