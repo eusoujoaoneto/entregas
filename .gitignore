@@ -1,2 +1,9 @@
 backup-*.json
 *.zip
+
+# Conversas exportadas e saídas com dados pessoais (não sobem para o GitHub)
+saida/
+*.vistas.json
+*conversa*.txt
+Chat*.txt
+__pycache__/
