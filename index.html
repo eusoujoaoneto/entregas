@@ -385,6 +385,34 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 #ckPerfis .chip{white-space:nowrap}
 #ckPerfis .chip.add{background:none;border:1px dashed var(--line);color:var(--accent)}
 @media (max-width:360px){.ckhead,.ckrow{grid-template-columns:30px 30px minmax(0,1fr) 64px 24px;gap:4px}}
+
+/* barra de semanas do mês (Registrar) */
+.wkpanel{padding:14px 0 8px;gap:8px;overflow:hidden}
+.wkstrip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;outline:none}
+.wkstrip::-webkit-scrollbar{display:none}
+.wkstrip:focus-visible{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent) 45%,transparent);border-radius:12px}
+.wkslide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;padding:0 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.wkhead{display:flex;align-items:baseline;gap:8px;font-size:14px;padding:0 4px;min-width:0}
+.wkhead b{font-weight:600;white-space:nowrap}
+.wkhead .muted{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wkcount{margin-left:auto;font-size:13px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.wkcount.full{color:var(--ok);font-weight:600}
+.wkdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.wkday{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 9px;border:none;background:none;border-radius:12px;min-width:0;color:var(--fg);transition:background .15s ease}
+.wkday small{font-size:11px;color:var(--muted);font-weight:500}
+.wkday .num{font-size:16px;font-weight:500}
+.wkday .mk{width:22px;height:22px;border-radius:50%;position:relative;margin-top:3px;border:1.5px solid var(--line);box-sizing:border-box}
+.wkday.done .mk{background:var(--ok);border-color:var(--ok)}
+.wkday.done .mk::after{content:"";position:absolute;left:6.5px;top:3px;width:5px;height:10px;border:solid var(--surface);border-width:0 2.2px 2.2px 0;transform:rotate(45deg)}
+.wkday.fut:not(.done) .mk,.wkday.wkend:not(.done) .mk{border-color:transparent}
+.wkday.fut .num{color:var(--muted)}
+.wkday.out{opacity:.22}
+.wkday.today .num{color:var(--accent);font-weight:700}
+.wkday.sel{background:var(--accent-soft)}
+.wkday:not(:disabled):active{background:var(--fill)}
+.wkdots{display:flex;justify-content:center;gap:2px}
+.dot-btn{width:19px;height:19px;padding:6px;border:none;border-radius:99px;background:var(--line);background-clip:content-box;transition:width .2s ease}
+.dot-btn[aria-current="true"]{background-color:var(--accent);width:30px}
 </style>
 </head>
 <body>
@@ -544,6 +572,10 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 
   <!-- ===================== REGISTRAR ===================== -->
   <section id="v-registrar" class="wrap" style="gap:16px" hidden>
+    <div class="panel wkpanel" role="region" aria-label="Dias registrados nas semanas do mês">
+      <div class="wkstrip" id="wkStrip" tabindex="0"></div>
+      <div class="wkdots" id="wkDots"></div>
+    </div>
     <div>
       <div class="switch">
         <button class="arrow" type="button" id="prevDay" aria-label="Dia anterior">‹</button>
@@ -1148,7 +1180,62 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
   function hideTip() { $("tip").hidden = true; }
 
   // ---------- REGISTRAR ----------
+  // ---------- barra de semanas do mês (Registrar) ----------
+  const DOW1 = ["D", "S", "T", "Q", "Q", "S", "S"];
+  let wkSig = "", wkWeek = null;
+  function updateWkDots() {
+    const strip = $("wkStrip"), n = strip.children.length, w = Math.max(1, strip.clientWidth);
+    const i = Math.round(strip.scrollLeft / w), dots = $("wkDots");
+    if (dots.children.length !== n) {
+      dots.textContent = "";
+      for (let k = 0; k < n; k++) dots.append(el("button", { type: "button", class: "dot-btn", "aria-label": `Ver a semana ${k + 1}`,
+        onclick: () => strip.scrollTo({ left: k * strip.clientWidth, behavior: "smooth" }) }));
+    }
+    [...dots.children].forEach((d, k) => d.setAttribute("aria-current", String(k === i)));
+  }
+  function renderWeekStrip() {
+    // "cur" junta mês e semana: a semana de 26/10 a 01/11 é o último slide de outubro e o primeiro de novembro
+    const m = monthOf(state.day), weeks = monthWeeks(m), t = todayIso(), strip = $("wkStrip"), cur = m + "|" + weekOf(state.day);
+    const reg = new Set(state.month === m ? state.monthEntries.map(e => e.data) : []);
+    const sig = [m, state.day, t, state.loadedMonth, [...reg].sort().join(",")].join("|");
+    if (sig === wkSig && wkWeek === cur) return;          // nada mudou: não mexe na posição do deslize
+    const keepLeft = strip.scrollLeft;
+    wkSig = sig;
+    strip.textContent = "";
+    weeks.forEach((w, i) => {
+      const days = []; for (let k = 0; k < 7; k++) days.push(addDays(w.mon, k));
+      const uteis = days.filter(d => monthOf(d) === m && isWorkday(d) && d <= t);
+      const feitos = uteis.filter(d => reg.has(d)).length;
+      const comecou = days.some(d => monthOf(d) === m && d <= t);
+      strip.append(el("div", { class: "wkslide", role: "group", "aria-label": `Semana ${i + 1} de ${weeks.length}` },
+        el("div", { class: "wkhead" }, el("b", {}, `Semana ${i + 1}`), el("span", { class: "muted" }, wkLabel(w)),
+          el("span", { class: "wkcount" + (uteis.length && feitos === uteis.length ? " full" : "") },
+            uteis.length ? `${feitos}/${uteis.length} dias úteis` : comecou ? "sem dias úteis" : "ainda não começou")),
+        el("div", { class: "wkdays" }, days.map(d => {
+          const out = monthOf(d) !== m, done = reg.has(d), fut = d > t, dt = parse(d);
+          const cls = ["wkday", out && "out", done && "done", fut && "fut", d === t && "today", d === state.day && "sel", !isWorkday(d) && "wkend"].filter(Boolean).join(" ");
+          const attrs = { type: "button", class: cls, "aria-label": `${DOWL[dt.getDay()]}, ${fmtDate(d)}${done ? ", registrado" : fut ? "" : ", sem registro"}`,
+            onclick: () => setDay(d) };
+          if (out) attrs.disabled = "";
+          return el("button", attrs, el("small", {}, DOW1[dt.getDay()]), el("span", { class: "num" }, String(dt.getDate())), el("i", { class: "mk", "aria-hidden": "true" }));
+        }))));
+    });
+    // vai para a semana do dia escolhido quando ela muda; senão, mantém onde a pessoa deslizou
+    if (strip.clientWidth) {
+      if (wkWeek !== cur) { wkWeek = cur; strip.scrollLeft = Math.max(0, weeks.findIndex(w => w.mon === weekOf(state.day))) * strip.clientWidth; }
+      else strip.scrollLeft = keepLeft;
+    }
+    updateWkDots();
+  }
+  $("wkStrip").addEventListener("scroll", () => requestAnimationFrame(updateWkDots), { passive: true });
+  $("wkStrip").addEventListener("keydown", e => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const s = $("wkStrip"); e.preventDefault();
+    s.scrollBy({ left: (e.key === "ArrowRight" ? 1 : -1) * s.clientWidth, behavior: "smooth" });
+  });
+
   function renderRegistrar() {
+    renderWeekStrip();
     const t = todayIso(), d = parse(state.day);
     $("dayName").textContent = state.day === t ? "Hoje" : state.day === addDays(t, -1) ? "Ontem" : DOWL[d.getDay()];
     $("daySub").textContent = `${DOWL[d.getDay()]} · ${fmtDate(state.day)}`;
@@ -2463,7 +2550,12 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
   // ---------- data ----------
   let unsubMonth = null, unsubDay = null;
   function setMonth(m) { if (m === state.month) return; state.month = m; state.loadedMonth = false; state.monthEntries = []; subMonth(); renderAll(); }
-  function setDay(d) { if (d === state.day) return; state.day = d; state.loadedDay = false; state.dayEntries = []; state.pendingDel = null; subDay(); renderAll(); }
+  function setDay(d) {
+    if (d === state.day) return;
+    state.day = d; state.loadedDay = false; state.dayEntries = []; state.pendingDel = null;
+    if (!state.partner && monthOf(d) !== state.month) { state.month = monthOf(d); state.loadedMonth = false; state.monthEntries = []; subMonth(); }
+    subDay(); renderAll();
+  }
   const toList = snap => snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
   function partnerDerive() {
