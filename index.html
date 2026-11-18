@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#e5e5ea" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#eeecf6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08070d" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="SPLOG">
@@ -413,9 +413,161 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 .wkdots{display:flex;justify-content:center;gap:2px}
 .dot-btn{width:19px;height:19px;padding:6px;border:none;border-radius:99px;background:var(--line);background-clip:content-box;transition:width .2s ease}
 .dot-btn[aria-current="true"]{background-color:var(--accent);width:30px}
+
+/* ================= SPLOG · visual "espectro roxo" =================
+   Camada de estilo por cima do visual iOS: mesmas classes, mesma estrutura.
+   Tokens novos: --panel (cartão translúcido), --grad (espectro), --grad-text, --glow. */
+:root{
+  --bg:#eeecf6; --surface:#ffffff; --panel:rgba(255,255,255,.86); --panel-border:rgba(255,255,255,.75);
+  --sunk:#f4f2fa; --fill:rgba(120,110,170,.12); --fg:#17151f; --muted:#6b6880; --line:#e4e1ee; --sep:rgba(60,50,110,.14);
+  --accent:#7c3aed; --accent-ink:#ffffff; --accent-soft:#efe7fe;
+  --danger:#d6264a; --rel:#5b5bf6; --rel-soft:#ecebfe; --warn:#b45309; --warn-soft:#fdf0e1; --ok:#16a34a; --ok-soft:#e5f6ea;
+  --c-pm:#7c3aed; --c-ped:#0891b2; --c-out:#db2777; --logo-ink:#17151f;
+  --grad:linear-gradient(125deg,#4f46e5 0%,#7c3aed 38%,#c026d3 72%,#ec4899 100%);
+  --grad-text:linear-gradient(100deg,#4f46e5,#9333ea 55%,#db2777);
+  --glow:0 14px 34px -12px rgba(124,58,237,.55);
+  --bar:rgba(250,249,255,.74); --tab-off:#8a8799; --seg-on:#ffffff;
+  --shadow:0 1px 2px rgba(30,20,70,.04),0 14px 34px -16px rgba(70,40,160,.22);
+  --neon-a:#a855f7; --neon-b:#ec4899; --neon-c:#38bdf8; --neon-op:.55; --blob-op:.5;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#08070d; --surface:#15131d; --panel:rgba(22,20,31,.84); --panel-border:rgba(255,255,255,.06);
+  --sunk:#1e1b29; --fill:rgba(150,140,210,.15); --fg:#f3f1fa; --muted:#a19db5; --line:#2d2a3a; --sep:rgba(150,140,210,.18);
+  --accent:#a78bfa; --accent-ink:#ffffff; --accent-soft:#2b2145;
+  --danger:#ff5c7a; --rel:#a5a8ff; --rel-soft:#23234a; --warn:#fbbf24; --warn-soft:#33270d; --ok:#4ade80; --ok-soft:#12301d;
+  --c-pm:#8b5cf6; --c-ped:#0ea5c6; --c-out:#e0408a; --logo-ink:#f3f1fa;
+  --grad-text:linear-gradient(100deg,#a5b4fc,#d8b4fe 55%,#f9a8d4);
+  --glow:0 16px 40px -12px rgba(168,85,247,.55);
+  --bar:rgba(16,14,24,.78); --tab-off:#8d89a3; --seg-on:#3a3550;
+  --shadow:0 18px 40px -20px rgba(0,0,0,.7);
+  --neon-op:.9; --blob-op:.42; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08070d; --surface:#15131d; --panel:rgba(22,20,31,.84); --panel-border:rgba(255,255,255,.06);
+  --sunk:#1e1b29; --fill:rgba(150,140,210,.15); --fg:#f3f1fa; --muted:#a19db5; --line:#2d2a3a; --sep:rgba(150,140,210,.18);
+  --accent:#a78bfa; --accent-ink:#ffffff; --accent-soft:#2b2145;
+  --danger:#ff5c7a; --rel:#a5a8ff; --rel-soft:#23234a; --warn:#fbbf24; --warn-soft:#33270d; --ok:#4ade80; --ok-soft:#12301d;
+  --c-pm:#8b5cf6; --c-ped:#0ea5c6; --c-out:#e0408a; --logo-ink:#f3f1fa;
+  --grad-text:linear-gradient(100deg,#a5b4fc,#d8b4fe 55%,#f9a8d4);
+  --glow:0 16px 40px -12px rgba(168,85,247,.55);
+  --bar:rgba(16,14,24,.78); --tab-off:#8d89a3; --seg-on:#3a3550;
+  --shadow:0 18px 40px -20px rgba(0,0,0,.7);
+  --neon-op:.9; --blob-op:.42; color-scheme:dark}
+
+/* ---------- fundo animado: luzes e linhas de LED nas bordas ---------- */
+.bg-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.bg-fx .blob{position:absolute;width:62vmax;height:62vmax;border-radius:50%;opacity:var(--blob-op);will-change:transform}
+.bg-fx .b1{top:-26vmax;left:-20vmax;background:radial-gradient(closest-side,#7c3aed,transparent);animation:fx-drift1 28s ease-in-out infinite alternate}
+.bg-fx .b2{bottom:-30vmax;right:-22vmax;background:radial-gradient(closest-side,#ec4899,transparent);animation:fx-drift2 34s ease-in-out infinite alternate}
+.bg-fx .b3{top:28%;left:38%;width:48vmax;height:48vmax;background:radial-gradient(closest-side,#4f46e5,transparent);opacity:calc(var(--blob-op) * .75);animation:fx-drift3 40s ease-in-out infinite alternate}
+@keyframes fx-drift1{to{transform:translate(14vmax,12vmax) scale(1.12)}}
+@keyframes fx-drift2{to{transform:translate(-16vmax,-10vmax) scale(1.08)}}
+@keyframes fx-drift3{to{transform:translate(-18vmax,8vmax) scale(.9)}}
+.bg-fx .edge{position:absolute;overflow:hidden;opacity:var(--neon-op)}
+.bg-fx .edge.top{top:0;left:0;right:0;height:26px}
+.bg-fx .edge.bottom{bottom:0;left:0;right:0;height:26px}
+.bg-fx .edge.left{top:0;bottom:0;left:0;width:26px}
+.bg-fx .edge.right{top:0;bottom:0;right:0;width:26px}
+/* trilho fixo, bem fino */
+.bg-fx .edge::before{content:"";position:absolute;opacity:.45}
+.bg-fx .edge.top::before{top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-a),var(--neon-b),transparent)}
+.bg-fx .edge.bottom::before{bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-c),var(--neon-a),transparent)}
+.bg-fx .edge.left::before{top:0;bottom:0;left:0;width:1px;background:linear-gradient(180deg,transparent,var(--neon-b),var(--neon-a),transparent)}
+.bg-fx .edge.right::before{top:0;bottom:0;right:0;width:1px;background:linear-gradient(180deg,transparent,var(--neon-a),var(--neon-c),transparent)}
+/* luz que corre pela borda (só transform: leve para o celular) */
+.bg-fx .edge::after{content:"";position:absolute;will-change:transform;border-radius:2px}
+.bg-fx .edge.top::after,.bg-fx .edge.bottom::after{width:38%;height:2px;left:0;background:linear-gradient(90deg,transparent,var(--neon-c),var(--neon-a),var(--neon-b),transparent);
+  box-shadow:0 0 10px 1px color-mix(in srgb,var(--neon-a) 80%,transparent),0 0 22px 3px color-mix(in srgb,var(--neon-b) 45%,transparent)}
+.bg-fx .edge.top::after{top:0;animation:fx-runx 11s linear infinite}
+.bg-fx .edge.bottom::after{bottom:0;animation:fx-runx 13s linear infinite reverse;animation-delay:-5s}
+.bg-fx .edge.left::after,.bg-fx .edge.right::after{height:38%;width:2px;top:0;background:linear-gradient(180deg,transparent,var(--neon-b),var(--neon-a),var(--neon-c),transparent);
+  box-shadow:0 0 10px 1px color-mix(in srgb,var(--neon-a) 80%,transparent),0 0 22px 3px color-mix(in srgb,var(--neon-c) 40%,transparent)}
+.bg-fx .edge.right::after{right:0;animation:fx-runy 12s linear infinite;animation-delay:-3s}
+.bg-fx .edge.left::after{left:0;animation:fx-runy 14s linear infinite reverse;animation-delay:-8s}
+@keyframes fx-runx{from{transform:translateX(-100%)}to{transform:translateX(265%)}}
+@keyframes fx-runy{from{transform:translateY(-100%)}to{transform:translateY(265%)}}
+@media (prefers-reduced-motion:reduce){.bg-fx .blob,.bg-fx .edge::after{animation:none}.bg-fx .edge::after{display:none}}
+
+/* ---------- superfícies ---------- */
+.panel{background:var(--panel);border:1px solid var(--panel-border);border-radius:22px;box-shadow:var(--shadow)}
+.switch .arrow,.switch .mid{background:var(--panel);border:1px solid var(--panel-border)}
+.switch .arrow{color:var(--accent)}
+.doc,.proj,.split2 > div,.box{background:var(--sunk)}
+.logo i{background:var(--grad)}
+h1{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:2px}
+
+/* ---------- botões e controles ---------- */
+.primary{background:var(--grad);background-size:170% 170%;background-position:0% 50%;color:#fff;box-shadow:var(--glow);transition:transform .12s ease,box-shadow .25s ease,background-position .6s ease,opacity .12s ease}
+.primary:hover:not(:disabled){background-position:100% 50%;box-shadow:0 18px 40px -12px rgba(192,38,211,.55)}
+.primary:disabled{opacity:.42;box-shadow:none}
+.ghost{background:var(--fill);color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--grad);color:#fff;box-shadow:0 8px 20px -10px rgba(124,58,237,.7)}
+.seg-ctl{background:var(--fill)}
+.seg-ctl button[aria-pressed="true"]{background:var(--seg-on);color:var(--fg);box-shadow:0 4px 14px -4px rgba(80,40,160,.28),0 1px 2px rgba(0,0,0,.06)}
+.opt[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent),0 10px 24px -14px rgba(124,58,237,.6)}
+.dot-btn[aria-current="true"]{background-color:transparent;background-image:var(--grad)}
+.linkbtn{color:var(--accent)}
+nav.views{background:var(--bar)}
+nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,237,.45))}
+
+/* ---------- cartões de destaque ---------- */
+.hero{background:var(--grad);border:none;color:#fff;box-shadow:var(--glow);position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;z-index:-1;width:70%;height:180%;right:-20%;top:-60%;background:radial-gradient(closest-side,rgba(255,255,255,.32),transparent);pointer-events:none}
+.hero::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.10),transparent 45%);pointer-events:none}
+.hero .label,.hero .muted,.hero small{color:rgba(255,255,255,.82)!important}
+.hero .big{color:#fff!important;text-shadow:0 2px 18px rgba(40,0,80,.25)}
+.hero .split2 > div{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18)}
+.hero .split2 b{color:#fff}
+.hero .dot{box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.stat b{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lvl-badge{background:var(--grad);box-shadow:var(--glow)}
+.badge:not(.off){background:linear-gradient(160deg,var(--accent-soft),var(--sunk))}
+.wkday.sel{background:var(--accent-soft);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 55%,transparent)}
+.wkday.today .num{color:var(--accent)}
+.login-card{box-shadow:0 30px 80px -24px rgba(124,58,237,.55),0 0 0 1px var(--panel-border)}
+.install-bar{background:var(--panel);-webkit-backdrop-filter:blur(16px) saturate(150%);backdrop-filter:blur(16px) saturate(150%)}
+.tip{background:rgba(24,16,44,.92)}
+
+/* ---------- desktop: menu lateral e conteúdo em colunas ---------- */
+@media (min-width:1100px){
+  body{padding-left:max(36px,env(safe-area-inset-left,0px));padding-right:max(36px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+  body.has-tabs{padding-left:calc(256px + 36px);padding-bottom:48px}
+  #app{max-width:1560px;gap:22px}
+  h1{font-size:40px}
+  .modsw{max-width:420px}
+  nav.views,nav.views.tr-nav,nav.views.fin-nav{top:0;bottom:0;left:0;right:auto;width:240px;max-width:none;margin:0;
+    grid-template-columns:1fr;grid-auto-rows:min-content;align-content:start;justify-content:stretch;gap:4px;
+    padding:28px 14px 24px;border-top:none;border-right:.5px solid var(--sep)}
+  nav.views::before{display:block;padding:6px 14px 16px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  nav.views.tr-nav::before{content:"Transporte"}
+  nav.views.fin-nav::before{content:"Finanças"}
+  nav.views a{flex-direction:row;gap:12px;font-size:15px;font-weight:500;letter-spacing:-.01em;padding:11px 14px;border-radius:14px;color:var(--fg);transition:background .15s ease}
+  nav.views a svg{width:22px;height:22px;color:var(--muted)}
+  nav.views a:hover{background:var(--fill)}
+  nav.views a[aria-current="page"]{background:var(--grad);color:#fff;box-shadow:var(--glow)}
+  nav.views a[aria-current="page"] svg{color:#fff;filter:none}
+  body.has-tabs .install-bar{left:calc(256px + 20px);bottom:20px}
+  body.has-tabs.has-bar{padding-bottom:140px}
+
+  /* seções com muitos cartões: 2 colunas (3 nas telas largas), cartões não quebram */
+  #v-painel,#v-registrar,#v-custos,#v-ajustes,#v-fin,#v-fin-lancar,#v-fin-metas{display:block;columns:2;column-gap:22px}
+  #v-painel > *,#v-registrar > *,#v-custos > *,#v-ajustes > *,#v-fin > *,#v-fin-lancar > *,#v-fin-metas > *{break-inside:avoid;margin:0 0 22px;width:100%}
+  #v-painel > .switch,#v-custos > .switch,#v-fin > .switch,#v-fin-lancar > .switch,
+  #v-painel > .hero,#v-fin > .hero,#v-registrar > .wkpanel,#v-registrar > div:not(.panel),#v-fin-metas > #gLevel{column-span:all}
+  .switch{max-width:560px;margin-inline:auto}
+  #v-painel > .switch,#v-custos > .switch,#v-fin > .switch,#v-fin-lancar > .switch{max-width:560px;margin-left:auto;margin-right:auto}
+  #v-checklist,#v-relatorio,#v-fin-orcamento{max-width:980px;margin-inline:auto}
+  .hero .big{font-size:56px}
+  .hero{padding:26px 28px}
+  .wkpanel .wkslide{padding:0 22px}
+  .wkday .num{font-size:18px}
+}
+@media (min-width:1600px){
+  #v-painel,#v-fin,#v-fin-metas,#v-ajustes{columns:3}
+}
 </style>
 </head>
 <body>
+<div class="bg-fx" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="edge top"></i><i class="edge right"></i><i class="edge bottom"></i><i class="edge left"></i></div>
 <div class="install-bar" id="installBar" hidden role="region" aria-label="Instalar o SPLOG">
   <img class="app-icon" src="icon-192.png" alt="" width="40" height="40">
   <div class="t"><b>Instale o SPLOG</b><small id="installHint">Abra como aplicativo, direto da tela inicial.</small></div>
