@@ -370,14 +370,21 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 @media (max-width:400px){.brow{grid-template-columns:1fr 112px auto}}
 
 /* checklist de entregas */
-.ckhead,.ckrow{display:grid;grid-template-columns:36px 36px minmax(0,1fr) 76px 28px;gap:6px;align-items:center}
+.ckhead,.ckrow{display:grid;grid-template-columns:24px 32px 32px minmax(0,1fr) 68px 28px;gap:6px;align-items:center}
 .ckhead{font-size:11px;color:var(--muted);font-weight:500;padding-bottom:2px}
-.ckhead span:nth-child(-n+2){text-align:center}
-.ckhead span:nth-child(4){text-align:center}
-.ckrow{padding:10px 0;border-top:.5px solid var(--sep)}
+.ckhead span:nth-child(2),.ckhead span:nth-child(3),.ckhead span:nth-child(5){text-align:center}
+.ckrow{padding:10px 0;border-top:.5px solid var(--sep);transition:transform .16s ease}
 .ckrow:first-child{border-top:none}
 .ckrow input[type=checkbox]{width:24px;height:24px;margin:0 auto;accent-color:var(--accent);cursor:pointer}
-.ckrow input[type=checkbox]:disabled{opacity:.3;cursor:default}
+.ckrow input[type=checkbox]:disabled{cursor:default}
+.ckrow input[type=checkbox]:disabled:not(:checked){opacity:.3}
+.ckrow .grip{width:24px;height:40px;display:grid;place-items:center;border:none;background:none;padding:0;color:var(--muted);cursor:grab;touch-action:none;border-radius:8px}
+.ckrow .grip svg{width:14px;height:20px}
+.ckrow .grip:active{cursor:grabbing}
+.ckrow.dragging{transition:none;position:relative;z-index:3;border-radius:14px;border-top-color:transparent;background:var(--surface);
+  box-shadow:0 14px 30px -10px rgba(80,40,160,.45),0 0 0 1.5px color-mix(in srgb,var(--accent) 60%,transparent)}
+.ckrow.dragging .grip{color:var(--accent)}
+body.ck-dragging{user-select:none;-webkit-user-select:none}
 .ckrow input[type=text]{min-height:42px;padding:8px 10px;font-size:16px}
 .ckrow input[type=number]{min-height:42px;padding:8px 4px;text-align:center;font-size:16px;font-variant-numeric:tabular-nums}
 .ckrow.done input[type=text]{color:var(--muted);text-decoration:line-through}
@@ -385,7 +392,7 @@ body.partner .modsw,body.app-fin .modsw{display:none!important}
 #ckRows{display:flex;flex-direction:column}
 #ckPerfis .chip{white-space:nowrap}
 #ckPerfis .chip.add{background:none;border:1px dashed var(--line);color:var(--accent)}
-@media (max-width:360px){.ckhead,.ckrow{grid-template-columns:30px 30px minmax(0,1fr) 64px 24px;gap:4px}}
+@media (max-width:360px){.ckhead,.ckrow{grid-template-columns:20px 28px 28px minmax(0,1fr) 58px 24px;gap:4px}}
 
 /* barra de semanas do mês (Registrar) */
 .wkpanel{padding:14px 0 8px;gap:8px;overflow:hidden}
@@ -565,6 +572,19 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
 @media (min-width:1600px){
   #v-painel,#v-fin,#v-fin-metas,#v-ajustes{columns:3}
 }
+
+/* checklist: caixas desenhadas (travadas continuam com cor de "feito") */
+.ckrow input[type=checkbox]{appearance:none;-webkit-appearance:none;width:26px;height:26px;margin:0 auto;border-radius:8px;border:2px solid var(--line);
+  background:var(--surface);display:grid;place-items:center;cursor:pointer;transition:background .15s ease,border-color .15s ease,transform .1s ease}
+.ckrow input[type=checkbox]::after{content:"";width:6px;height:11px;border:solid var(--surface);border-width:0 2.5px 2.5px 0;transform:translate(0,-1px) rotate(45deg);opacity:0}
+.ckrow input[type=checkbox]:checked{border-color:transparent;background:var(--accent);box-shadow:0 4px 12px -4px color-mix(in srgb,var(--accent) 70%,transparent)}
+.ckrow input[aria-label^="Entregue"]:checked{background:var(--ok);box-shadow:0 4px 12px -4px color-mix(in srgb,var(--ok) 70%,transparent)}
+.ckrow input[type=checkbox]:checked::after{opacity:1}
+.ckrow input[type=checkbox]:not(:disabled):active{transform:scale(.92)}
+.ckrow input[type=checkbox]:not(:disabled):hover{border-color:var(--accent)}
+.ckrow input[type=checkbox]:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:2px}
+.ckrow input[type=checkbox]:disabled{cursor:default}
+.ckrow input[type=checkbox]:disabled:not(:checked){opacity:.35}
 </style>
 </head>
 <body>
@@ -811,7 +831,7 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
 
     <section class="panel" aria-labelledby="ckTitle">
       <div class="panel-head"><h2 id="ckTitle">Pajé</h2><button class="ghost" type="button" id="ckCopy">Copiar do dia anterior</button></div>
-      <div class="ckhead" aria-hidden="true"><span>Conf.</span><span>Entr.</span><span>Nome</span><span>Marmitas</span><span></span></div>
+      <div class="ckhead" aria-hidden="true"><span></span><span>Conf.</span><span>Entr.</span><span>Nome</span><span>Marmitas</span><span></span></div>
       <div id="ckRows"></div>
       <button class="ghost" type="button" id="ckAdd" style="align-self:flex-start">+ Adicionar nome</button>
       <div class="totals" style="flex-direction:column;align-items:flex-start;gap:4px">
@@ -824,7 +844,7 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
       </div>
       <div class="status" id="ckStatus" role="status"></div>
     </section>
-    <small class="muted" style="text-align:center">Marque <b>Conf.</b> quando conferir o pedido. A entrega (<b>Entr.</b>) só libera depois de conferido.</small>
+    <small class="muted" style="text-align:center">Arraste pela alça <b>⋮⋮</b> para mudar a ordem. Marque <b>Conf.</b> quando conferir e <b>Entr.</b> quando entregar: depois de marcadas, as caixas não desmarcam.</small>
   </section>
 
   <!-- ===================== CUSTOS ===================== -->
@@ -2457,7 +2477,7 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
   // redesenhar no meio da digitação faria o campo perder o que foi digitado.
   function ckApply() {
     const ck = state.ck;
-    if (!ck.lastIncoming) return;
+    if (!ck.lastIncoming || ck.dragging) return;
     if ($("ckRows").contains(document.activeElement)) return;
     state.ck.perfis.forEach(pf => { if (!ck.dirty[pf.id]) ck.docs[pf.id] = (ck.lastIncoming[pf.id] || []).map(it => ({ ...it })); });
     renderAll();
@@ -2481,13 +2501,77 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
     $("ckSum").textContent = `${tot} ${tot === 1 ? "marmita" : "marmitas"} · ${conf}/${it.length} conferidas`;
     $("ckProg").textContent = `${ent}/${it.length} entregues`;
   }
+  // move um nome de posição e salva a nova ordem
+  function ckMove(from, to) {
+    const arr = [...ckItens()];
+    if (from === to || to < 0 || to >= arr.length) return;
+    const [x] = arr.splice(from, 1); arr.splice(to, 0, x);
+    state.ck.docs[state.ck.perfil] = arr;
+    ckChange(true);
+  }
+  // arrastar pela alça (dedo ou mouse): a linha segue o ponteiro e as outras abrem espaço
+  function ckDragStart(e, rowEl, grip) {
+    if (e.button !== undefined && e.button !== 0) return;
+    e.preventDefault();
+    const rows = [...$("ckRows").querySelectorAll(".ckrow")], from = rows.indexOf(rowEl);
+    if (from < 0 || rows.length < 2) return;
+    const start = e.clientY, r0 = rowEl.getBoundingClientRect(), h = r0.height;
+    const mids = rows.map(r => { const b = r.getBoundingClientRect(); return b.top + b.height / 2; });
+    let to = from;
+    state.ck.dragging = true;
+    document.body.classList.add("ck-dragging");
+    rowEl.classList.add("dragging");
+    try { grip.setPointerCapture(e.pointerId); } catch {}
+    const move = ev => {
+      const dy = ev.clientY - start, y = r0.top + h / 2 + dy;
+      rowEl.style.transform = `translateY(${dy}px)`;
+      to = mids.reduce((n, m, i) => n + (i !== from && y > m ? 1 : 0), 0);
+      rows.forEach((r, i) => {
+        if (i === from) return;
+        const shift = from < to && i > from && i <= to ? -h : from > to && i >= to && i < from ? h : 0;
+        r.style.transform = shift ? `translateY(${shift}px)` : "";
+      });
+    };
+    const end = () => {
+      grip.removeEventListener("pointermove", move);
+      grip.removeEventListener("pointerup", end);
+      grip.removeEventListener("pointercancel", end);
+      rows.forEach(r => { r.style.transform = ""; });
+      rowEl.classList.remove("dragging");
+      document.body.classList.remove("ck-dragging");
+      state.ck.dragging = false;
+      ckMove(from, to);
+      renderCk();
+    };
+    grip.addEventListener("pointermove", move);
+    grip.addEventListener("pointerup", end);
+    grip.addEventListener("pointercancel", end);
+  }
+  const GRIP = '<svg viewBox="0 0 14 20" aria-hidden="true"><g fill="currentColor"><circle cx="4" cy="4" r="1.6"/><circle cx="10" cy="4" r="1.6"/><circle cx="4" cy="10" r="1.6"/><circle cx="10" cy="10" r="1.6"/><circle cx="4" cy="16" r="1.6"/><circle cx="10" cy="16" r="1.6"/></g></svg>';
   function ckRow(it) {
-    const conf = el("input", { type: "checkbox", "aria-label": "Conferida" });
-    conf.checked = !!it.conferida;
-    conf.onchange = () => { it.conferida = conf.checked; if (!it.conferida) it.entregue = false; ckChange(true); renderCk(); };
-    const ent = el("input", { type: "checkbox", "aria-label": "Entregue" });
-    ent.checked = !!it.entregue; ent.disabled = !it.conferida;
-    ent.onchange = () => { it.entregue = ent.checked; ckChange(true); renderCk(); };
+    const grip = el("button", { type: "button", class: "grip", "aria-label": `Mover ${it.nome || "nome"} (setas para cima e para baixo)` });
+    grip.innerHTML = GRIP;
+    grip.onkeydown = ev => {
+      if (ev.key !== "ArrowUp" && ev.key !== "ArrowDown") return;
+      ev.preventDefault();
+      const i = ckItens().indexOf(it), j = i + (ev.key === "ArrowUp" ? -1 : 1);
+      if (j < 0 || j >= ckItens().length) return;
+      ckMove(i, j); renderCk();
+      $("ckRows").children[j]?.querySelector(".grip")?.focus();
+    };
+    // caixas só marcam: depois de marcada, a caixa trava
+    const conf = el("input", { type: "checkbox", "aria-label": it.conferida ? "Conferida (já marcada)" : "Conferida" });
+    conf.checked = !!it.conferida; conf.disabled = !!it.conferida;
+    conf.onchange = () => {
+      if (!conf.checked) { conf.checked = true; return; }
+      it.conferida = true; ckChange(true); renderCk();
+    };
+    const ent = el("input", { type: "checkbox", "aria-label": it.entregue ? "Entregue (já marcada)" : "Entregue" });
+    ent.checked = !!it.entregue; ent.disabled = !it.conferida || !!it.entregue;
+    ent.onchange = () => {
+      if (!ent.checked) { ent.checked = true; return; }
+      it.entregue = true; ckChange(true); renderCk();
+    };
     const nome = el("input", { type: "text", value: it.nome, placeholder: "Nome", "aria-label": "Nome", autocomplete: "off" });
     nome.oninput = () => { it.nome = nome.value; ckChange(false); ckTotals(); };
     nome.onblur = () => ckChange(true);
@@ -2498,7 +2582,9 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
     const del = el("button", { type: "button", class: "x", "aria-label": `Remover ${it.nome || "nome"}`, onclick: () => {
       state.ck.docs[state.ck.perfil] = ckItens().filter(x => x !== it); ckChange(true); renderCk();
     } }, "×");
-    return el("div", { class: "ckrow" + (it.entregue ? " done" : "") }, conf, ent, nome, marm, del);
+    const row = el("div", { class: "ckrow" + (it.entregue ? " done" : "") }, grip, conf, ent, nome, marm, del);
+    grip.addEventListener("pointerdown", e => ckDragStart(e, row, grip));
+    return row;
   }
   function renderCk() {
     const ck = state.ck, d = parse(ck.day);
@@ -2746,7 +2832,7 @@ nav.views a[aria-current="page"] svg{filter:drop-shadow(0 4px 8px rgba(124,58,23
     else if (state.view === "custos") renderCustos();
     else if (state.view === "checklist") {
       // não redesenha a lista enquanto a pessoa digita nela (o campo perderia o texto)
-      if ($("ckRows").contains(document.activeElement)) ckTotals(); else renderCk();
+      if (state.ck.dragging || $("ckRows").contains(document.activeElement)) ckTotals(); else renderCk();
     }
     else if (state.view.startsWith("fin")) renderFin();
     if (APP === "tr" && !state.partner) finSync();
